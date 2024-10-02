@@ -94,25 +94,25 @@
 		</dependency>
 
 		<!-- Jakarta Validation API -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>jakarta.validation</groupId>
 			<artifactId>jakarta.validation-api</artifactId>
 			<version>3.1.0</version>
-		</dependency>
+		</dependency> -->
 
 		<!-- ModelMapper giúp chuyển đổi đối tượng DTO và entity -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.modelmapper</groupId>
 			<artifactId>modelmapper</artifactId>
 			<version>3.2.0</version>
-		</dependency>
+		</dependency> -->
 
 		<!-- Spring Security Web -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
 			<version>6.3.0</version>
-		</dependency>
+		</dependency> -->
 
 		<!-- Spring Boot Starter Validation hỗ trợ validation -->
 		<dependency>
@@ -140,35 +140,35 @@
 		<!-- <<<<<<< duy -->
 
 		<!-- Spring Boot Starter OAuth2 Client hỗ trợ OAuth2 -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-oauth2-client</artifactId>
-		</dependency>
+		</dependency> -->
 
 		<!-- Spring Boot Starter OAuth2 Resource Server -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
-		</dependency>
+		</dependency> -->
 
 		<!-- Spring Boot Starter Security hỗ trợ bảo mật -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
+		</dependency> -->
 
 		<!-- Thymeleaf Extras Spring Security -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.thymeleaf.extras</groupId>
 			<artifactId>thymeleaf-extras-springsecurity6</artifactId>
-		</dependency>
+		</dependency> -->
 
 		<!-- Spring Security Test hỗ trợ viết test bảo mật -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
-		</dependency>
+		</dependency> -->
 
 		<!-- JWT API -->
 		<!-- <dependency>
