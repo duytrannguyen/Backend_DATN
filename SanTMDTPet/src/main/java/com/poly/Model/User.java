@@ -33,7 +33,7 @@ import lombok.Setter;
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int usersId;
+	private Integer usersId;
 
 	@Column(name = "username", length = 50)
 	private String username;
@@ -69,22 +69,22 @@ public class User {
 	@JoinColumn(name = "status_id")
 	private UserStatus status;
 
-//	@OneToMany(mappedBy = "user")
-//	private List<Seller> sellers;
+	// @OneToMany(mappedBy = "user")
+	// private List<Seller> sellers;
 
-//	@OneToMany(mappedBy = "user")
-//	private List<Address> addresses;
+	// @OneToMany(mappedBy = "user")
+	// private List<Address> addresses;
 
-//	@OneToMany(mappedBy = "user")
-//	private List<ShoppingCart> shoppingCarts;
+	// @OneToMany(mappedBy = "user")
+	// private List<ShoppingCart> shoppingCarts;
 
-//	@OneToMany(mappedBy = "user")
-//	private List<SaveInformation> savedInformation;
+	// @OneToMany(mappedBy = "user")
+	// private List<SaveInformation> savedInformation;
 
-//	@OneToMany(mappedBy = "user")
-//	private List<Invoice> invoices;
+	// @OneToMany(mappedBy = "user")
+	// private List<Invoice> invoices;
 
-//	@OneToMany(mappedBy = "user")
-//	private List<DiscountDetail> DiscountDetail;
+	// @OneToMany(mappedBy = "user")
+	// private List<DiscountDetail> DiscountDetail;
 
 }

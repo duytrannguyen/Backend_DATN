@@ -20,7 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "ProductStatus")
+@Table(name = "Productstatus")
 public class ProductStatus {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +30,6 @@ public class ProductStatus {
 	@Column(name = "status_name", nullable = false)
 	private String statusName;
 
-//	@OneToMany(mappedBy = "status")
-//	private List<Product> products;
+	// @OneToMany(mappedBy = "status")
+	// private List<Product> products;
 }
