@@ -9,7 +9,7 @@ import com.poly.Exception.ResourceNotFoundException;
 import com.poly.Model.Invoice;
 import com.poly.Reponsitory.InvoiceRepository;
 
-@Service
+@Service("InvoiceService")
 public class InvoiceService {
 
     @Autowired

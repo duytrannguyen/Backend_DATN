@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.poly.Model.Invoice;
 
-@Repository
+@Repository("InvoiceRepository")
 public interface InvoiceRepository extends JpaRepository<Invoice, Integer> {
 	// Truy vấn để lấy danh sách hóa đơn theo user_id
     List<Invoice> findByUser(Integer user);

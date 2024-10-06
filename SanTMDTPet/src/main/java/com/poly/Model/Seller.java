@@ -36,8 +36,8 @@ public class Seller {
     @Column(name = "avt_shop")
     private String avtShop;
 
-//    @Column(name = "background")
-//    private String background;
+    @Column(name = "backround")
+    private String background;
 
     @Column(name = "type_business")
     private String typeBusiness;
