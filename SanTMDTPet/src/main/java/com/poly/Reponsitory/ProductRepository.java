@@ -20,17 +20,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 //	Page<Product> findProductsByCategory(Integer categoryId, Pageable pageable);
 
 	List<Product> findBySeller_SellerId(int sellerId);
-    // Lọc sản phẩm theo categoryId
-    List<Product> findByCategoryCategoryId(int categoryId);
-
-    // Tìm sản phẩm theo khoảng giá
-    Page<Product> findByPriceBetween(double minPrice, double maxPrice, Pageable pageable);
-    
-    // Tìm sản phẩm theo tên chứa chuỗi
-    Page<Product> findByProductNameContaining(String productName, Pageable pageable);
-    
-    @Query("SELECT p FROM Product p WHERE p.category.categoryId = :categoryId")
-    Page<Product> findProductsByCategory(@Param("categoryId") Integer categoryId, Pageable pageable);
     
     @Query("SELECT COUNT(p) FROM Product p")
     int countTotalProducts();
@@ -47,18 +36,18 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     boolean existsByProductName(String productName);
 
-//    // Lọc sản phẩm theo categoryId
-//    List<Product> findByCategoryCategoryId(int categoryId);
-//
-//    // Tìm sản phẩm theo khoảng giá
-//    Page<Product> findByPriceBetween(double minPrice, double maxPrice, Pageable pageable);
-//    
-//    // Tìm sản phẩm theo tên chứa chuỗi
-//    Page<Product> findByProductNameContaining(String productName, Pageable pageable);
-//    
-//    @Query("SELECT p FROM Product p WHERE p.category.categoryId = :categoryId")
-//    Page<Product> findProductsByCategory(@Param("categoryId") Integer categoryId, Pageable pageable);
-//
-//    // Tìm sản phẩm theo seller
-//    Page<Product> findBySeller(Seller seller, Pageable pageable); // Sử dụng đối tượng Seller
+    // Lọc sản phẩm theo categoryId
+    List<Product> findByCategoryCategoryId(int categoryId);
+
+    // Tìm sản phẩm theo khoảng giá
+    Page<Product> findByPriceBetween(double minPrice, double maxPrice, Pageable pageable);
+    
+    // Tìm sản phẩm theo tên chứa chuỗi
+    Page<Product> findByProductNameContaining(String productName, Pageable pageable);
+    
+    @Query("SELECT p FROM Product p WHERE p.category.categoryId = :categoryId")
+    Page<Product> findProductsByCategory(@Param("categoryId") Integer categoryId, Pageable pageable);
+
+    // Tìm sản phẩm theo seller
+    Page<Product> findBySeller(Seller seller, Pageable pageable); // Sử dụng đối tượng Seller
 }

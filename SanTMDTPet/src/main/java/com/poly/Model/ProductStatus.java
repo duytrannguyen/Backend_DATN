@@ -30,6 +30,6 @@ public class ProductStatus {
 	@Column(name = "status_name", nullable = false)
 	private String statusName;
 
-//	@OneToMany(mappedBy = "status")
-//	private List<Product> products;
+	// @OneToMany(mappedBy = "status")
+	// private List<Product> products;
 }

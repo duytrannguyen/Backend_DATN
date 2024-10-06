@@ -34,10 +34,10 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 	    String redirectUrl = "/";
 	    if (authentication.getAuthorities().stream()
 	            .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))) {
-	        redirectUrl = "/admin/"; // Chuyển đến trang admin
+	        redirectUrl = "/admin/index1"; // Chuyển đến trang admin
 	    } else if (authentication.getAuthorities().stream()
 	            .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_SELER"))) {
-	        redirectUrl = "/admin/products/list"; // Chuyển đến trang seller
+	        redirectUrl = "/seller/products/list"; // Chuyển đến trang seller
 	    } else if (authentication.getAuthorities().stream()
 	            .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_USER"))) {
 	        redirectUrl = "/home/index"; // Chuyển đến trang user
