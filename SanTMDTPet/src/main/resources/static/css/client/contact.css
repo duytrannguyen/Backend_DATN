@@ -1,0 +1,297 @@
+@charset "ISO-8859-1";
+
+:root {
+  --white-color:                  #ffffff;
+  --primary-color:                #E76F51;
+  --secondary-color:              #E9C46A;
+  --section-bg-color:             #f0f8ff;
+  --custom-btn-bg-color:          #F4A261;
+  --custom-btn-bg-hover-color:    #E76F51;
+  --dark-color:                   #000000;
+  --p-color:                      #717275;
+  --link-hover-color:             #E76F51;
+
+  --body-font-family:             'Unbounded', sans-serif;
+
+  --h1-font-size:                 42px;
+  --h2-font-size:                 36px;
+  --h3-font-size:                 28px;
+  --h4-font-size:                 24px;
+  --h5-font-size:                 22px;
+  --h6-font-size:                 20px;
+  --p-font-size:                  16px;
+  --menu-font-size:               12px;
+  --btn-font-size:                14px;
+  --copyright-font-size:          14px;
+
+  --border-radius-large:          100px;
+  --border-radius-medium:         20px;
+  --border-radius-small:          10px;
+
+  --font-weight-light:            300;
+  --font-weight-normal:           400;
+  --font-weight-semibold:         600;
+  --font-weight-bold:             700;
+}
+
+body {
+  background-color: var(--white-color);
+  font-family: var(--body-font-family); 
+}
+
+.contact-section {
+  background: var(--custom-btn-bg-color);
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 450px 450px 0 0;
+  border-color: var(--white-color) transparent transparent;
+  pointer-events: none;
+}
+
+.contact-section .container {
+  position: relative;
+}
+
+.contact-section p {
+  color: var(--white-color);
+  font-size: var(--h6-font-size);
+}
+
+.contact-link {
+  color: var(--white-color);
+}
+
+.contact-section .copyright-text {
+  font-size: var(--copyright-font-size);
+}
+
+
+/*---------------------------------------
+  EBOOK DOWNLOAD FORM               
+-----------------------------------------*/
+.ebook-download-form {
+  border-radius: var(--border-radius-medium);
+  position: relative;
+  z-index: 2;
+  padding: 50px;
+}
+
+/*---------------------------------------
+  CUSTOM FORM               
+-----------------------------------------*/
+.custom-form .form-control {
+  border-radius: var(--border-radius-large);
+  box-shadow: none;
+  color: var(--p-color);
+  padding-top: 19px;
+  padding-bottom: 13px;
+  padding-right: 40px;
+  padding-left: 20px;
+  outline: none;
+}
+
+.custom-form .form-control:focus,
+.custom-form .form-control:hover {
+  border-color: var(--primary-color);
+}
+
+.custom-form .form-control:focus + .input-group-text .custom-form-icon,
+.custom-form .form-control:hover + .input-group-text .custom-form-icon {
+  opacity: 1;
+}
+
+.custom-form .input-group-text {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  margin: 10px;
+}
+
+.custom-form-icon {
+  position: relative;
+  z-index: 22;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.input-group:not(.has-validation)>.dropdown-toggle:nth-last-child(n+3), .input-group:not(.has-validation)>.form-floating:not(:last-child)>.form-control, .input-group:not(.has-validation)>.form-floating:not(:last-child)>.form-select, .input-group:not(.has-validation)>:not(:last-child):not(.dropdown-toggle):not(.dropdown-menu):not(.form-floating) {
+  border-radius: var(--border-radius-large);
+}
+
+.custom-form button[type="submit"] {
+  background: var(--custom-btn-bg-color);
+  border: none;
+  border-radius: var(--border-radius-large);
+  color: var(--white-color);
+  font-size: var(--p-font-size);
+  font-weight: var(--font-weight-semibold);
+  transition: all 0.3s;
+  margin-bottom: 0;
+}
+
+.custom-form button[type="submit"]:hover,
+.custom-form button[type="submit"]:focus {
+  background: var(--custom-btn-bg-hover-color);
+  border-color: transparent;
+}
+
+
+/*---------------------------------------
+  SOCIAL ICON               
+-----------------------------------------*/
+.social-icon {
+  margin: 0;
+  padding: 0;
+}
+
+.social-icon-item {
+  list-style: none;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.social-icon-link {
+  background: var(--secondary-color);
+  border-radius: var(--border-radius-large);
+  color: var(--white-color);
+  font-size: var(--copyright-font-size);
+  display: block;
+  margin-right: 10px;
+  text-align: center;
+  width: 35px;
+  height: 35px;
+  line-height: 36px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.social-icon-link:hover {
+  background: var(--primary-color);
+  color: var(--white-color);
+}
+
+
+/*---------------------------------------
+  RESPONSIVE STYLES               
+-----------------------------------------*/
+@media screen and (max-width: 991px) {
+  h1 {
+    font-size: 48px;
+  }
+
+  h2 {
+    font-size: 36px;
+  }
+
+  h3 {
+    font-size: 32px;
+  }
+
+  h4 {
+    font-size: 28px;
+  }
+
+  h5 {
+    font-size: 20px;
+  }
+
+  h6 {
+    font-size: 18px;
+  }
+
+  .section-padding {
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
+  
+  .navbar {
+    background-color: rgba(0, 0, 0, 0.65);
+  }
+
+  .navbar-expand-lg .navbar-nav {
+    padding-bottom: 20px;
+  }
+
+  .navbar-expand-lg .navbar-nav .nav-link {
+    padding: 0;
+  }
+
+  .scrollspy-example-2 .scrollspy-example-item:first-child {
+    padding-top: 0;
+  }
+
+  .scrollspy-example-item h5 {
+    padding-bottom: 5px;
+  }
+
+  .book-section-info {
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+
+  .ebook-download-form {
+    padding: 30px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  h1 {
+    font-size: 36px;
+  }
+
+  h2 {
+    font-size: 28px;
+  }
+
+  h3 {
+    font-size: 26px;
+  }
+
+  h4 {
+    font-size: 22px;
+  }
+
+  h5 {
+    font-size: 20px;
+  }
+
+  .navbar-brand {
+    font-size: var(--p-font-size);
+  }
+
+  .navbar-brand-icon {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+  }
+
+  .navbar-brand-icon::after {
+    top: 5px;
+  }
+
+  .btn-naira > span, 
+  .btn-naira .btn-icon {
+    font-size: 12px;
+    padding: 5px 15px;
+  }
+}
+
+h2.mb-1 {
+  color: var(--dark-color);
+}
+
+

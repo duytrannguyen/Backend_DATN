@@ -1,0 +1,712 @@
+
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="templatemo">
+<title>BookStore</title>
+<link rel="shortcut icon" href="/assets/images/logobook.ico" type="image/x-icon">
+<!-- Bootstrap core CSS -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+	crossorigin="anonymous">
+
+<link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+<!-- Additional CSS Files -->
+<link rel="stylesheet" href="/assets/css/fontawesome.css">
+<link rel="stylesheet" href="/assets/css/templatemo-liberty-market.css">
+<link rel="stylesheet" href="/assets/css/owl.css">
+<!-- <<<<<<< duy -->
+<style type="text/css">
+.marquee {
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%; /* Chiều rộng của vùng chứa */
+}
+
+.text-animation {
+    display: inline-block;
+    font-weight: bold;
+    -webkit-animation: my 700ms infinite, run 5s linear infinite; /* Thêm animation chạy */
+    -moz-animation: my 700ms infinite, run 5s linear infinite;
+    -o-animation: my 700ms infinite, run 5s linear infinite;
+    animation: my 700ms infinite, run 5s linear infinite;
+}
+
+@keyframes my {
+    0% { color: #F8CD0A; }
+    50% { color: #fff; }
+    100% { color: #F8CD0A; }
+}
+p{
+color: white;
+}
+@keyframes run {
+    0% { transform: translateX(100%); } /* Bắt đầu bên phải */
+    100% { transform: translateX(-100%); } /* Kết thúc bên trái */
+}
+
+</style>
+</head>
+<body>
+<div class="main-banner">
+	<div th:insert="~{client_layout/header :: header}"></div>
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-6 align-self-center">
+				<div class="header-text">
+					<p class="fs-2">QLBook Store</p>
+					<h2>Mua &amp; Bán Sách Chính Hãng.</h2>
+					<p>QLBook Store là một nơi hoàn hảo để bạn có thể tìm
+						kiếm tất cả các thể loại sách mà bạn mong muốn. Tại QLBook Store
+						bạn có thể mua, sở hữu cho mình những quyển sách, truyện độc quyền
+						chỉ có tại QLBook Store.</p>
+					<div class="buttons">
+						<div class="border-button">
+							<a href="/home/login">Đăng Nhập Ngay</a>
+						</div>
+						<div class="main-button">
+							<a href="#" target="_blank">Tìm Hiểu Sản Phẩm</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4 offset-lg-2">
+				<div class="marquee">
+					<h2 class="text-animation" style="font-size: 38px;">
+						Sản phẩm <em>Sắp Được</em> Ra Mắt.
+					</h2>
+				</div>
+
+				<br> <br>
+				<div class="owl-banner owl-carousel">
+					<div class="item"> 
+						<img src="/assets/images/poster-gioi-thieu-sach-11.jpg" alt="">
+					</div>
+					<div class="item">
+						<img src="/assets/images/poster-gioi-thieu-sach-9.jpg" alt="">
+					</div> 
+					<div th:each="product : ${upcomingProducts}">
+						<div class="item">
+							<img
+								th:src="@{/Image_SP/{imageName}(imageName=${product.imageId.imageName})}"
+								alt="" style="height: 400px;">
+							<div class="down-content" style="color: white;">
+								<h4 class="book-title"
+									style="color: white; max-width: 100%; word-wrap: break-word;"
+									th:text="${product.productName}"></h4>
+								<br> <span class="collection"
+									th:text="'Sản phẩm sẽ được bán vào ngày ' + ${#dates.format(product.postingDate, 'dd/MM/yyyy')}"></span>
+
+
+								<br> <span class="category"> Thể Loại: <strong
+									th:text="${product.category.categoryName}"></strong>
+								</span> <br>
+								<!-- <div class="main-button">
+									<a
+										th:href="@{/products/details/{productId}(productId=${product.productId})}">Chi
+										Tiết</a>
+								</div> -->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- ***** Main Banner Area End ***** -->
+
+<div class="categories-collections">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="categories">
+					<div class="section-heading">
+						<div class="line-dec"></div>
+						<h2>
+							Một Số <em>Thể Loại</em> Nổi Bật.
+						</h2>
+					</div>
+					<div class="row">
+						<div th:each="category : ${categories}"
+							class="col-lg-2 col-sm-4 d-flex justify-content-center mb-4">
+							<div class="item">
+								<div class="icon">
+									<img src="/assets/images/icon-02.png" alt="">
+								</div>
+								<h4 style="color: white;" th:text="${category.categoryName}"></h4>
+								<div class="icon-button">
+									<a
+										th:href="@{/home/filter/{categoryId}(categoryId=${category.categoryId})}">
+										<i class="fa fa-angle-right"></i>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="collections">
+				<div class="section-heading">
+					<div class="line-dec"></div>
+					<h2>
+						Một Số <em>Sản Phẩm</em> Nổi Bật.
+					</h2>
+				</div>
+				<div class="owl-collection owl-carousel">
+					<div th:each="product : ${currentProducts}">
+						<div class="item">
+							<img
+								th:src="@{/Image_SP/{imageName}(imageName=${product.imageId.imageName})}"
+								alt="" style="height: 400px;">
+							<div class="down-content">
+								<h4 class="book-title" style="color: white;"
+									th:text="${product.productName}"></h4>
+								<br> <span class="collection"> Sản Phẩm Còn Lại<br>
+									<strong th:text="${product.quantity}"></strong>
+								</span> <span class="category"> Thể Loại:<br> <strong
+									th:text="${product.category.categoryName}"></strong>
+								</span>
+								<div class="d-flex flex-column">
+									<span class="price" id="price" th:text="${product.price}"></span>
+									<!-- Đây là giá giảm cố định, bạn có thể thay đổi tùy thuộc vào dữ liệu -->
+								</div>
+								<div class="main-button">
+									<a
+										th:href="@{/products/details/{productId}(productId=${product.productId})}">Chi
+										Tiết</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- <div th:each="product : ${upcomingProducts}">
+						<div class="item">
+							<img
+								th:src="@{/Image_SP/{imageName}(imageName=${product.imageId.imageName})}"
+								alt="" style="height: 400px;">
+							<div class="down-content">
+								<h4 class="book-title"
+									style="color: white; max-width: 100%; word-wrap: break-word;"
+									th:text="${product.productName}"></h4>
+								<br> <span class="collection"
+									th:text="'Sản phẩm sẽ được bán vào ngày ' + ${#dates.format(product.postingDate, 'dd/MM/yyyy')}"></span>
+
+
+								</span> <span class="category"> Thể Loại:<br> <strong
+									th:text="${product.category.categoryName}"></strong>
+								</span> <br>
+								<div class="main-button">
+									<a
+										th:href="@{/products/details/{productId}(productId=${product.productId})}">Chi
+										Tiết</a>
+								</div>
+							</div>
+						</div>
+					</div> -->
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="create-nft">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-8">
+				<div class="section-heading">
+					<div class="line-dec"></div>
+					<h2>Tại Sao Nên Chọn QLBook Store ?</h2>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<!-- Thêm nội dung ở đây nếu cần -->
+			</div>
+			<div class="col-lg-4">
+				<div class="item first-item">
+					<div class="icon" style="margin-left: 35%">
+						<img src="/assets/images/icon-02.png" alt="">
+					</div>
+					<h4 style="color: white;">Nhiều Sự Lựa Chọn</h4>
+					<p>Chúng tôi cung cấp một bộ sưu tập sách phong phú, bao
+						gồm các tiểu thuyết bán chạy nhất và sách được mọi người quan tâm,
+						phù hợp với mọi độc giả.</p>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<div class="item second-item">
+					<div class="icon" style="margin-left: 35%">
+						<img src="/assets/images/icon-04.png" alt="">
+					</div>
+					<h4 style="color: white;">Giá Chiết Khấu</h4>
+					<p>Phần sách giảm giá của chúng tôi cung cấp mức giá
+						tuyệt vời cho những cuốn sách phổ biến, vì vậy bạn có thể thưởng
+						thức những cuốn sách yêu thích của mình mà không phải tốn nhiều
+						tiền.</p>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<div class="item">
+					<div class="icon" style="margin-left: 35%">
+						<img src="/assets/images/icon-06.png" alt="">
+					</div>
+					<h4 style="color: white;">Chuyển Phát Nhanh</h4>
+					<p>Chúng tôi coi trọng thời gian của bạn, đó là lý do tại
+						sao chúng tôi cung cấp dịch vụ vận chuyển nhanh chóng cho tất cả
+						các đơn đặt hàng. Nhận sách của bạn được giao ngay trước cửa nhà
+						bạn trong thời gian ngắn</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="currently-market">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-6">
+				<div class="section-heading">
+					<div class="line-dec"></div>
+					<h2>
+						<em>Sản Phẩm</em>
+					</h2>
+				</div>
+			</div>
+			<div class="col-lg-6">
+				<div class="filters">
+					<ul>
+						<li data-filter="*" class="active">All Items</li>
+						<li data-filter=".msc">Truyện Tranh</li>
+						<li data-filter=".dig">Tiểu Thuyết</li>
+						<li data-filter=".blc">Trinh Thám</li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-lg-12">
+				<div class="row grid">
+					<div class="col-lg-6 currently-market-item all dig">
+						<div class="item">
+							<div class="left-image">
+								<img src="/assets/images/sanpham1.jpg" alt=""
+									style="border-radius: 20px; min-width: 195px;">
+							</div>
+							<div class="right-content">
+								<span>Tuổi Thơ Dữ Dội</span>
+								<div class="line-dec"></div>
+								<span class="bid"> Tác Giả: Phùng Quán<br>
+									<p>
+										Giá: <strong class="text-danger small">89.000 VNĐ</strong>
+									</p>
+									<p>
+										Giá cũ: <em class="text-decoration-line-through">(100.000
+											VNĐ)</em>
+									</p>
+								</span> </span>
+								<div class="text-button">
+									<a href="#">Xem Chi Tiết Sản Phẩm</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6 currently-market-item all msc">
+						<div class="item">
+							<div class="left-image">
+								<img src="/assets/images/sanpham1.jpg" alt=""
+									style="border-radius: 20px; min-width: 195px;">
+							</div>
+							<div class="right-content">
+								<span>Tuổi Thơ Dữ Dội</span>
+								<div class="line-dec"></div>
+								<span class="bid"> Tác Giả: Phùng Quán<br>
+									<p>
+										Giá: <strong class="text-danger small">89.000 VNĐ</strong>
+									</p>
+									<p>
+										Giá cũ: <em class="text-decoration-line-through">(100.000
+											VNĐ)</em>
+									</p>
+								</span>
+								<!--                   <span class="ends"> -->
+								<!--                     Ends In<br><strong>4D 08H 15M 42S</strong><br><em>(July 24th, 2022)</em> -->
+								</span>
+								<div class="text-button">
+									<a href="#">Xem Chi Tiết Sản Phẩm</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6 currently-market-item all msc">
+						<div class="item">
+							<div class="left-image">
+								<img src="/assets/images/sanpham1.jpg" alt=""
+									style="border-radius: 20px; min-width: 195px;">
+							</div>
+							<div class="right-content">
+								<span>Tuổi Thơ Dữ Dội</span>
+								<div class="line-dec"></div>
+								<span class="bid"> Tác Giả: Phùng Quán<br>
+									<p>
+										Giá: <strong class="text-danger small">89.000 VNĐ</strong>
+									</p>
+									<p>
+										Giá cũ: <em class="text-decoration-line-through">(100.000
+											VNĐ)</em>
+									</p>
+								</span>
+								<!--                   <span class="ends"> -->
+								<!--                     Ends In<br><strong>4D 08H 15M 42S</strong><br><em>(July 24th, 2022)</em> -->
+								</span>
+								<div class="text-button">
+									<a href="#">Xem Chi Tiết Sản Phẩm</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6 currently-market-item all msc">
+						<div class="item">
+							<div class="left-image">
+								<img src="/assets/images/sanpham1.jpg" alt="lỗi"
+									style="border-radius: 20px; min-width: 195px;">
+							</div>
+							<div class="right-content">
+								<span>Tuổi Thơ Dữ Dội</span>
+								<div class="line-dec"></div>
+								<span class="bid"> Tác Giả: Phùng Quán<br>
+									<p>
+										Giá: <strong class="text-danger small">89.000 VNĐ</strong>
+									</p>
+									<p>
+										Giá cũ: <em class="text-decoration-line-through">(100.000
+											VNĐ)</em>
+									</p>
+								</span>
+								<!--                   <span class="ends"> -->
+								<!--                     Ends In<br><strong>4D 08H 15M 42S</strong><br><em>(July 24th, 2022)</em> -->
+								</span>
+								<div class="text-button">
+									<a href="#">Xem Chi Tiết Sản Phẩm</a>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<div class="d-flex justify-content-center">
+					<div class="main-button">
+						<a href="/home/products" class="btn btn-primary">Xem Thêm Sản
+							Phẩm Khác</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- ***** Footer Start ***** -->
+<footer>
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<p>
+					Copyright 2024 <a href="#">QLBook</a> Store Co., Ltd. All rights
+					reserved. &nbsp;&nbsp; Designed by <a title="HTML CSS Templates"
+						rel="sponsored" href="#" target="_blank">Nhom2</a>
+				</p>
+			</div>
+		</div>
+	</div>
+</footer>
+<!-- ***** Footer End ***** -->
+
+<!-- Scripts -->
+<!-- Bootstrap core JavaScript -->
+<!-- 	<script src="/vendor/jquery/jquery.min.js"></script> -->
+<!-- 	<script src="/vendor/bootstrap/js/bootstrap.min.js"></script> -->
+<!-- Additional Scripts -->
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+	crossorigin="anonymous"></script>
+<script>
+	document.querySelectorAll('.price').forEach(function(element) {
+		var price = parseFloat(element.innerText.replace(/[^0-9.-]+/g, "")); // Chuyển đổi giá trị sang số
+		price = new Intl.NumberFormat('vi-VN', {
+			style : 'currency',
+			currency : 'VND'
+		}).format(price);
+		element.innerText = price.replace('₫', '') + ' VNĐ'; // Loại bỏ ký hiệu ₫ và thêm đuôi "VNĐ"
+	}); // Loại bỏ ký hiệu ₫ và thêm đuôi "VNĐ"
+</script>
+
+<script src="/assets/js/isotope.min.js"></script>
+<script src="/assets/js/owl-carousel.js"></script>
+<script src="/assets/js/tabs.js"></script>
+<script src="/assets/js/popup.js"></script>
+<script src="/assets/js/custom.js"></script>
+<!-- Swiper Slider -->
+<script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+
+
+
+<!-- =======
+<link rel="stylesheet" href="/assets/css/animate.css">
+<link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css">
+<style> -->
+<!-- /* Custom CSS styles */ -->
+<!-- /* .categories-collections .item { -->
+<!--     text-align: center; -->
+<!--     margin-bottom: 30px; -->
+<!-- } -->
+
+<!-- .categories-collections .icon img { -->
+<!--     max-width: 100%; -->
+<!--     height: auto; -->
+<!-- } -->
+
+<!-- .categories-collections .main-button a, .create-nft .item h4 { -->
+<!--     margin-top: 15px; -->
+<!-- } -->
+
+<!-- .create-nft .item p { -->
+<!--     font-size: 15px; -->
+<!--     line-height: 24px; -->
+<!--     margin-bottom: 20px; -->
+<!-- } -->
+
+<!-- footer { -->
+<!--     background-color: #f8f9fa; -->
+<!--     padding: 25px 0; -->
+<!--     text-align: center; -->
+<!--     margin-top: 30px; -->
+<!-- } -->
+
+<!-- footer p { -->
+<!--     margin-bottom: 0; -->
+<!--     font-size: 14px; -->
+<!--     color: #6c757d; -->
+<!-- } -->
+<!-- </style> -->
+<!-- </head> -->
+<!-- <body> */ -->
+    <!-- ***** Header Area Start ***** -->
+    <!-- Header area can be included using Thymeleaf fragment -->
+<!--     <div th:replace="client_layout/header :: header"></div> -->
+    <!-- ***** Header Area End ***** -->
+
+    <!-- ***** Main Banner Area Start ***** -->
+<!--     <div class="main-banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 align-self-center">
+                    <div class="header-text">
+                        <span class="fs-2">QLBook Store</span>
+                        <h2>Mua &amp; Bán Sách Chính Hãng.</h2>
+                        <span>QLBook Store là một nơi hoàn hảo để bạn có thể tìm kiếm tất cả các thể loại sách mà bạn mong muốn. Tại QLBook Store bạn có thể mua, sở hữu cho mình những quyển sách, truyện độc quyền chỉ có tại QLBook Store.</span>
+                        <div class="buttons">
+                            <div class="border-button">
+                                <a href="/home/login">Đăng Nhập Ngay</a>
+                            </div>
+                            <div class="main-button">
+                                <a href="#" target="_blank">Tìm Hiểu Sản Phẩm</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 offset-lg-1">
+                    <div class="owl-banner owl-carousel">
+                        <div class="item">
+                            <img src="/assets/images/poster-gioi-thieu-sach-11.jpg" alt="">
+                        </div>
+                        <div class="item">
+                            <img src="/assets/images/poster-gioi-thieu-sach-9.jpg" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <!-- ***** Main Banner Area End ***** -->
+
+<!--     <div class="categories-collections">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="categories">
+                        <div class="section-heading">
+                            <div class="line-dec"></div>
+                            <h2>Một Số <em>Thể Loại</em> Nổi Bật.</h2>
+                        </div>
+                        <div class="row">
+                            <div th:each="p : ${categories}" class="col-lg-2 col-sm-6">
+                                <div class="item">
+                                    <div class="icon">
+                                        <img src="/assets/images/icon-02.png" alt="">
+                                    </div>
+                                    <h4 style="color: white;" th:text="${p.categoryName}">Category Name</h4>
+                                    <div class="icon-button">
+                                        <a th:href="@{/home/filter/{categoryId}(categoryId=${p.categoryId})}">
+                                            <i class="fa fa-angle-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collections">
+                        <div class="section-heading">
+                            <div class="line-dec"></div>
+                            <h2>Một Số <em>Sản Phẩm</em> Nổi Bật.</h2>
+                        </div>
+                        <div class="owl-collection owl-carousel">
+                            <div th:each="p : ${products}" class="item">
+                                <img th:src="@{/Image_SP/{imageName}(imageName=${p.imageId.imageName})}" alt="" style="height: 400px;">
+                                <div class="down-content">
+                                    <h4 class="book-title" style="color: white;" th:text="${p.productName}">Product Name</h4>
+                                    <br> 
+                                    <span class="collection">Sản Phẩm Còn Lại<br>
+                                        <strong th:text="${p.quantity}">Quantity</strong>
+                                    </span> 
+                                    <span class="category">Thể Loại:<br>
+                                        <strong th:text="${p.category.categoryName}">Category Name</strong>
+                                    </span>
+                                    <div class="main-button">
+                                        <a th:href="@{/products/details/{productId}(productId=${p.productId})}">Chi Tiết</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+<!--     <div class="create-nft">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="section-heading">
+                        <div class="line-dec"></div>
+                        <h2>Tại Sao Nên Chọn QLBook Store ?</h2>
+                    </div>
+                </div>
+                <div class="col-lg-4"> -->
+                    <!-- Add content here if needed -->
+<!--                 </div>
+                <div class="col-lg-4">
+                    <div class="item first-item">
+                        <div class="icon" style="margin-left: 35%">
+                            <img src="/assets/images/icon-02.png" alt="">
+                        </div>
+                        <h4 style="color: white;">Nhiều Sự Lựa Chọn</h4>
+                        <span>Chúng tôi cung cấp một bộ sưu tập sách phong phú, bao gồm các tiểu thuyết bán chạy nhất và sách được mọi người quan tâm, phù hợp với mọi độc giả.</span>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="item second-item">
+                        <div class="icon" style="margin-left: 35%">
+                            <img src="/assets/images/icon-04.png" alt="">
+                        </div>
+                        <h4 style="color: white;">Giá Chiết Khấu</h4>
+                        <span>Phần sách giảm giá của chúng tôi cung cấp mức giá tuyệt vời cho những cuốn sách phổ biến, vì vậy bạn có thể thưởng thức những cuốn sách yêu thích của mình mà không phải tốn nhiều tiền.</span>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="item">
+                        <div class="icon" style="margin-left: 35%">
+                            <img src="/assets/images/icon-06.png" alt="">
+                        </div>
+                        <h4 style="color: white;">Chuyển Phát Nhanh</h4>
+                        <span>Chúng tôi coi trọng thời gian của bạn, đó là lý do tại sao chúng tôi cung cấp dịch vụ vận chuyển nhanh chóng cho tất cả các đơn đặt hàng. Nhận sách của bạn được giao ngay trước cửa nhà bạn trong thời gian ngắn</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+<!--     <div class="currently-market">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="section-heading">
+                        <div class="line-dec"></div>
+                        <h2><em>Sản Phẩm</em></h2>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="filters">
+                        <ul>
+                            <li data-filter="*" class="active">All Items</li>
+                            <li data-filter=".msc">Truyện Tranh</li>
+                            <li data-filter=".dig">Tiểu Thuyết</li>
+                            <li data-filter=".blc">Trinh Thám</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="row grid"> -->
+                        <!-- Example items -->
+<!--                         <div class="col-lg-6 currently-market-item all dig">
+                            <div class="item">
+                                <div class="left-image">
+                                    <img src="/assets/images/sanpham1.jpg" alt="" style="border-radius: 20px; min-width: 195px;">
+                                </div>
+                                <div class="right-content">
+                                    <span>Tuổi Thơ Dữ Dội</span>
+                                    <div class="line-dec"></div>
+                                    <span class="bid">Tác Giả: Phùng Quán<br>
+                                        <p>Giá: <strong class="text-danger small">89.000 VNĐ</strong></p>
+                                        <p>Giá cũ: <em class="text-decoration-line-through">(100.000 VNĐ)</em></p>
+                                    </span>
+                                    <div class="text-button">
+                                        <a href="#">Xem Chi Tiết Sản Phẩm</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                        <!-- Repeat for other products -->
+<!--                     </div>
+                    <div class="d-flex justify-content-center">
+                        <div class="main-button">
+                            <a href="/home/products" class="btn btn-primary">Xem Thêm Sản Phẩm Khác</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+    <!-- ***** Footer Start ***** -->
+<!--     <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Copyright 2024 <a href="#">QLBook</a> Store Co., Ltd. All rights reserved. &nbsp;&nbsp; Designed by <a title="HTML CSS Templates" rel="sponsored" href="#" target="_blank">Nhom2</a></p>
+                </div>
+            </div>
+        </div>
+    </footer> -->
+    <!-- ***** Footer End ***** -->
+
+    <!-- Scripts -->
+    <!-- Bootstrap core JavaScript -->
+    <!--  <script src="/vendor/jquery/jquery.min.js"></script> -->
+    <!--  <script src="/vendor/bootstrap/js/bootstrap.min.js"></script> -->
+    <!-- Additional Scripts -->
+<!--     <script src="/assets/js/isotope.min.js"></script>
+    <script src="/assets/js/owl-carousel.js"></script>
+    <script src="/assets/js/tabs.js"></script>
+    <script src="/assets/js/popup.js"></script>
+    <script src="/assets/js/custom.js"></script>
+    Swiper Slider -->
+<!--     <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script> -->
+
+</body>
+</html>
