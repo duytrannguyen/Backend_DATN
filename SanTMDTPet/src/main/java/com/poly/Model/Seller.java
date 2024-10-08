@@ -36,8 +36,8 @@ public class Seller {
     @Column(name = "avt_shop")
     private String avtShop;
 
-//    @Column(name = "background")
-//    private String background;
+    @Column(name = "backround")
+    private String backround;
 
     @Column(name = "type_business")
     private String typeBusiness;
@@ -58,6 +58,6 @@ public class Seller {
     @JoinColumn(name = "users_id", nullable = false)
     private User user;
 
-//    @OneToMany(mappedBy = "seller")
-//    private List<Product> products;
+    // @OneToMany(mappedBy = "seller")
+    // private List<Product> products;
 }

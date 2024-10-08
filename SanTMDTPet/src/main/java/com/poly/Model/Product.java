@@ -4,6 +4,9 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,6 +24,7 @@ import lombok.ToString;
 @Table(name = "Products")
 // Khang
 @ToString(exclude = "invoiceItems")
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Product {
 	// ly
 	@Id
@@ -84,12 +88,12 @@ public class Product {
 	@JoinColumn(name = "seller_id", nullable = false)
 	private Seller seller;
 
-//	@OneToMany(mappedBy = "product")
-//	private List<Review> reviews;
+	// @OneToMany(mappedBy = "product")
+	// private List<Review> reviews;
 
-//	@OneToMany(mappedBy = "productId")
-//	private List<CartItem> cartItems;
+	// @OneToMany(mappedBy = "productId")
+	// private List<CartItem> cartItems;
 
-//	@OneToMany(mappedBy = "product")
-//	private List<InvoiceItem> invoiceItems;
+	// @OneToMany(mappedBy = "product")
+	// private List<InvoiceItem> invoiceItems;
 }

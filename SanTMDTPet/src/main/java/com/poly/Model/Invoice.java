@@ -43,20 +43,32 @@ public class Invoice {
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date paymentDate;
-	
-	@Column(name = "users_id", nullable = false)
-	private Integer user;
 
+	// @Column(nullable = false)
+	// private String paymentStatus;
+
+	@ManyToOne
+	@JoinColumn(name = "users_id", nullable = false)
+	private User user;
+
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "status_id", nullable = false)
-	private Integer statusId;
+	private OrderStatus status;
 
-	@Column(name = "payment_method_id", nullable = false)
-	private Integer paymentMethodId;
+	@ManyToOne
+	@JoinColumn(name = "payment_method_id", nullable = false)
+	private PaymentMethod paymentMethod;
 
-	@Column(name = "shipping_id", nullable = false)
-	private Integer shippingId;
+	@ManyToOne
+	@JoinColumn(name = "shipping_id", nullable = false)
+	private Shipping shipping;
 
-	@Column(name = "discount_id", nullable = true)
-	private Integer discountId;
+	@ManyToOne
+	@JoinColumn(name = "discount_id", nullable = true)
+	private Discount discount;
 
+	// @OneToMany(mappedBy = "invoice")
+	// List<DiscountDetail> DiscountDetail;
+	@OneToMany(mappedBy = "invoice")
+	private List<InvoiceItem> invoiceItems;
 }
