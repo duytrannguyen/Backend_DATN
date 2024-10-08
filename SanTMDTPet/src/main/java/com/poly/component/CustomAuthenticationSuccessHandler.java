@@ -1,18 +1,18 @@
 package com.poly.component;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
 import com.poly.Model.User;
-import com.poly.Service.UserRepository;
+import com.poly.Reponsitory.UserRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-
-import java.io.IOException;
 
 @Component
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
@@ -34,10 +34,10 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 	    String redirectUrl = "/";
 	    if (authentication.getAuthorities().stream()
 	            .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))) {
-	        redirectUrl = "/admin/"; // Chuyển đến trang admin
+	        redirectUrl = "/admin/index1"; // Chuyển đến trang admin
 	    } else if (authentication.getAuthorities().stream()
 	            .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_SELER"))) {
-	        redirectUrl = "/admin/products/list"; // Chuyển đến trang seller
+	        redirectUrl = "/seller/products/list"; // Chuyển đến trang seller
 	    } else if (authentication.getAuthorities().stream()
 	            .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_USER"))) {
 	        redirectUrl = "/home/index"; // Chuyển đến trang user

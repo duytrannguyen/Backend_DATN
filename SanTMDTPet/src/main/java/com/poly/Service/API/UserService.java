@@ -13,7 +13,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import com.poly.Model.User;
-import com.poly.Service.UserRepository;
+import com.poly.Reponsitory.UserRepository;
+
 
 
 @Component

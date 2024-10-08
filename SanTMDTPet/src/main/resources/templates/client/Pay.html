@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Thanh Toán</title>
+<link rel="stylesheet" href="/css/style.css">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+	crossorigin="anonymous">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+	crossorigin="anonymous"></script>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<!-- FontAwesome 6.2.0 CSS -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+	integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+	crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/js/all.min.js"
+	integrity="sha512-naukR7I+Nk6gp7p5TMA4ycgfxaZBJ7MO5iC3Fp6ySQyKFHOGfpkSZkYVWV5R7u7cfAicxanwYQ5D1e17EfJcMA=="
+	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/fontawesome.css">
+<link rel="stylesheet" href="/assets/css/templatemo-liberty-market.css">
+<link rel="stylesheet" href="/assets/css/owl.css">
+<link rel="stylesheet" href="/assets/css/animate.css">
+<link rel="stylesheet"
+	href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+<style type="text/css">
+.card {
+	margin-top: 15px;
+	padding: 20px;
+}
+
+body {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	margin: 0;
+}
+
+form {
+	font-size: small;
+}
+
+.footer {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+}
+
+.form-control {
+	font-size: small;
+}
+
+.giaGiam {
+	text-decoration: line-through;
+}
+</style>
+</head>
+
+<body>
+	<!-- Include header using Thymeleaf -->
+	<!--     <div th:include="~{client_layout/header :: header}"></div> -->
+	<div th:replace="client_layout/header :: header"></div>
+	<br>
+	<br>
+
+	<form th:action="@{/products/details/cart/pay}" method="post"
+		th:object="${invoice}">
+		<div class="container">
+			<div class="card mt-5">
+				<strong>ĐỊA CHỈ GIAO HÀNG</strong>
+				<hr>
+
+				<div class="row mb-3">
+					<label for="fullName" class="col-sm-2 col-form-label">Họ và
+						tên người nhận</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="fullName"
+							placeholder="Nhập họ và tên" th:value="${user.fullName}" required>
+					</div>
+				</div>
+				<div class="row mb-3">
+					<label for="email" class="col-sm-2 col-form-label">Email</label>
+					<div class="col-sm-10">
+						<input type="email" class="form-control" id="email"
+							placeholder="Nhập email" th:value="${user.email}" required>
+					</div>
+				</div>
+				<div class="row mb-3">
+					<label for="address" class="col-sm-2 col-form-label">Địa
+						Chỉ Nhận Hàng</label>
+					<div class="col-sm-10">
+						<!-- Input for address is commented out. Uncomment if needed. -->
+					</div>
+				</div>
+				<div class="row mb-3">
+					<label for="phone" class="col-sm-2 col-form-label">Số điện
+						thoại</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="phone"
+							placeholder="10 ký tự số" th:value="${user.phone}" required>
+					</div>
+				</div>
+
+				<div class="card">
+					<strong>PHƯƠNG THỨC VẬN CHUYỂN</strong>
+					<hr>
+					<div class="form-check">
+						<input class="form-check-input" type="radio" name="shipping_id"
+							id="standardShipping" th:value="2" checked> <label
+							class="form-check-label" for="standardShipping"> <strong>Giao
+								hàng tiêu chuẩn: 32.000 VNĐ</strong><br>
+							<p style="font-size: small;">Thứ 6 - 25/6</p>
+						</label>
+					</div>
+				</div>
+
+				<div class="card">
+					<strong>PHƯƠNG THỨC THANH TOÁN</strong>
+					<hr>
+					<div class="form-check">
+						<input class="form-check-input" type="radio"
+							name="payment_method_id" id="vnPay" th:value="2"> <label
+							class="form-check-label" for="vnPay"> <i
+							class="fa-regular fa-credit-card" style="font-size: x-large;"></i>
+							Thanh toán VNPay
+						</label>
+					</div>
+					<div class="form-check">
+						<input class="form-check-input" type="radio"
+							name="payment_method_id" id="internetbanking" th:value="3">
+						<label class="form-check-label" for="internetbanking"> <i
+							class="fa-solid fa-credit-card" style="font-size: x-large;"></i>
+							Thanh toán Internetbanking
+						</label>
+					</div>
+					<div class="form-check">
+						<input class="form-check-input" type="radio"
+							name="payment_method_id" id="cashOnDelivery" th:value="1" checked>
+						<label class="form-check-label" for="cashOnDelivery"> <i
+							class="fa-regular fa-money-bill-1" style="font-size: x-large;"></i>
+							Thanh toán khi nhận hàng
+						</label>
+					</div>
+				</div>
+
+				<div class="card">
+					<strong>MÃ KHUYẾN MÃI/MÃ QUÀ TẶNG</strong>
+					<hr>
+					<div class="row g-3 align-items-center">
+						<div class="col-sm-7">
+							<div class="col-auto">
+								<label for="discountCode" class="col-form-label">Mã
+									Khuyến Mãi</label>
+							</div>
+							<div class="col-auto">
+								<div class="input-group">
+									<input type="text" id="discountCode"
+										class="form-control w-auto" name="discount_code"
+										placeholder="Nhập mã khuyến mãi"
+										oninput="handleDiscountInput()"> <input type="hidden"
+										id="discountIdHiddenInput" name="discount_id">
+									<div class="input-group-append">
+										<button class="btn btn-primary btn-xs col-auto" type="button"
+											onclick="applyDiscount()">Áp dụng</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="card">
+					<strong>THÔNG TIN KHÁC</strong>
+					<hr>
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox" id="noteCheck">
+						<label class="form-check-label" for="noteCheck"> Ghi Chú </label>
+					</div>
+					<div id="note-input-container" style="display: none;">
+						<div class="form-floating mb-3">
+							<input type="text" class="form-control" id="noteInput"
+								placeholder="Ghi chú"> <label for="noteInput">Ghi
+								chú</label>
+						</div>
+					</div>
+				</div>
+
+				<div class="card" style="margin-bottom: 250px;">
+					<strong>KIỂM TRA LẠI ĐƠN HÀNG</strong>
+					<hr>
+					<div class="col-md-12">
+						<div th:each="item : ${cartItems}" class="row">
+							<div class="col-md-2">
+								<img
+									th:src="@{/images/{imageName}(imageName=${item.productId.imageId.imageName})}"
+									style="width: 150px; height: 150px;">
+							</div>
+							<div class="col-md-5">
+								<p th:text="${item.productId.productName}"></p>
+								<input type="hidden" name="productName"
+									th:value="${item.productId.productName}" />
+							</div>
+							<div class="col-md-1">
+								<p th:text="${item.quantity}"></p>
+								<input type="hidden" name="quantity"
+									th:value="${item.quantity}" />
+							</div>
+							<div class="col-md-2">
+								<p>
+									<span
+										th:text="${item.productId.price - (item.productId.price * item.productId.discountPercentage / 100)} + ' VNĐ'"></span>
+									<input type="hidden" name="price"
+										th:value="${item.productId.price - (item.productId.price * item.productId.discountPercentage / 100)}" />
+								</p>
+								<p class="giaGiam text-body-tertiary">
+									<span th:text="${item.productId.price} + ' VNĐ'"></span>
+
+								</p>
+
+
+							</div>
+							<div class="col-md-2">
+								<p class="text-primary fw-bold">
+									<span
+										th:text="${item.productId.price - (item.productId.price * item.productId.discountPercentage / 100)} + ' VNĐ'"></span>
+								</p>
+							</div>
+						</div>
+						<hr>
+					</div>
+				</div>
+			</div>
+			<br>
+		</div>
+
+		<div class="footer">
+			<div class="card">
+				<div class="container">
+					<div class="col-md-12">
+						<div class="row">
+							<div class="col-md-6"></div>
+							<div class="col-md-3">
+								<p class="text-end">Thành tiền</p>
+								<p class="text-end">Khuyến mãi</p>
+								<p class="text-end">Phí vận chuyển (Giao hàng tiêu chuẩn)</p>
+								<p class="text-end fw-bold">Tổng tiền (gồm VAT)</p>
+							</div>
+							<div class="col-md-2">
+								<p class="text-end">
+									<span id="itemTotal" th:text="${total ?: 0} + ' VNĐ'"></span>
+								</p>
+								<input type="hidden" name="status" th:value="${status ?: 1}" />
+
+								<p class="text-end">
+									<span id="discountAmount"
+										th:text="${discountAmount ?: 0} + ' VNĐ'"></span>
+								</p>
+								<p class="text-end">32.000 VNĐ</p>
+								<p class="text-end text-primary fw-bold">
+									<span id="totalAmount"
+										th:text="${(total ?: 0) - (discountAmount ?: 0) + 32000} + ' VNĐ'"></span>
+									<input type="hidden" name="totalAmount"
+										th:value="${(total ?: 0) - (discountAmount ?: 0) + 32000}" />
+								</p>
+							</div>
+							<div class="col-md-1"></div>
+						</div>
+					</div>
+
+					<hr>
+					<div class="col-md-12">
+						<div class="row">
+							<div class="col-md-7">
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" id="agreeTerms">
+									<label class="form-check-label" for="agreeTerms"> Bằng
+										việc xác nhận mua hàng, bạn đã hoàn toàn đồng ý với
+										<p>
+											<a href="#"
+												class="link-danger link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover fw-bold">Điều
+												khoản & Điều kiện</a> của chúng tôi.
+										</p>
+									</label>
+								</div>
+							</div>
+							<div
+								class="col-md-5 d-flex justify-content-center align-items-center">
+								<button type="submit" id="confirmBtn"
+									class="btn btn-outline-primary my-0" disabled>XÁC NHẬN
+									ĐẶT HÀNG</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<script>
+		function handleDiscountInput() {
+			var discountCode = document.getElementById("discountCode").value;
+
+			if (discountCode.trim() === "") {
+				// Nếu trường nhập mã khuyến mãi trống, cập nhật giá giảm về 0
+				document.getElementById("discountAmount").innerText = "0 VNĐ";
+				// Gửi yêu cầu để cập nhật tổng tiền không có khuyến mãi
+				$
+						.ajax({
+							url : "/remove-discount",
+							type : "POST",
+							contentType : "application/json",
+							success : function(response) {
+								if (response.success) {
+									document.getElementById("totalAmount").innerText = response.newTotal
+											+ " VNĐ";
+								} else {
+									alert(response.message);
+								}
+							},
+							error : function() {
+								alert("Có lỗi xảy ra, vui lòng thử lại sau.");
+							}
+						});
+			}
+		}
+
+		function applyDiscount() {
+			var discountCode = document.getElementById("discountCode").value;
+
+			if (discountCode.trim() === "") {
+				// Nếu mã khuyến mãi trống, không thực hiện gì
+				return;
+			}
+
+			$
+					.ajax({
+						url : "/apply-discount",
+						type : "POST",
+						contentType : "application/json",
+						data : JSON.stringify({
+							"discountCode" : discountCode
+						}),
+						success : function(response) {
+							if (response.success) {
+								document.getElementById("discountAmount").innerText = response.discountAmount
+										+ " VNĐ";
+								document.getElementById("totalAmount").innerText = response.total
+										+ " VNĐ";
+							} else {
+								alert(response.message);
+							}
+						},
+						error : function() {
+							alert("Có lỗi xảy ra, vui lòng thử lại sau.");
+						}
+					});
+		}
+
+		var checkbox1 = document.getElementById('agreeTerms');
+		var confirmBtn = document.getElementById('confirmBtn');
+		var checkbox2 = document.getElementById('noteCheck');
+		var noteInputContainer = document
+				.getElementById('note-input-container');
+		var noteInput = document.getElementById('noteInput');
+
+		// Thêm sự kiện change cho checkbox1
+		checkbox1.addEventListener('change', function() {
+			// Nếu checkbox1 được chọn, bật nút thanh toán, ngược lại vô hiệu hóa
+			confirmBtn.disabled = !this.checked;
+		});
+
+		// Thêm sự kiện change cho checkbox2
+		checkbox2.addEventListener('change', function() {
+			// Nếu checkbox2 được chọn, hiển thị email input, ngược lại ẩn đi
+			noteInputContainer.style.display = this.checked ? 'block' : 'none';
+			if (this.checked) {
+				noteInput.focus();
+			}
+		});
+	</script>
+	<!-- Bootstrap core JavaScript -->
+	<script src="/vendor/jquery/jquery.min.js"></script>
+	<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="/assets/js/isotope.min.js"></script>
+	<script src="/assets/js/owl-carousel.js"></script>
+	<script src="/assets/js/tabs.js"></script>
+	<script src="/assets/js/popup.js"></script>
+	<script src="/assets/js/custom.js"></script>
+</body>
+</html>
+<!-- 				<div class="row mb-3"> -->
+<!-- 					<label for="inputPassword2" class="col-sm-2 col-form-label">Tỉnh/Thành -->
+<!-- 						Phố</label> -->
+<!-- 					<div class="col-sm-10"> -->
+<!-- 						<select class="form-select form-control" id="tinh" -->
+<!-- 							name="province_Id" aria-label="Default select example" required> -->
+<!-- 							<option value="0">Tỉnh Thành</option> -->
+<!-- 						</select> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
+<!-- 				<div class="row mb-3"> -->
+<!-- 					<label for="inputPassword4" class="col-sm-2 col-form-label">Quận/Huyện</label> -->
+<!-- 					<div class="col-sm-10"> -->
+<!-- 						<select class="form-select form-control" id="quan" -->
+<!-- 							name="district_Id" aria-label="Default select example" required> -->
+<!-- 							<option value="0">Quận/Huyện</option> -->
+<!-- 						</select> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
+<!-- 				<div class="row mb-3"> -->
+<!-- 					<label for="inputPassword5" class="col-sm-2 col-form-label">Phường/Xã</label> -->
+<!-- 					<div class="col-sm-10"> -->
+<!-- 						<select class="form-select form-control" id="phuong" -->
+<!-- 							name="commune_Id" aria-label="Default select example"required> -->
+<!-- 							<option value="0">Phường/Xã</option> -->
+<!-- 						</select> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
+<!-- 				<div class="row mb-3"> -->
+<!-- 					<label for="inputPassword6" class="col-sm-2 col-form-label">Địa -->
+<!-- 						chỉ nhận hàng</label> -->
+<!-- 					<div class="col-sm-10"> -->
+<!-- 						<input type="text" class="form-control" id="inputPassword3" -->
+<!-- 							placeholder="Nhập địa chỉ nhận hàng" name="street"required> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
+<!-- 			</div> -->

@@ -69,8 +69,8 @@ public class User {
 	@JoinColumn(name = "status_id")
 	private UserStatus status;
 
-	// @OneToMany(mappedBy = "user")
-	// private List<Seller> sellers;
+	@OneToMany(mappedBy = "user")
+	private List<Seller> sellers;
 
 	// @OneToMany(mappedBy = "user")
 	// private List<Address> addresses;

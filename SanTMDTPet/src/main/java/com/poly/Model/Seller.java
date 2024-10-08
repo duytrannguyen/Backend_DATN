@@ -37,7 +37,7 @@ public class Seller {
     private String avtShop;
 
     @Column(name = "backround")
-    private String backround;
+    private String background;
 
     @Column(name = "type_business")
     private String typeBusiness;
