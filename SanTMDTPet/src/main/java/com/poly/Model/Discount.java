@@ -33,7 +33,7 @@ public class Discount {
 
 	@Column(nullable = false)
 	@NotNull(message = "{NotNull.vc.quantity}")
-	// @Min(value = 1, message = "{Min.vc.quantity}")
+	@Min(value = 1, message = "{Min.vc.quantity}")
 	@Max(value = 100, message = "{Max.vc.quantity}")
 	Integer quantity;
 
@@ -67,8 +67,8 @@ public class Discount {
 	@Column(name = "status_id")
 	Integer statusId;
 
-//	@OneToMany(mappedBy = "discount")
-//	List<DiscountDetail> DiscountDetail;
+	// @OneToMany(mappedBy = "discount")
+	// List<DiscountDetail> DiscountDetail;
 
 	public boolean isValid() {
 		return startDate != null && endDate != null && !startDate.after(endDate);

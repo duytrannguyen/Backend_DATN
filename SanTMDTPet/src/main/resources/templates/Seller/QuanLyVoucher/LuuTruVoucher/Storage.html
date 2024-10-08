@@ -1,174 +1,206 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-<link rel="stylesheet" th:href="@{/css/style.css}">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/js/all.min.js" integrity="sha512-naukR7I+Nk6gp7p5TMA4ycgfxaZBJ7MO5iC3Fp6ySQyKFHOGfpkSZkYVWV5R7u7cfAicxanwYQ5D1e17EfJcMA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<style type="text/css">
-.card {
-	margin-top: 15px;
-	padding: 20px;
-}
-.form-check {
-	font-size: small;
-}
-a {
-	color: black;
-	text-decoration: none;
-}
-</style>
+    <meta charset="UTF-8" />
+    <title>Insert title here</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+        integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/js/all.min.js"
+        integrity="sha512-naukR7I+Nk6gp7p5TMA4ycgfxaZBJ7MO5iC3Fp6ySQyKFHOGfpkSZkYVWV5R7u7cfAicxanwYQ5D1e17EfJcMA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <style type="text/css">
+        .card {
+            margin-top: 15px;
+            padding: 20px;
+        }
+
+        .form-check {
+            font-size: small;
+        }
+
+        a {
+            color: black;
+            text-decoration: none;
+        }
+    </style>
 </head>
+
 <body>
-<nav aria-label="breadcrumb">
-	<ol class="breadcrumb">
-		<li class="breadcrumb-item text-primary"><a th:href="@{/admin}">Home</a></li>
-		<li class="breadcrumb-item active text-primary" aria-current="page">Lưu Trữ Vouchers</li>
-	</ol>
-</nav>
-<div class="col-md-12">
-	<div class="row">
-		<div class="col-md-2">
-			<h4>Voucher</h4>
-			
-			<div class="card shadow p-3 mb-5 bg-body-tertiary rounded">
-				<strong>Loại Voucher</strong>
-				<hr>
-				<form id="filter-form" method="get" action="/admin/voucher/storage">
-    <div class="form-group">
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" id="discountTypeAll"
-                       onchange="toggleAll(this)">
-                <label class="form-check-label" for="discountTypeAll">Tất cả</label>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item text-primary">
+                <a th:href="@{/admin}">Home</a>
+            </li>
+            <li class="breadcrumb-item active text-primary" aria-current="page">
+                Lưu Trữ Vouchers
+            </li>
+        </ol>
+    </nav>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-2">
+                <h4>Voucher</h4>
+
+                <div class="card shadow p-3 mb-5 bg-body-tertiary rounded">
+                    <strong>Loại Voucher</strong>
+                    <hr />
+                    <form id="filter-form" method="get" action="/admin/voucher/storage">
+                        <div class="form-group">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="discountTypeAll"
+                                    onchange="toggleAll(this)" />
+                                <label class="form-check-label" for="discountTypeAll">Tất cả</label>
+                            </div>
+                            <br />
+                            <div>
+                                <div th:each="discountType : ${discountTypes}">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input discount-type-checkbox" type="checkbox"
+                                            name="discountTypeId"
+                                            th:id="'discountType-' + ${discountType.discountTypeId}"
+                                            th:value="${discountType.discountTypeId}"
+                                            th:checked="${selectedDiscountTypeIds != null && selectedDiscountTypeIds.contains(discountType.discountTypeId)}" />
+                                        <label class="form-check-label"
+                                            th:for="'discountType-' + ${discountType.discountTypeId}"
+                                            th:text="${discountType.discountTypeName}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr />
+                        <strong>Dạng Voucher</strong>
+                        <div>
+                            <div th:each="status : ${discountStatus}">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input status-checkbox" type="checkbox" name="status"
+                                        th:id="'status-' + ${status.statusId}" th:value="${status.statusId}"
+                                        th:checked="${statusList != null && statusList.contains(status.statusId)}" />
+                                    <label class="form-check-label" th:for="'status-' + ${status.statusId}"
+                                        th:text="${status.statusName}"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Lọc</button>
+
+                </div>
+
+                </form>
             </div>
-            <br>
-            <div>
-                <div th:each="discountType : ${discountTypes}">
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input discount-type-checkbox" type="checkbox" name="discountTypeId"
-                               th:id="'discountType-' + ${discountType.discountTypeId}"
-                               th:value="${discountType.discountTypeId}"
-                               th:checked="${selectedDiscountTypeIds != null && selectedDiscountTypeIds.contains(discountType.discountTypeId)}">
-                        <label class="form-check-label" th:for="'discountType-' + ${discountType.discountTypeId}"
-                               th:text="${discountType.discountTypeName}"></label>
-                    </div>
+        
+        <div class="col-md-10">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-5"></div>
+                </div>
+            </div>
+            <br />
+            <div class="card shadow p-3 mb-5 bg-body-tertiary rounded">
+                <table class="table table-hover" id="myTable">
+                    <thead>
+                        <tr>
+                            <th>Mã Voucher</th>
+                            <th>Số Lượng</th>
+                            <th>Loại Voucher</th>
+                            <th>Ngày Bắt Đầu</th>
+                            <th>Ngày Kết Thúc</th>
+                            <th>Giá Trị Voucher</th>
+                            <th>Giá Áp Dụng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:if="${noVouchersFound}">
+                            <td colspan="7">
+                                <label class="text-danger"> Không tìm thấy voucher.</label>
+                            </td>
+                        </tr>
+                        <tr th:each="c : ${vouchers}">
+                            <td th:text="${c.discountCode}"></td>
+                            <td th:text="${c.quantity}"></td>
+                            <td th:text="${c.discountType.discountTypeName}"></td>
+                            <td th:text="${#dates.format(c.startDate, 'dd/MM/yyyy')}"></td>
+                            <td th:text="${#dates.format(c.endDate, 'dd/MM/yyyy')}"></td>
+                            <td th:text="${#numbers.formatCurrency(c.discountValue)}">
+                                VNĐ
+                            </td>
+                            <td th:text="${#numbers.formatCurrency(c.minInvoiceAmount)}">
+                                VNĐ
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="d-flex justify-content-center" aria-label="Page navigation example">
+                    <ul class="pagination" th:if="${totalPages > 1}">
+                        <!-- First Page Link -->
+                        <li class="page-item" th:classappend="${pageNo == 0} ? 'disabled'">
+                            <a class="page-link"
+                                th:href="@{/admin/voucher/storage(pageNo=0, key=${key}, discountTypeId=${selectedDiscountTypeIds}, status=${statusList})}">First</a>
+                        </li>
+                        <!-- Previous Page Link -->
+                        <li class="page-item" th:classappend="${pageNo == 0} ? 'disabled'">
+                            <a class="page-link"
+                                th:href="@{/admin/voucher/storage(pageNo=${pageNo - 1}, key=${key}, discountTypeId=${selectedDiscountTypeIds}, status=${statusList})}">Previous</a>
+                        </li>
+                        <!-- Page Number Links -->
+                        <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                            th:classappend="${pageNo == i} ? 'active'">
+                            <a class="page-link"
+                                th:href="@{/admin/voucher/storage(pageNo=${i}, key=${key}, discountTypeId=${selectedDiscountTypeIds}, status=${statusList})}"
+                                th:text="${i + 1}"></a>
+                        </li>
+                        <!-- Next Page Link -->
+                        <li class="page-item" th:classappend="${pageNo == totalPages - 1} ? 'disabled'">
+                            <a class="page-link"
+                                th:href="@{/admin/voucher/storage(pageNo=${pageNo + 1}, key=${key}, discountTypeId=${selectedDiscountTypeIds}, status=${statusList})}">Next</a>
+                        </li>
+                        <!-- Last Page Link -->
+                        <li class="page-item" th:classappend="${pageNo == totalPages - 1} ? 'disabled'">
+                            <a class="page-link"
+                                th:href="@{/admin/voucher/storage(pageNo=${totalPages - 1}, key=${key}, discountTypeId=${selectedDiscountTypeIds}, status=${statusList})}">Last</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
-
-    <hr>
-    <strong>Dạng Voucher</strong>
-    <div class="form-check form-check-inline">
-        <input class="form-check-input status-checkbox" type="checkbox" name="status" id="statusPending" value="4"
-               th:checked="${statusList != null && statusList.contains(4)}">
-        <label class="form-check-label" for="statusPending">Chờ Phát Hành</label>
     </div>
-    <div class="form-check form-check-inline">
-        <input class="form-check-input status-checkbox" type="checkbox" name="status" id="statusExpired" value="5"
-               th:checked="${statusList != null && statusList.contains(5)}">
-        <label class="form-check-label" for="statusExpired">Hết Hạn</label>
     </div>
-    <div class="form-check form-check-inline">
-        <input class="form-check-input status-checkbox" type="checkbox" name="status" id="statusUsed" value="6"
-               th:checked="${statusList != null && statusList.contains(6)}">
-        <label class="form-check-label" for="statusUsed">Đã Dùng Hết</label>
     </div>
-    <button type="submit" class="btn btn-primary">Lọc</button>
-</form>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function toggleAll(source) {
+            const checkboxes = document.querySelectorAll(".discount-type-checkbox");
+            checkboxes.forEach((checkbox) => {
+                checkbox.checked = source.checked;
+            });
+        }
 
-			</div>
-		</div>
-		<div class="col-md-10">
-			<div class="col-md-12">
-				<div class="row">
-					<div class="col-md-2"></div>
-					<div class="col-md-5"></div>
-				</div>
-			</div>
-			<br>
-			<div class="card shadow p-3 mb-5 bg-body-tertiary rounded">
-				<table class="table table-hover" id="myTable">
-					<thead>
-						<tr>
-							<th>Mã Voucher</th>
-							<th>Số Lượng</th>
-							<th>Loại Voucher</th>
-							<th>Ngày Bắt Đầu</th>
-							<th>Ngày Kết Thúc</th>
-							<th>Giá Trị Voucher</th>
-							<th>Giá Áp Dụng</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr th:if="${noVouchersFound}">
-							<td colspan="7"><label class="text-danger"> Không tìm thấy voucher.</label></td>
-						</tr>
-						<tr th:each="c : ${vouchers}">
-							<td th:text="${c.discountCode}"></td>
-							<td th:text="${c.quantity}"></td>
-							<td th:text="${c.discountType.discountTypeName}"></td>
-							<td th:text="${#dates.format(c.startDate, 'dd/MM/yyyy')}"></td>
-							<td th:text="${#dates.format(c.endDate, 'dd/MM/yyyy')}"></td>
-							<td th:text="${#numbers.formatCurrency(c.discountValue)}">VNĐ</td>
-							<td th:text="${#numbers.formatCurrency(c.minInvoiceAmount)}">VNĐ</td>
-						</tr>
-					</tbody>
-				</table>
-				<div class="d-flex justify-content-center" aria-label="Page navigation example">
-    <ul class="pagination" th:if="${totalPages > 1}">
-        <!-- First Page Link -->
-        <li class="page-item" th:classappend="${pageNo == 0} ? 'disabled'">
-            <a class="page-link" th:href="@{/admin/voucher/storage(pageNo=0, key=${key}, discountTypeId=${selectedDiscountTypeIds}, status=${statusList})}">First</a>
-        </li>
-        <!-- Previous Page Link -->
-        <li class="page-item" th:classappend="${pageNo == 0} ? 'disabled'">
-            <a class="page-link" th:href="@{/admin/voucher/storage(pageNo=${pageNo - 1}, key=${key}, discountTypeId=${selectedDiscountTypeIds}, status=${statusList})}">Previous</a>
-        </li>
-        <!-- Page Number Links -->
-        <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
-            th:classappend="${pageNo == i} ? 'active'">
-            <a class="page-link" th:href="@{/admin/voucher/storage(pageNo=${i}, key=${key}, discountTypeId=${selectedDiscountTypeIds}, status=${statusList})}" th:text="${i + 1}"></a>
-        </li>
-        <!-- Next Page Link -->
-        <li class="page-item" th:classappend="${pageNo == totalPages - 1} ? 'disabled'">
-            <a class="page-link" th:href="@{/admin/voucher/storage(pageNo=${pageNo + 1}, key=${key}, discountTypeId=${selectedDiscountTypeIds}, status=${statusList})}">Next</a>
-        </li>
-        <!-- Last Page Link -->
-        <li class="page-item" th:classappend="${pageNo == totalPages - 1} ? 'disabled'">
-            <a class="page-link" th:href="@{/admin/voucher/storage(pageNo=${totalPages - 1}, key=${key}, discountTypeId=${selectedDiscountTypeIds}, status=${statusList})}">Last</a>
-        </li>
-    </ul>
-</div>
+        function updateSelectAllCheckbox() {
+            const selectAllCheckbox = document.getElementById("discountTypeAll");
+            const checkboxes = document.querySelectorAll(".discount-type-checkbox");
+            const allChecked = Array.from(checkboxes).every(
+                (checkbox) => checkbox.checked
+            );
 
-			</div>
-		</div>
-	</div>
-</div>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    function toggleAll(source) {
-        const checkboxes = document.querySelectorAll('.discount-type-checkbox');
-        checkboxes.forEach(checkbox => {
-            checkbox.checked = source.checked;
-        });
-    }
+            selectAllCheckbox.checked = allChecked;
+        }
 
-    function updateSelectAllCheckbox() {
-        const selectAllCheckbox = document.getElementById('discountTypeAll');
-        const checkboxes = document.querySelectorAll('.discount-type-checkbox');
-        const allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
-
-        selectAllCheckbox.checked = allChecked;
-    }
-
-    document.querySelectorAll('.discount-type-checkbox').forEach(checkbox => {
-        checkbox.addEventListener('change', updateSelectAllCheckbox);
-    });
+        document
+            .querySelectorAll(".discount-type-checkbox")
+            .forEach((checkbox) => {
+                checkbox.addEventListener("change", updateSelectAllCheckbox);
+            });
     </script>
-
 </body>
+
 </html>
+
