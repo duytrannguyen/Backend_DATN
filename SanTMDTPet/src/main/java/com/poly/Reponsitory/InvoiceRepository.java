@@ -11,8 +11,10 @@ import com.poly.Model.User;
 
 @Repository
 public interface InvoiceRepository extends JpaRepository<Invoice, Integer> {
-    // // Truy vấn để lấy danh sách hóa đơn theo user_id
-    List<Invoice> findByUser_UsersId(Integer usersId);
 
-    Optional<Invoice> findById(Integer invoiceId);
+	// // Truy vấn để lấy danh sách hóa đơn theo user_id
+	List<Invoice> findByUser_UsersId(Integer usersId);
+
+	Optional<Invoice> findById(Integer invoiceId);
 }
+

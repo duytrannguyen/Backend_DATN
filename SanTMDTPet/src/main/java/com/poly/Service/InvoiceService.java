@@ -47,9 +47,11 @@ public class InvoiceService {
         return invoiceRepository.findAll();
     }
 
+
     public List<Invoice> getInvoicesByUserId(Integer userId) {
         return invoiceRepository.findByUser_UsersId(userId);
     }
+
 
     public Invoice getInvoiceById(Integer invoiceId) {
         return invoiceRepository.findById(invoiceId)

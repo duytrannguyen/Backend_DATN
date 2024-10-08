@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Thanh toán thất bại</title>
+<!--     <link rel="stylesheet" href="/css/style.css"> -->
+<style type="text/css">
+body, h1, h2, p, a {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Thiết lập nền và màu chữ cho toàn trang */
+body {
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Định dạng tiêu đề */
+header {
+    background-color: #007bff;
+    color: #fff;
+    padding: 1rem;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+}
+
+/* Định dạng phần chính */
+main {
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+main section {
+    text-align: center;
+}
+
+main h2 {
+    color: #dc3545; /* Màu đỏ cho thông báo lỗi */
+}
+
+main p {
+    font-size: 1.2rem;
+    margin: 1rem 0;
+}
+
+.button {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    margin-top: 1rem;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}
+ .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 600px; 
+            margin:auto;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+/* /* Định dạng footer */ */
+/* footer { */
+/*     text-align: center; */
+/*     padding: 1rem; */
+/*     background-color: #007bff; */
+/*     color: #fff; */
+/*     position: absolute; */
+/*     bottom: 0; */
+/*     width: 100%; */
+/* } */
+
+</style>
+<link rel="stylesheet" href="/assets/css/templatemo-liberty-market.css">
+</head>
+<body>
+<div class="page-heading normal-space">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-12">
+					<h2 style="text-align: center;">Trang Kết Quả</h2>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+    <div class="container">
+    <h1>Thanh toán thất bại!</h1>
+        <img
+           src="https://www.freeiconspng.com/uploads/error-icon-4.png"
+             alt="Thất bại"
+            style="width: 100px;">
+        <section>
+            <h2>Giao dịch không thành công</h2>
+<!--             <p th:text="'Mã lỗi: ' + ${errorCode}"></p> -->
+            <p th:text="'Chi tiết lỗi: ' + ${errorMessage}"></p>
+            <a th:href="@{/home/index}">Quay về Trang chủ</a>
+        </section>
+    </div>
+</body>
+</html>

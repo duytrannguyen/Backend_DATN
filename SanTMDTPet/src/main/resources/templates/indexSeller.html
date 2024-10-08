@@ -1,414 +1,294 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Quản trị viên</title>
-    <!-- icon -->
-    <link
-      rel="shortcut icon"
-      href="/assets/images/logobook.ico"
-      type="image/x-icon"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
-      integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/js/all.min.js"
-      integrity="sha512-naukR7I+Nk6gp7p5TMA4ycgfxaZBJ7MO5iC3Fp6ySQyKFHOGfpkSZkYVWV5R7u7cfAicxanwYQ5D1e17EfJcMA=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-    <!-- 	Link css -->
-    <link rel="stylesheet" href="/assets/css/adminTem.css" />
-    <style type="text/css">
-      .main-sidebar {
-        width: 250px; /* Adjust the width as desired */
-        transition: width 0.3s ease-in-out;
-        /* Add a smooth transition effect */
-      }
+<head>
+<meta charset="UTF-8">
+<title>Quản trị viên</title>
+<!-- icon -->
+<link rel="shortcut icon" href="/assets/images/logobook.ico"
+	type="image/x-icon">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+	integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+	crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/js/all.min.js"
+	integrity="sha512-naukR7I+Nk6gp7p5TMA4ycgfxaZBJ7MO5iC3Fp6ySQyKFHOGfpkSZkYVWV5R7u7cfAicxanwYQ5D1e17EfJcMA=="
+	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- 	Link css -->
+<link rel="stylesheet" href="/assets/css/adminTem.css">
+<style type="text/css">
+.main-sidebar {
+	width: 250px; /* Adjust the width as desired */
+	transition: width 0.3s ease-in-out;
+	/* Add a smooth transition effect */
+}
 
-      .sidebar-collapse .main-sidebar {
-        width: 250px; /* Adjust the collapsed width as desired */
-      }
+.sidebar-collapse .main-sidebar {
+	width: 250px; /* Adjust the collapsed width as desired */
+}
 
-      .sidebar-collapse .main-sidebar {
-        width: 50px !important;
-      }
+.sidebar-collapse .main-sidebar {
+	width: 50px !important;
+}
 
-      .nav-link.active {
-        background-color: #007bff; /* Change this to your desired color */
-        color: #fff;
-      }
+.nav-link.active {
+	background-color: #007bff; /* Change this to your desired color */
+	color: #fff;
+}
 
-      /* CSS cho hiệu ứng loading */
-      .loader {
-        position: relative;
-        width: 64px;
-        height: 64px;
-      }
-
-      .loader div {
-        position: absolute;
-        border: 4px solid #454ade;
-        border-radius: 50%;
-        animation: loader8435 1s ease-out infinite;
-      }
-
-      .loader div:nth-child(2) {
-        animation-delay: -0.5s;
-      }
-
-      @keyframes loader8435 {
-        0% {
-          top: 32px;
-          left: 32px;
-          width: 0;
-          height: 0;
-          opacity: 1;
-        }
-
-        100% {
-          top: 0;
-          left: 0;
+ /* CSS cho hiệu ứng loading */
+        .loader {
+          position: relative;
           width: 64px;
           height: 64px;
-          opacity: 0;
         }
-      }
 
-      /* Vị trí trung tâm màn hình */
-      #loading {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 9999;
-      }
-    </style>
-  </head>
-  <body>
-    <!-- Hiệu ứng loading -->
+        .loader div {
+          position: absolute;
+          border: 4px solid #454ade;
+          border-radius: 50%;
+          animation: loader8435 1s ease-out infinite;
+        }
+
+        .loader div:nth-child(2) {
+          animation-delay: -0.5s;
+        }
+
+        @keyframes loader8435 {
+          0% {
+            top: 32px;
+            left: 32px;
+            width: 0;
+            height: 0;
+            opacity: 1;
+          }
+
+          100% {
+            top: 0;
+            left: 0;
+            width: 64px;
+            height: 64px;
+            opacity: 0;
+          }
+        }
+
+        /* Vị trí trung tâm màn hình */
+        #loading {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+        }
+
+</style>
+</head>
+<body><!-- Hiệu ứng loading -->
     <div id="loading" class="loader">
-      <div></div>
-      <div></div>
+        <div></div>
+        <div></div>
     </div>
-    <div class="wrapper">
-      <!-- Navbar -->
-      <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-        <div class="container-fluid">
-          <div class="col-md-12">
-            <div class="row">
-              <div class="col-md-7">
-                <!-- Left navbar links -->
-                <ul class="navbar-nav">
-                  <li class="nav-item">
-                    <button
-                      class="btn btn-sidebar"
-                      data-widget="pushmenu"
-                      role="button"
-                    >
-                      <i class="fas fa-bars"></i>
-                    </button>
-                  </li>
-                  <li class="nav-item d-none d-sm-inline-block">
-                    <a href="/admin/index" class="nav-link">Home</a>
-                  </li>
-                  <li class="nav-item d-none d-sm-inline-block">
-                    <a href="/home/index" class="nav-link">Web</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </nav>
-      <!-- /.navbar -->
+	<div class="wrapper">
+		<!-- Navbar -->
+		<nav
+			class="main-header navbar navbar-expand navbar-white navbar-light">
+			<div class="container-fluid">
+				<div class="col-md-12">
+					<div class="row">
+						<div class="col-md-7">
+							<!-- Left navbar links -->
+							<ul class="navbar-nav">
+								<li class="nav-item">
+									<button class="btn btn-sidebar" data-widget="pushmenu"
+										role="button">
+										<i class="fas fa-bars"></i>
+									</button>
+								</li>
+								<li class="nav-item d-none d-sm-inline-block"><a
+									href="/seller/index" class="nav-link">Home</a></li>
+								<li class="nav-item d-none d-sm-inline-block"><a
+									href="/home/index" class="nav-link">Web</a></li>
+							</ul>
+						</div>
 
-      <!-- Main Sidebar Container -->
-      <aside
-        class="main-sidebar sidebar-dark-primary elevation-4 sidebar-collapse"
-      >
-        <!-- Brand Logo -->
-        <a href="/admin/index" class="brand-link">
-          <img
-            src="/images/logo.jpg"
-            alt="AdminLTE Logo"
-            class="brand-image img-circle elevation-3"
-            style="opacity: 0.8"
-          />
-          <span class="brand-text font-weight-light">Admin</span>
-        </a>
+					</div>
+				</div>
+			</div>
+		</nav>
+		<!-- /.navbar -->
 
-        <!-- Sidebar -->
-        <div class="sidebar">
-          <!-- Sidebar user panel (optional) -->
-          <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-            <div class="image">
-              <img
-                src="/images/logo.jpg"
-                class="img-circle elevation-2"
-                alt="User Image"
-              />
-            </div>
-            <div class="info">
-              <!-- <a href="#" class="d-block" th:text="${session.user.fullName}">User
-							Name</a> -->
-            </div>
-          </div>
+		<!-- Main Sidebar Container -->
+		<aside
+			class="main-sidebar sidebar-dark-primary elevation-4 sidebar-collapse">
+			<!-- Brand Logo -->
+			<a href="/seller/index" class="brand-link"> <img
+				src="/images/logo.jpg" alt="AdminLTE Logo"
+				class="brand-image img-circle elevation-3" style="opacity: .8">
+				<span class="brand-text font-weight-light">Admin</span>
+			</a>
 
-          <nav class="mt-2">
-            <ul
-              class="nav nav-pills nav-sidebar flex-column"
-              data-widget="treeview"
-              role="menu"
-              data-accordion="false"
-            >
-              <li class="nav-item">
-                <a
-                  href="/#"
-                  class="nav-link"
-                  role="button"
-                  aria-expanded="false"
-                >
-                  <p>TRANG CHỦ</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a
-                  href="#orderMenu"
-                  class="nav-link"
-                  data-bs-toggle="collapse"
-                  role="button"
-                  aria-expanded="false"
-                  aria-controls="orderMenu"
-                >
-                  <p>ĐƠN HÀNG</p>
-                </a>
-                <ul class="collapse nav flex-column ms-3" id="orderMenu">
-                  <li class="nav-item">
-                    <a href="/admin/payment/list" class="nav-link"
-                      >Danh Sách Đơn</a
-                    >
-                  </li>
-                </ul>
-              </li>
-              <li class="nav-item">
-                <a
-                  href="#customerMenu"
-                  class="nav-link"
-                  data-bs-toggle="collapse"
-                  role="button"
-                  aria-expanded="false"
-                  aria-controls="customerMenu"
-                >
-                  <p>KHÁCH HÀNG</p>
-                </a>
-                <ul class="collapse nav flex-column ms-3" id="customerMenu">
-                  <li class="nav-item">
-                    <a href="/admin/client/list" class="nav-link"
-                      >Danh Sách Khách Hàng</a
-                    >
-                  </li>
-                  <li class="nav-item">
-                    <a href="/admin/client/storage" class="nav-link"
-                      >Lưu Trữ Khách Hàng</a
-                    >
-                  </li>
-                </ul>
-              </li>
-              <li class="nav-item">
-                <a
-                  href="#productMainMenu"
-                  class="nav-link"
-                  data-bs-toggle="collapse"
-                  role="button"
-                  aria-expanded="false"
-                  aria-controls="productMainMenu"
-                >
-                  <p>SẢN PHẨM</p>
-                </a>
-                <ul class="collapse nav flex-column ms-3" id="productMainMenu">
-                  <li class="nav-item">
-                    <a
-                      href="#productMenu"
-                      class="nav-link"
-                      data-bs-toggle="collapse"
-                      role="button"
-                      aria-expanded="false"
-                      aria-controls="productMenu"
-                    >
-                      <i class="fas fa-circle nav-icon"></i>
-                      <p>Sản Phẩm</p>
-                    </a>
-                    <ul class="collapse nav flex-column ms-3" id="productMenu">
-                      <li class="nav-item">
-                        <a href="/admin/products/list" class="nav-link"
-                          >Danh Sách Sản Phẩm</a
-                        >
-                      </li>
-                      <li class="nav-item">
-                        <a href="/admin/products/storage" class="nav-link"
-                          >Sản Phẩm Lưu Trữ</a
-                        >
-                      </li>
-                    </ul>
-                  </li>
-                  <li class="nav-item">
-                    <a
-                      href="#typeProductMenu"
-                      class="nav-link"
-                      data-bs-toggle="collapse"
-                      role="button"
-                      aria-expanded="false"
-                      aria-controls="typeProductMenu"
-                    >
-                      <i class="fas fa-circle nav-icon"></i>
-                      <p>Loại Sản Phẩm</p>
-                    </a>
-                    <ul
-                      class="collapse nav flex-column ms-3"
-                      id="typeProductMenu"
-                    >
-                      <li class="nav-item">
-                        <a href="/admin/Category" class="nav-link"
-                          >Danh Sách Loại</a
-                        >
-                      </li>
-                      <li class="nav-item">
-                        <a href="/admin/Category/storage" class="nav-link"
-                          >Loại Sản Phẩm Lưu Trữ</a
-                        >
-                      </li>
-                    </ul>
-                  </li>
-                </ul>
-              </li>
-              <li class="nav-item">
-                <a
-                  href="#voucherMainMenu"
-                  class="nav-link"
-                  data-bs-toggle="collapse"
-                  role="button"
-                  aria-expanded="false"
-                  aria-controls="voucherMainMenu"
-                >
-                  <p>VOUCHER</p>
-                </a>
-                <ul class="collapse nav flex-column ms-3" id="voucherMainMenu">
-                  <li class="nav-item">
-                    <a
-                      href="#voucherMenu"
-                      class="nav-link"
-                      data-bs-toggle="collapse"
-                      role="button"
-                      aria-expanded="false"
-                      aria-controls="voucherMenu"
-                    >
-                      <i class="fas fa-circle nav-icon"></i>
-                      <p>Voucher</p>
-                    </a>
-                    <ul class="collapse nav flex-column ms-3" id="voucherMenu">
-                      <li class="nav-item">
-                        <a href="/admin/voucher/list" class="nav-link"
-                          >Danh Sách Vouchers</a
-                        >
-                      </li>
-                      <li class="nav-item">
-                        <a href="/admin/voucher/storage" class="nav-link"
-                          >Voucher Lưu Trữ</a
-                        >
-                      </li>
-                    </ul>
-                  </li>
-                  <li class="nav-item">
-                    <a
-                      href="#typeVoucherMenu"
-                      class="nav-link"
-                      data-bs-toggle="collapse"
-                      role="button"
-                      aria-expanded="false"
-                      aria-controls="typeVoucherMenu"
-                    >
-                      <i class="fas fa-circle nav-icon"></i>
-                      <p>Loại Voucher</p>
-                    </a>
-                    <ul
-                      class="collapse nav flex-column ms-3"
-                      id="typeVoucherMenu"
-                    >
-                      <li class="nav-item">
-                        <a href="/admin/voucher-type/list" class="nav-link"
-                          >Danh Sách Loại Voucher</a
-                        >
-                      </li>
-                      <li class="nav-item">
-                        <a href="/admin/voucher-type/storage" class="nav-link"
-                          >Loại Voucher Lưu Trữ</a
-                        >
-                      </li>
-                    </ul>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </aside>
-      <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <div class="content-header">
-          <div class="container-fluid">
-            <section th:replace="~{${view}}"></section>
-          </div>
-        </div>
-      </div>
-      <footer class="main-footer">
-        <strong
-          >Copyright &copy; 2022-2024
-          <a href="https://adminlte.io">Cao đẳng FPT Poly</a>.
-        </strong>
-        Nhóm 2.
-        <!-- <div class="float-right d-none d-sm-inline-block">
+			<!-- Sidebar -->
+			<div class="sidebar">
+				<!-- Sidebar user panel (optional) -->
+				<div class="user-panel mt-3 pb-3 mb-3 d-flex">
+					<div class="image">
+						<img src="/images/logo.jpg" class="img-circle elevation-2"
+							alt="User Image">
+					</div>
+					 <div class="info">
+						<a href="#" class="d-block" th:text="${session.user.fullName}">User
+							Name</a>
+					</div>  
+				</div>
+
+				<nav class="mt-2">
+					<ul class="nav nav-pills nav-sidebar flex-column"
+						data-widget="treeview" role="menu" data-accordion="false">
+						<li class="nav-item"><a href="/#" class="nav-link"
+							role="button" aria-expanded="false">
+								<p>TRANG CHỦ</p>
+						</a></li>
+						<li class="nav-item"><a href="#orderMenu" class="nav-link"
+							data-bs-toggle="collapse" role="button" aria-expanded="false"
+							aria-controls="orderMenu">
+								<p>ĐƠN HÀNG</p>
+						</a>
+							<ul class="collapse nav flex-column ms-3" id="orderMenu">
+								<li class="nav-item"><a href="/seller/order/list"
+									class="nav-link">Danh Sách Đơn</a></li>
+							</ul></li>
+						<li class="nav-item"><a href="#customerMenu" class="nav-link"
+							data-bs-toggle="collapse" role="button" aria-expanded="false"
+							aria-controls="customerMenu">
+								<p>KHÁCH HÀNG</p>
+						</a>
+							<ul class="collapse nav flex-column ms-3" id="customerMenu">
+								<li class="nav-item"><a href="/seller/client/list"
+									class="nav-link">Danh Sách Khách Hàng</a></li>
+								<li class="nav-item"><a href="/seller/client/storage"
+									class="nav-link">Lưu Trữ Khách Hàng</a></li>
+							</ul></li>
+						<li class="nav-item"><a href="#productMainMenu"
+							class="nav-link" data-bs-toggle="collapse" role="button"
+							aria-expanded="false" aria-controls="productMainMenu">
+								<p>SẢN PHẨM</p>
+						</a>
+							<ul class="collapse nav flex-column ms-3" id="productMainMenu">
+								<li class="nav-item"><a href="#productMenu"
+									class="nav-link" data-bs-toggle="collapse" role="button"
+									aria-expanded="false" aria-controls="productMenu"> <i
+										class="fas fa-circle nav-icon"></i>
+									<p>Sản Phẩm</p>
+								</a>
+									<ul class="collapse nav flex-column ms-3" id="productMenu">
+										<li class="nav-item"><a href="/seller/products/list"
+											class="nav-link">Danh Sách Sản Phẩm</a></li>
+										<li class="nav-item"><a href="/seller/products/storage"
+											class="nav-link">Sản Phẩm Lưu Trữ</a></li>
+									</ul></li>
+								<li class="nav-item"><a href="#typeProductMenu"
+									class="nav-link" data-bs-toggle="collapse" role="button"
+									aria-expanded="false" aria-controls="typeProductMenu"> <i
+										class="fas fa-circle nav-icon"></i>
+										<p>Loại Sản Phẩm</p>
+								</a>
+									<ul class="collapse nav flex-column ms-3" id="typeProductMenu">
+										<li class="nav-item"><a href="/seller/Category"
+											class="nav-link">Danh Sách Loại</a></li>
+										<li class="nav-item"><a href="/seller/Category/storage"
+											class="nav-link">Loại Sản Phẩm Lưu Trữ</a></li>
+									</ul></li>
+							</ul></li>
+						<li class="nav-item"><a href="#voucherMainMenu"
+							class="nav-link" data-bs-toggle="collapse" role="button"
+							aria-expanded="false" aria-controls="voucherMainMenu">
+								<p>VOUCHER</p>
+						</a>
+							<ul class="collapse nav flex-column ms-3" id="voucherMainMenu">
+								<li class="nav-item"><a href="#voucherMenu"
+									class="nav-link" data-bs-toggle="collapse" role="button"
+									aria-expanded="false" aria-controls="voucherMenu"> <i
+										class="fas fa-circle nav-icon"></i>
+										<p>Voucher</p>
+								</a>
+									<ul class="collapse nav flex-column ms-3" id="voucherMenu">
+										<li class="nav-item"><a href="/seller/voucher/list"
+											class="nav-link">Danh Sách Vouchers</a></li>
+										<li class="nav-item"><a href="/seller/voucher/storage"
+											class="nav-link">Voucher Lưu Trữ</a></li>
+									</ul></li>
+								<li class="nav-item"><a href="#typeVoucherMenu"
+									class="nav-link" data-bs-toggle="collapse" role="button"
+									aria-expanded="false" aria-controls="typeVoucherMenu"> <i
+										class="fas fa-circle nav-icon"></i>
+										<p>Loại Voucher</p>
+								</a>
+									<ul class="collapse nav flex-column ms-3" id="typeVoucherMenu">
+										<li class="nav-item"><a href="/seller/voucher-type/list"
+											class="nav-link">Danh Sách Loại Voucher</a></li>
+										<li class="nav-item"><a
+											href="/admin/voucher-type/storage" class="nav-link">Loại
+												Voucher Lưu Trữ</a></li>
+									</ul></li>
+							</ul></li>
+					</ul>
+				</nav>
+
+
+
+			</div>
+		</aside>
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<div class="content-header">
+				<div class="container-fluid">
+					<section th:replace="~{${view}}"></section>
+				</div>
+			</div>
+		</div>
+		<footer class="main-footer">
+			<strong>Copyright &copy; 2022-2024 <a
+				href="https://adminlte.io">Cao đẳng FPT Poly</a>.
+			</strong> Nhóm 2.
+			<!-- <div class="float-right d-none d-sm-inline-block">
 				<b>Version</b> 3.1.0
 			</div> -->
-      </footer>
-    </div>
-  </body>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script type="text/javascript">
-    $('[data-widget="pushmenu"]').on("click", function () {
-      $("body").toggleClass("sidebar-collapse");
-    });
-  </script>
+		</footer>
+	</div>
+</body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+	$('[data-widget="pushmenu"]').on('click', function() {
+		$('body').toggleClass('sidebar-collapse');
+	});
+</script>
 
-  <script type="text/javascript">
-    document.addEventListener("DOMContentLoaded", function () {
-      // Lấy tất cả các liên kết
-      const links = document.querySelectorAll(".nav-link");
 
-      links.forEach((link) => {
-        link.addEventListener("click", function () {
-          // Loại bỏ class 'active' từ tất cả các liên kết
-          links.forEach((l) => l.classList.remove("active"));
-          // Thêm class 'active' vào liên kết đang được nhấp
-          this.classList.add("active");
-        });
-      });
-    });
-  </script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', function () {
+	  // Lấy tất cả các liên kết
+	  const links = document.querySelectorAll('.nav-link');
+
+	  links.forEach(link => {
+	    link.addEventListener('click', function () {
+	      // Loại bỏ class 'active' từ tất cả các liên kết
+	      links.forEach(l => l.classList.remove('active'));
+	      // Thêm class 'active' vào liên kết đang được nhấp
+	      this.classList.add('active');
+	    });
+	  });
+	});
+
+</script>
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      var loader = document.getElementById("loading");
+        document.addEventListener("DOMContentLoaded", function() {
+            var loader = document.getElementById("loading");
 
-      // Ẩn hiệu ứng loading khi trang đã tải xong
-      window.addEventListener("load", function () {
-        loader.style.display = "none";
-      });
-    });
-  </script>
-  <!-- >>>>>>> ly -->
+            // Ẩn hiệu ứng loading khi trang đã tải xong
+            window.addEventListener("load", function() {
+                loader.style.display = "none";
+            });
+        });
+    </script>
+
 </html>

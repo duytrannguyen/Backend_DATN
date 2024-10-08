@@ -5,8 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import com.poly.Model.Category;
 
-
-
-@Repository
+@Repository("CategoryRepository")
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
 }
