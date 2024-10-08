@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-SanTmdtPetApplication<SanTMDTPet>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.poly.SanTmdtPetApplication",
+      "projectName": "SanTMDTPet",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}

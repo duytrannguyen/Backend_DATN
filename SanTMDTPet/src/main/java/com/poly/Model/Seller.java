@@ -58,6 +58,6 @@ public class Seller {
     @JoinColumn(name = "users_id", nullable = false)
     private User user;
 
-//    @OneToMany(mappedBy = "seller")
-//    private List<Product> products;
+    // @OneToMany(mappedBy = "seller")
+    // private List<Product> products;
 }
