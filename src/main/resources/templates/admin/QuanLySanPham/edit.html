@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Update Product</title>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="/css/style.css">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+	crossorigin="anonymous">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+	crossorigin="anonymous"></script>
+<style type="text/css">
+.card {
+	margin-top: 15px;
+	padding: 20px;
+}
+
+.form-control {
+	font-size: small;
+}
+
+.col-form-label {
+	font-size: small;
+}
+
+a {
+	color: black;
+	text-decoration: none;
+}
+</style>
+</head>
+<body>
+	<nav aria-label="breadcrumb">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a th:href="@{/admin/products/list}">List
+					Products</a></li>
+			<li class="breadcrumb-item active text-primary" aria-current="page">Form
+				Products</li>
+		</ol>
+	</nav>
+	<div aria-live="polite" aria-atomic="true" class="position-relative">
+		<div class="toast-container position-absolute p-3"
+			style="top: 0; right: 0;">
+			<!-- Toast for error messages -->
+			<div th:if="${not #lists.isEmpty(errorMessages)}" class="toast show"
+				role="alert" aria-live="assertive" aria-atomic="true">
+				<div class="toast-header bg-danger text-white">
+					<strong class="me-auto">Lỗi</strong>
+					<button type="button" class="btn-close btn-close-white"
+						data-bs-dismiss="toast" aria-label="Close"></button>
+				</div>
+				<div class="toast-body">
+					<ul>
+						<li th:each="error : ${errorMessages}" th:text="${error}"></li>
+					</ul>
+				</div>
+			</div>
+			<div th:if="${successMessage != null}" class="toast show"
+				role="alert" aria-live="assertive" aria-atomic="true">
+				<div class="toast-header bg-success text-white">
+					<strong class="me-auto">Thành công</strong>
+					<button type="button" class="btn-close btn-close-white"
+						data-bs-dismiss="toast" aria-label="Close"></button>
+				</div>
+				<div class="toast-body" th:text="${successMessage}"></div>
+			</div>
+		</div>
+	</div>
+	<div class="card">
+		<div class="card-header">
+			<h3>Cập Nhật Khách hàng</h3>
+		</div>
+		<form
+			th:action="@{/admin/products/update/{productId}(productId=${itemProd.productId})}"
+			method="post" enctype="multipart/form-data">
+			<div class="card col-1000">
+				<div class="card-body">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="productName">Tên sản phẩm:</label> <input
+									type="text" class="form-control" id="productName"
+									name="productName" th:value="${itemProd.productName}"
+									placeholder="">
+							</div>
+							<br>
+							<div class="form-group">
+								<label for="price">Giá bán:</label> <input type="number"
+									class="form-control" id="price" name="price"
+									th:value="${itemProd.price}" placeholder="">
+							</div>
+							<br>
+							<div class="form-group">
+								<label for="discountPercentage">Phần trăm giảm giá:</label> <input type="number"
+									class="form-control" id="discountPercentage" name="discountPercentage"
+									th:value="${itemProd.discountPercentage}" placeholder="">
+							</div>
+							<br>
+							<div class="form-group">
+								<label for="manufacturer">Nhà sản xuất:</label> <input
+									type="text" class="form-control" id="manufacturer"
+									name="manufacturer" th:value="${itemProd.manufacturer}"
+									placeholder="">
+							</div>
+							<br>
+							<div class="form-group">
+								<label for="postingDate">Ngày đăng bán:</label> <input
+									type="date" class="form-control" id="postingDate"
+									name="postingDate" th:value="${itemProd.postingDate}"
+									placeholder="">
+							</div>
+							<div class="form-group">
+								<label>Hình ảnh:</label> <input type="file" class="form-control"
+									name="img" /><br>
+								<div th:if="${itemProd.imageId != null}">
+									<img
+										th:src="@{/Image_SP/{imageName}(imageName=${itemProd.imageId.imageName})}"
+										alt="Product Image" style="max-width: 200px;">
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="publishingYear">Năm xuất bản:</label> <input
+									type="number" class="form-control" id="publishingYear"
+									name="publishingYear" th:value="${itemProd.publishingYear}"
+									placeholder="">
+							</div>
+							<br>
+							<div class="form-group">
+								<label for="weight">Khối lượng:</label> <input type="text"
+									class="form-control" id="weight" name="weight"
+									th:value="${itemProd.weight}" placeholder="">
+							</div>
+							<br>
+							<div class="form-group">
+								<label for="size">Kích thước:</label> <input type="text"
+									class="form-control" id="size" name="size"
+									th:value="${itemProd.size}" placeholder="">
+							</div>
+							<br>
+							<div class="form-group">
+								<label for="numberOfPages">Số trang:</label> <input type="text"
+									class="form-control" id="numberOfPages" name="numberOfPages"
+									th:value="${itemProd.numberOfPages}" placeholder="">
+							</div>
+							<br>
+							<div class="form-group">
+								<label for="language">Ngôn ngữ:</label> <input type="text"
+									class="form-control" id="language" name="language"
+									th:value="${itemProd.language}" placeholder="">
+							</div>
+							<br>
+							<div class="form-group">
+								<label for="author">Tác giả:</label> <input type="text"
+									class="form-control" id="author" name="author"
+									th:value="${itemProd.author}" placeholder="">
+							</div>
+							<br>
+							<div class="form-group">
+								<label for="description">Mô tả:</label>
+								<textarea class="form-control" id="description"
+									name="description" rows="5" th:text="${itemProd.description}"></textarea>
+							</div>
+							<br>
+							<div class="form-group">
+								<label for="quantity">Số lượng:</label> <input type="number"
+									name="quantity" id="quantity" th:value="${itemProd.quantity}"
+									class="form-control" placeholder="Số lượng">
+							</div>
+							<br>
+							<div class="form-group">
+								<label for="category" class="form-label">Loại:</label> <select
+									class="form-select" name="categoryId">
+									<!-- Sửa 'category.categoryId' thành 'categoryId' -->
+									<option th:each="category : ${categories}"
+										th:value="${category.categoryId}"
+										th:selected="${itemProd.category != null and itemProd.category.categoryId == category.categoryId}">
+										<span th:text="${category.categoryName}"></span>
+									</option>
+								</select>
+							</div>
+							<div class="mb-3">
+								<label for="statusId" class="form-label">Trạng thái:</label> <select
+									class="form-select" id="statusId" name="statusId" required>
+									<option value="" disabled>Chọn trạng thái</option>
+									<option th:each="status : ${productStatuses}"
+										th:value="${status.statusId}"
+										th:selected="${status.statusId == currentStatusId}"
+										th:text="${status.statusName}"></option>
+								</select>
+								<div class="invalid-feedback">Vui lòng chọn trạng thái!</div>
+							</div>
+
+
+
+						</div>
+					</div>
+				</div>
+				<div class="card-footer text-muted">
+					<button class="btn btn-outline-success" type="submit">Update</button>
+					<button class="btn btn-outline-warning" type="reset">Reset</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<script>
+		// Auto show toast after 5 seconds
+		document.addEventListener('DOMContentLoaded', function() {
+			var toastElList = [].slice
+					.call(document.querySelectorAll('.toast'));
+			var toastList = toastElList.map(function(toastEl) {
+				return new bootstrap.Toast(toastEl, {
+					delay : 5000
+				});
+			});
+			toastList.forEach(function(toast) {
+				toast.show();
+			});
+		});
+	</script>
+</body>
+</html>

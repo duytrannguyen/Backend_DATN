@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản Lý Khách Hàng</title>
+    <script>
+        function submitForm() {
+            document.getElementById("filter-form").submit();
+        }
+    </script>
+    <style type="text/css">
+        .card {
+            margin-top: 15px;
+            padding: 20px;
+        }
+
+        .form-check {
+            font-size: small;
+        }
+
+        a {
+            color: black;
+            text-decoration: none;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .page-link {
+            display: inline-block;
+            padding: 10px 15px;
+            margin: 0 5px;
+            border: 1px solid #007bff;
+            color: #007bff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .page-link.active {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .page-link:hover {
+            background-color: #0056b3;
+            color: white;
+        }
+
+        .toast-container {
+            position: fixed;
+            top: 10px; 
+            right: 10px; 
+            z-index: 10000; 
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-10">
+                <main class="mt-5">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <h4>Khách Hàng</h4>
+                                <div class="card shadow p-3 mb-5 bg-body-tertiary rounded">
+                                    <strong>Giới Tính</strong>
+                                    <hr>
+                                    <form id="filter-form" th:action="@{/admin/client/list}" method="get">
+                                        <div class="form-group">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="gender"
+                                                       id="genderAll" value=""
+                                                       th:checked="${param.gender == null or param.gender == ''}" onchange="submitForm()">
+                                                <label class="form-check-label" for="genderAll">Tất Cả</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="gender"
+                                                       id="genderMale" value="true"
+                                                       th:checked="${param.gender == 'true'}" onchange="submitForm()">
+                                                <label class="form-check-label" for="genderMale">Nam</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="gender"
+                                                       id="genderFemale" value="false"
+                                                       th:checked="${param.gender == 'false'}" onchange="submitForm()">
+                                                <label class="form-check-label" for="genderFemale">Nữ</label>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" name="pageNo" th:value="${currentPage}">
+                                        <input type="hidden" name="size" th:value="${size}">
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <form class="d-flex" role="search" th:action="@{/admin/client/list}" method="get">
+                                                <input type="text" name="keyword" class="form-control"
+                                                       placeholder="Tìm kiếm theo tên" th:value="${keyword}">
+                                                <button class="btn btn-outline-primary" type="submit">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                        <div class="col-md-6 d-flex justify-content-end">
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">File</button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item" href="#"><i class="fa-solid fa-file-import"></i> Import</a></li>
+                                                    <li><a class="dropdown-item" href="#"><i class="fa-solid fa-up-right-from-square"></i> Xuất danh sách</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="card shadow p-3 mb-5 bg-body-tertiary rounded">
+                                    <table class="table table-hover" id="list">
+                                        <thead>
+                                            <tr>
+                                                <th>Số thứ tự</th>
+                                                <th>Tên Đăng Nhập</th>
+                                                <th>Tên Khách Hàng</th>
+                                                <th>Số Điện Thoại</th>
+                                                <th>Email</th>
+                                                <th>Giới Tính</th>
+                                                <th>Vai trò</th>
+                                                <th>Trạng thái</th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="item, iterStat : ${Users}">
+                                                <td th:text="${iterStat.index + 1 + (currentPage != null && size != null ? currentPage * size : 0)}">1</td>
+                                                <td th:text="${item.username}">User</td>
+                                                <td th:text="${item.fullName}">Full Name</td>
+                                                <td th:text="${item.phone}">Phone</td>
+                                                <td th:text="${item.email}">Email</td>
+                                                <td th:text="${item.gender ? 'Nam' : 'Nữ'}">Gender</td>
+                                                <td th:text="${item.roleId.roleName}">Role</td>
+                                                <td th:text="${item.statusId.statusName}">Status</td>
+                                                <td><a th:href="@{/admin/client/edit/{id}(id=${item.usersId})}">Edit</a></td>
+                                                <td colspan="1">
+                                                </td>
+                                            </tr>
+                                            <tr th:if="${#lists.isEmpty(Users)}">
+                                                <td colspan="10" class="text-center">Không có dữ liệu</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <div class="pagination">
+                                        <th:block th:if="${totalPages > 0}">
+                                            <th:block th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+                                                <th:block th:if="${i == pageClick}">
+                                                    <span class="page-link active" th:text="${i + 1}">1</span>
+                                                </th:block>
+                                                <th:block th:unless="${i == pageClick}">
+                                                    <a th:href="@{/admin/client/list(pageNo=${i})}" class="page-link" th:text="${i + 1}">1</a>
+                                                </th:block>
+                                            </th:block>
+                                        </th:block>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+		  <!-- Toast Message -->
+		<th:block th:if="${toastMessage != null and toastMessage != ''}">
+		    <div class="toast-container">
+		        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="5000">
+		            <div class="toast-header">
+		                <strong class="me-auto">Thông báo</strong>
+		                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+		            </div>
+		            <div class="toast-body" th:text="${toastMessage}">Toast message here</div>
+		        </div>
+		    </div>
+		</th:block>
+
+
+    <!-- JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Function to show confirm delete modal
+        function confirmDelete(usersId) {
+            var confirmDeleteModal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
+            confirmDeleteModal.show();
+            var confirmDeleteButton = document.getElementById('confirmDeleteButton');
+            confirmDeleteButton.setAttribute('href', '/admin/client/delete/' + usersId);
+        }
+
+        // Function to show toast message
+        $(document).ready(function() {
+            var toastMessage = "${toastMessage}";
+            if (toastMessage) {
+                var liveToast = document.getElementById('liveToast');
+                var bsToast = new bootstrap.Toast(liveToast);
+                bsToast.show();
+                
+                // Auto hide toast after 5 seconds
+                setTimeout(function() {
+                    bsToast.hide();
+                }, 5000);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<div class="col-md-7 col-lg-8">
+    <form class="needs-validation"
+          th:action="${category != null} ? '/admin/Category/update/' + ${category.categoryId} : '/admin/Category/create'"
+          method="post" enctype="multipart/form-data">
+        <div class="row g-3">
+            <div class="col-sm-6">
+                <label for="categoryName" class="form-label">Tên thể loại</label>
+                <input type="text" class="form-control" id="categoryName" name="categoryName"
+                       th:value="${category != null ? category.categoryName : ''}">
+            </div>
+            <div class="col-sm-6">
+                <label for="statusId" class="form-label">Trạng thái:</label>
+                <select class="form-select" id="statusId" name="statusId" required>
+                    <option value="" disabled th:if="${category == null}">Chọn trạng thái</option>
+                    <option th:each="status : ${categoriesStatus}"
+                            th:value="${status.statusId}"
+                            th:selected="${category != null and category.statusId != null and category.statusId.statusId == status.statusId}"
+                            th:text="${status.statusName}"></option>
+                </select>
+                <div class="invalid-feedback">Vui lòng chọn trạng thái!</div>
+            </div>
+        </div>
+
+        <hr class="my-4">
+
+        <div class="d-flex gap-2">
+            <button class="btn btn-success text-capitalize" type="submit"
+                    th:text="${category != null ? 'Update' : 'Create'}"></button>
+<!--             <button class="btn btn-danger text-capitalize" th:formaction="@{/admin/Category/delete/${category.categoryId}}">Delete</button>
+ -->            <button class="btn btn-primary text-capitalize"
+                    th:formaction="@{/admin/Category/reset}">Reset</button>
+        </div>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+<script>
+    function confirmDelete(categoryId) {
+        if (confirm("Bạn có chắc chắn muốn xóa thể loại này?")) {
+            window.location.href = '/admin/Category/delete/' + categoryId;
+        }
+    }
+</script>

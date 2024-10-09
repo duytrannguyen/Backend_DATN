@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Hoá Đơn</title>
+<!-- Include necessary CSS and JS -->
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<main class="">
+				<div class="col-md-12">
+					<div class="row">
+						<div class="col-md-3">
+							<h4>Hoá đơn</h4>
+							<div class="card shadow p-3 mb-5 bg-body-tertiary rounded">
+								<strong>Trạng thái đơn hàng</strong>
+								<hr>
+								<form method="get" th:action="@{/admin/payment/list}">
+									<div class="form-check">
+										<input class="form-check-input" type="radio" name="status"
+											value="ALL" id="statusAll" th:checked="${status == 'ALL'}">
+										<label class="form-check-label" for="statusAll">Tất cả</label>
+									</div>
+									<div class="form-check">
+										<input class="form-check-input" type="radio" name="status"
+											value="Paid" id="statusPaid" th:checked="${status == 'Paid'}">
+										<label class="form-check-label" for="statusPaid">Đã
+											giao</label>
+									</div>
+									<div class="form-check">
+										<input class="form-check-input" type="radio" name="status"
+											value="Unpaid" id="statusUnpaid"
+											th:checked="${status == 'Unpaid'}"> <label
+											class="form-check-label" for="statusUnpaid">Đang xử
+											lý</label>
+									</div>
+									<button type="submit" class="btn btn-primary mt-2">Lọc</button>
+								</form>
+							</div>
+						</div>
+						<div class="col-md-9">
+							<div class="col-md-12">
+								<div class="row">
+									<div class="col-md-6">
+										<form class="d-flex" role="search"
+											th:action="@{/admin/payment/list}" method="get">
+											<input class="form-control me-2" type="search" name="key"
+												placeholder="Tìm kiếm" aria-label="Search" th:value="${key}">
+											<button class="btn btn-outline-primary" type="submit">
+												<i class="fa-solid fa-magnifying-glass"></i>
+											</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<br>
+							<div class="card shadow p-3 mb-5 bg-body-tertiary rounded">
+								<table class="table table-hover" id="myTable">
+									<thead>
+										<tr>
+											<th>Mã hoá đơn</th>
+											<th>Ngày tạo hoá đơn</th>
+											<th>Khách hàng</th>
+											<th>TT đơn hàng</th>
+											<th>Hình thức thanh toán</th>
+											<th>Tổng tiền</th>
+											<th></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="invoice : ${invoices}">
+											<td th:text="${invoice.invoiceId}"></td>
+											<td
+												th:text="${#dates.format(invoice.paymentDate, 'yyyy-MM-dd')}"></td>
+											<td th:text="${invoice.user.username}"></td>
+											<td th:text="${invoice.status.statusName}"></td>
+											<td th:text="${invoice.paymentMethod.paymentMethodName}"></td>
+											<td th:text="${invoice.totalAmount}"></td>
+											<td><a
+												th:href="@{/admin/payment/edit/{id}(id=${invoice.invoiceId})}"
+												class="btn btn-primary"> <i
+													class="fa-regular fa-pen-to-square"></i></a></td>
+										</tr>
+									</tbody>
+								</table>
+
+								<!-- Pagination Controls -->
+								<nav aria-label="Page navigation">
+									<ul class="pagination justify-content-center">
+										<li class="page-item"
+											th:classappend="${pageNo == 0} ? 'disabled'"><a
+											class="page-link"
+											th:href="@{/admin/payment/list(pageNo=${pageNo - 1}, key=${key}, status=${status})}"
+											aria-label="Previous"> <span aria-hidden="true">&laquo;</span></a></li>
+										<li class="page-item"
+											th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+											th:classappend="${i == pageNo} ? 'active'"><a
+											class="page-link" th:text="${i + 1}"
+											th:href="@{/admin/payment/list(pageNo=${i}, key=${key}, status=${status})}">1</a></li>
+										<li class="page-item"
+											th:classappend="${pageNo + 1 >= totalPages} ? 'disabled'">
+											<a class="page-link"
+											th:href="@{/admin/payment/list(pageNo=${pageNo + 1}, key=${key}, status=${status})}"
+											aria-label="Next"> <span aria-hidden="true">&raquo;</span></a>
+										</li>
+									</ul>
+								</nav>
+							</div>
+						</div>
+					</div>
+				</div>
+			</main>
+		</div>
+	</div>
+</body>
+</html>
