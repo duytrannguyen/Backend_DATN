@@ -47,7 +47,9 @@
                                             <td th:text="${item.material}">Material</td>
                                             <td th:text="${item.description}">Product Description</td>
                                             <td th:text="${item.category.categoryName}">Category Name</td>
-                                            <td><img th:src="@{/Image_SP/{imageName}(imageName=${item.imageId.imageName})}" width="100px" height="100px"></td>
+											<td>
+											    <img th:src="'http://localhost:3000/Image_SP/' + ${item.imageId.imageName}" width="100px" height="100px">
+											</td>
                                             <td th:text="${item.status.statusName}">Status Name</td>
                                             <td><a th:href="@{/seller/products/edit/{id}(id=${item.productId})}" class="btn btn-danger">Edit</a></td>
                                             <td colspan="1"><a href="#" class="btn btn-danger" th:onclick="'confirmDelete(' + ${item.productId} + ')'"><i class="fa-solid fa-trash"></i></a></td>

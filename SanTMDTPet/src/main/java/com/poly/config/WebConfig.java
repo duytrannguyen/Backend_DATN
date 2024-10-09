@@ -1,6 +1,7 @@
 package com.poly.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -16,5 +17,9 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/Image_SP/**").addResourceLocations("classpath:/static/Image_SP/");
         registry.addResourceHandler("/Image_Users/**").addResourceLocations("classpath:/static/Image_Users/");
         registry.addResourceHandler("/admin/**").addResourceLocations("classpath:/static/admin/");
+    }
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/api/**").allowedOrigins("http://localhost:3000");
     }
 }

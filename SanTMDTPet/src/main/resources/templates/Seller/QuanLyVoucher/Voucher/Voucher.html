@@ -26,7 +26,7 @@
 <body>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item text-primary"><a th:href="@{/admin}">Home</a></li>
+            <li class="breadcrumb-item text-primary"><a th:href="@{/seller}">Home</a></li>
             <li class="breadcrumb-item active text-primary" aria-current="page">Vouchers</li>
         </ol>
     </nav>
@@ -60,7 +60,7 @@
                     <div class="row">
                         <div class="col-md-2"></div>
                         <div class="col-md-5">
-                            <form class="d-flex" role="search" th:action="@{/admin/voucher/list}" method="get">
+                            <form class="d-flex" role="search" th:action="@{/seller/voucher/list}" method="get">
                                 <input class="form-control me-2" type="search" placeholder="Tìm kiếm mã voucher" aria-label="Search" name="key">
                                 <button class="btn btn-outline-primary" type="submit">
                                     <i class="fa-solid fa-magnifying-glass"></i>
@@ -68,7 +68,7 @@
                             </form>
                         </div>
                         <div class="col-md-5 d-flex justify-content-end">
-                            <a th:href="@{/admin/voucher/add}">
+                            <a th:href="@{/seller/voucher/add}">
                                 <button class="btn btn-primary me-2">
                                     <i class="fa-solid fa-plus"></i> Thêm mới
                                 </button>
@@ -111,9 +111,9 @@
                                 <td th:text="${#dates.format(c.endDate, 'dd/MM/yyyy')}"></td>
                                 <td th:text="${#numbers.formatCurrency(c.discountValue)}">VNĐ</td>
                                 <td th:text="${#numbers.formatCurrency(c.minInvoiceAmount)}">VNĐ</td>
-                                <td><a th:href="@{/admin/voucher/edit/{discountId}(discountId=${c.discountId})}" class="text-primary"><i class="fa-regular fa-pen-to-square"></i></a>|</td>
+                                <td><a th:href="@{/seller/voucher/edit/{discountId}(discountId=${c.discountId})}" class="text-primary"><i class="fa-regular fa-pen-to-square"></i></a>|</td>
                                 <td>
-    <a th:href="@{/admin/voucher/storage/{discountId}(discountId=${c.discountId})}" class="text-danger">
+    <a th:href="@{/seller/voucher/storage/{discountId}(discountId=${c.discountId})}" class="text-danger">
         <i class="fa-solid fa-trash"></i>
     </a>
 </td>

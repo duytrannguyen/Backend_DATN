@@ -38,7 +38,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item text-primary">
-                <a th:href="@{/admin}">Home</a>
+                <a th:href="@{/seller}">Home</a>
             </li>
             <li class="breadcrumb-item active text-primary" aria-current="page">
                 Lưu Trữ Vouchers
@@ -53,7 +53,7 @@
                 <div class="card shadow p-3 mb-5 bg-body-tertiary rounded">
                     <strong>Loại Voucher</strong>
                     <hr />
-                    <form id="filter-form" method="get" action="/admin/voucher/storage">
+                    <form id="filter-form" method="get" action="/seller/voucher/storage">
                         <div class="form-group">
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="checkbox" id="discountTypeAll"
@@ -144,29 +144,29 @@
                         <!-- First Page Link -->
                         <li class="page-item" th:classappend="${pageNo == 0} ? 'disabled'">
                             <a class="page-link"
-                                th:href="@{/admin/voucher/storage(pageNo=0, key=${key}, discountTypeId=${selectedDiscountTypeIds}, status=${statusList})}">First</a>
+                                th:href="@{/seller/voucher/storage(pageNo=0, key=${key}, discountTypeId=${selectedDiscountTypeIds}, status=${statusList})}">First</a>
                         </li>
                         <!-- Previous Page Link -->
                         <li class="page-item" th:classappend="${pageNo == 0} ? 'disabled'">
                             <a class="page-link"
-                                th:href="@{/admin/voucher/storage(pageNo=${pageNo - 1}, key=${key}, discountTypeId=${selectedDiscountTypeIds}, status=${statusList})}">Previous</a>
+                                th:href="@{/seller/voucher/storage(pageNo=${pageNo - 1}, key=${key}, discountTypeId=${selectedDiscountTypeIds}, status=${statusList})}">Previous</a>
                         </li>
                         <!-- Page Number Links -->
                         <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
                             th:classappend="${pageNo == i} ? 'active'">
                             <a class="page-link"
-                                th:href="@{/admin/voucher/storage(pageNo=${i}, key=${key}, discountTypeId=${selectedDiscountTypeIds}, status=${statusList})}"
+                                th:href="@{/seller/voucher/storage(pageNo=${i}, key=${key}, discountTypeId=${selectedDiscountTypeIds}, status=${statusList})}"
                                 th:text="${i + 1}"></a>
                         </li>
                         <!-- Next Page Link -->
                         <li class="page-item" th:classappend="${pageNo == totalPages - 1} ? 'disabled'">
                             <a class="page-link"
-                                th:href="@{/admin/voucher/storage(pageNo=${pageNo + 1}, key=${key}, discountTypeId=${selectedDiscountTypeIds}, status=${statusList})}">Next</a>
+                                th:href="@{/seller/voucher/storage(pageNo=${pageNo + 1}, key=${key}, discountTypeId=${selectedDiscountTypeIds}, status=${statusList})}">Next</a>
                         </li>
                         <!-- Last Page Link -->
                         <li class="page-item" th:classappend="${pageNo == totalPages - 1} ? 'disabled'">
                             <a class="page-link"
-                                th:href="@{/admin/voucher/storage(pageNo=${totalPages - 1}, key=${key}, discountTypeId=${selectedDiscountTypeIds}, status=${statusList})}">Last</a>
+                                th:href="@{/seller/voucher/storage(pageNo=${totalPages - 1}, key=${key}, discountTypeId=${selectedDiscountTypeIds}, status=${statusList})}">Last</a>
                         </li>
                     </ul>
                 </div>

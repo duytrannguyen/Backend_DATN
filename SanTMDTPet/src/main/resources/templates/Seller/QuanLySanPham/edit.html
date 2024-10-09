@@ -96,7 +96,7 @@
                             <label>Hình ảnh:</label>
                             <input type="file" class="form-control" name="img" /><br>
                             <div th:if="${itemProd.imageId != null}">
-                                <img th:src="@{/Image_SP/{imageName}(imageName=${itemProd.imageId.imageName})}" alt="Product Image" style="max-width: 200px;">
+                                <img th:src="@{http://localhost:3000/Image_SP/{imageName}(imageName=${itemProd.imageId.imageName})}" alt="Product Image" style="max-width: 200px;">
                             </div>
                         </div>
                     </div>

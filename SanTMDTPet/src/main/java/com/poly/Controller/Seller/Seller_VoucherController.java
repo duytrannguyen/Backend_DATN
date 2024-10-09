@@ -42,7 +42,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 @Controller
-@RequestMapping("admin/voucher")
+@RequestMapping("seller/voucher")
 public class Seller_VoucherController {
 	// @Autowired
 	// VoucherRepository voucherRepository;
@@ -105,7 +105,7 @@ public class Seller_VoucherController {
 
 		// Đặt view cho giao diện
 		req.setAttribute("view", "/Seller/QuanLyVoucher/Voucher/Voucher.html");
-		return "indexAdmin";
+		return "indexSeller";
 	}
 
 	@GetMapping("/add")
@@ -127,7 +127,7 @@ public class Seller_VoucherController {
 		// Gán mã xác thực cho thuộc tính mô hình
 		vc.setDiscountCode(result);
 		req.setAttribute("view", "/Seller/QuanLyVoucher/Voucher/addVoucher.html");
-		return "indexAdmin";
+		return "indexSeller";
 	}
 
 	@PostMapping("/create")
@@ -142,7 +142,7 @@ public class Seller_VoucherController {
 		if (errors.hasErrors()) {
 			// Nếu có lỗi, hiển thị lại trang thêm voucher với thông tin lỗi
 			req.setAttribute("view", "/Seller/QuanLyVoucher/Voucher/addVoucher.html");
-			return "indexAdmin";
+			return "indexSeller";
 		}
 
 		// Kiểm tra ngày bắt đầu
@@ -158,13 +158,13 @@ public class Seller_VoucherController {
 		if (vc.getStartDate().before(currentDate)) {
 			errors.rejectValue("startDate", "error.startDate", "Ngày bắt đầu phải sau ngày hiện tại.");
 			req.setAttribute("view", "/Seller/QuanLyVoucher/Voucher/addVoucher.html");
-			return "indexAdmin"; // Trả về trang form để hiển thị lỗi
+			return "indexSeller"; // Trả về trang form để hiển thị lỗi
 		}
 		// Validate startDate và endDate
 		if (!vc.isValid()) {
 			errors.rejectValue("endDate", "error.endDate", "Ngày kết thúc phải sau ngày bắt đầu");
 			req.setAttribute("view", "/Seller/QuanLyVoucher/Voucher/addVoucher.html");
-			return "indexAdmin"; // Trả về trang form để hiển thị lỗi
+			return "indexSeller"; // Trả về trang form để hiển thị lỗi
 		}
 		// Xử lý logic khi không có lỗi
 		DiscountType discountType = discountTypeRepository.findById(discountTypeId).orElse(null);
@@ -175,7 +175,7 @@ public class Seller_VoucherController {
 		if (vc.getStatusId() == 1) {
 			redirectAttributes.addFlashAttribute("message", "Voucher đã được thêm thành công!");
 		}
-		return "redirect:/admin/voucher/list";
+		return "redirect:/seller/voucher/list";
 	}
 
 	@GetMapping("/edit/{discountId}")
@@ -186,7 +186,7 @@ public class Seller_VoucherController {
 		model.addAttribute("discountTypes", discountTypes);
 		model.addAttribute("vc", voucher); // Gán đối tượng voucher vào "vc"
 		req.setAttribute("view", "/Seller/QuanLyVoucher/Voucher/editVoucher.html");
-		return "indexAdmin";
+		return "indexSeller";
 	}
 
 	@PostMapping("/update/{discountId}")
@@ -197,13 +197,13 @@ public class Seller_VoucherController {
 		if (errors.hasErrors()) {
 			// Nếu có lỗi, hiển thị lại trang thêm voucher với thông tin lỗi
 			req.setAttribute("view", "/Seller/QuanLyVoucher/Voucher/editVoucher.html");
-			return "indexAdmin";
+			return "indexSeller";
 		}
 		// Validate startDate và endDate
 		if (!vc.isValid()) {
 			errors.rejectValue("endDate", "error.endDate", "Ngày kết thúc phải sau ngày bắt đầu");
 			req.setAttribute("view", "/Seller/QuanLyVoucher/Voucher/editVoucher.html");
-			return "indexAdmin"; // Trả về trang form để hiển thị lỗi
+			return "indexSeller"; // Trả về trang form để hiển thị lỗi
 		}
 		// Gán DiscountType cho voucher
 		DiscountType discountType = discountTypeRepository.findById(vc.getDiscountType().getDiscountTypeId())
@@ -214,7 +214,7 @@ public class Seller_VoucherController {
 		discountRepositopy.saveAndFlush(vc);
 		// Thông báo thành công
 		redirectAttributes.addFlashAttribute("message", "Voucher đã được cập nhật thành công!");
-		return "redirect:/admin/voucher/list";
+		return "redirect:/seller/voucher/list";
 	}
 
 	// luu tru
@@ -238,7 +238,7 @@ public class Seller_VoucherController {
 			// Thêm thông báo lỗi nếu trạng thái không hợp lệ
 			redirectAttributes.addFlashAttribute("message", "Cập nhật không thành công do trạng thái không hợp lệ!");
 		}
-		return "redirect:/admin/voucher/list"; // Chuyển hướng đến danh sách voucher
+		return "redirect:/seller/voucher/list"; // Chuyển hướng đến danh sách voucher
 	}
 
 	@GetMapping("/storage")
@@ -302,7 +302,7 @@ model.addAttribute("discountStatus", discountStatus);
 
 		// Chỉ định view để hiển thị
 		req.setAttribute("view", "/Seller/QuanLyVoucher/LuuTruVoucher/Storage.html");
-		return "indexAdmin";
+		return "indexSeller";
 	}
 
 }

@@ -46,8 +46,8 @@ a {
 <body>
 	<nav aria-label="breadcrumb">
 		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a href="/admin">Home</a></li>
-			<li class="breadcrumb-item"><a href="/admin/voucher/list">Vouchers</a></li>
+			<li class="breadcrumb-item"><a href="/seller">Home</a></li>
+			<li class="breadcrumb-item"><a href="/seller/voucher/list">Vouchers</a></li>
 			<li class="breadcrumb-item active text-primary" aria-current="page">Edit</li>
 		</ol>
 	</nav>
@@ -56,7 +56,7 @@ a {
 			<h3>Cập Nhật Voucher</h3>
 		</div>
 		<form
-			th:action="@{/admin/voucher/update/{discountId}(discountId=${vc.discountId})}"
+			th:action="@{/seller/voucher/update/{discountId}(discountId=${vc.discountId})}"
 			th:object="${vc}" method="post">
 			<hr>
 			<div class="col-md-12">
@@ -187,7 +187,7 @@ a {
 </body>
 <script>
     document.getElementById('closeButton').addEventListener('click', function() {
-        window.location.href = '/admin/voucher/list';
+        window.location.href = '/seller/voucher/list';
     });
 </script>
 
