@@ -5,18 +5,7 @@ import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -29,46 +18,37 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "Invoices")
+@Table(name = "Invoices") // Gắn với bảng 'Invoices' trong cơ sở dữ liệu
 public class Invoice {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "invoice_id")
-	private Integer invoiceId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "invoice_id") // Tên cột trong cơ sở dữ liệu
+    private Integer invoiceId; // ID hóa đơn
 
-	@Column(nullable = false)
-	private Double totalAmount;
+    @Column(nullable = false)
+    private Double totalAmount; // Tổng số tiền
 
-	@Column(nullable = false)
-	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date paymentDate;
+    @Column(nullable = false)
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd") // Định dạng ngày thanh toán
+    private Date paymentDate; // Ngày thanh toán
 
-	// @Column(nullable = false)
-	// private String paymentStatus;
+    @ManyToOne
+    @JoinColumn(name = "users_id", nullable = false) // Ánh xạ đến bảng Users
+    private User user; // Người dùng
 
-	@ManyToOne
-	@JoinColumn(name = "users_id", nullable = false)
-	private User user;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "status_id", nullable = false) // Ánh xạ đến bảng OrderStatus
+    private OrderStatus status; // Trạng thái đơn hàng
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "status_id", nullable = false)
-	private OrderStatus status;
+    @ManyToOne
+    @JoinColumn(name = "payment_method_id", nullable = false) // Ánh xạ đến bảng PaymentMethods
+    private PaymentMethod paymentMethod; // Phương thức thanh toán
 
-	@ManyToOne
-	@JoinColumn(name = "payment_method_id", nullable = false)
-	private PaymentMethod paymentMethod;
+    @ManyToOne
+    @JoinColumn(name = "discount_detail_id", nullable = true) // Ánh xạ đến bảng DiscountDetails
+    private DiscountDetail discountDetail; // Chi tiết giảm giá
 
-	@ManyToOne
-	@JoinColumn(name = "shipping_id", nullable = false)
-	private Shipping shipping;
-
-	@ManyToOne
-	@JoinColumn(name = "discount_id", nullable = true)
-	private Discount discount;
-
-	// @OneToMany(mappedBy = "invoice")
-	// List<DiscountDetail> DiscountDetail;
-	@OneToMany(mappedBy = "invoice")
-	private List<InvoiceItem> invoiceItems;
+    @OneToMany(mappedBy = "invoice") // Ánh xạ đến bảng InvoiceItem
+    private List<InvoiceItem> invoiceItems; // Danh sách mục hóa đơn
 }

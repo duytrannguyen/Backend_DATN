@@ -34,6 +34,4 @@ public class Category {
 	@Column(name = "category_name", nullable = false)
 	private String categoryName;
 
-//	@OneToMany(mappedBy = "category")
-//	private List<Product> products;
 }

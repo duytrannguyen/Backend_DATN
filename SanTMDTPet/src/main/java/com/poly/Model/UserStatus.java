@@ -22,15 +22,12 @@ import java.util.List;
 @Setter
 @Table(name = "Userstatus")
 public class UserStatus {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "status_id")
-    private int statusId;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "status_id")
+	private int statusId;
 
-    @Column(name = "status_name", nullable = false)
-    private String statusName;
-
-//    @OneToMany(mappedBy = "status")
-//    private List<User> users;
+	@Column(name = "status_name", nullable = false)
+	private String statusName;
 
 }

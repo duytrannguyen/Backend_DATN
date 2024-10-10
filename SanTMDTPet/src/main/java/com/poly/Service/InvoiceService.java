@@ -29,8 +29,6 @@ public class InvoiceService {
         invoice.setUser(invoiceDetails.getUser());
         invoice.setStatus(invoiceDetails.getStatus());
         invoice.setPaymentMethod(invoiceDetails.getPaymentMethod());
-        invoice.setShipping(invoiceDetails.getShipping());
-        invoice.setDiscount(invoiceDetails.getDiscount());
 
         return invoiceRepository.save(invoice);
     }

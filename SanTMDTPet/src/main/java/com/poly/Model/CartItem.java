@@ -21,24 +21,22 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "Cartitems")
-
+@Table(name = "Cartitems") // Gắn với bảng 'Cartitems' trong cơ sở dữ liệu
 public class CartItem {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "cart_item_id")
-	private Integer cartItemId;
+	@Column(name = "cart_item_id") // Tên cột trong cơ sở dữ liệu
+	private Integer cartItemId; // ID mục giỏ hàng
 
-	@Column(name = "quantity", nullable = false)
+	@Column(name = "quantity", nullable = false) // Số lượng sản phẩm
 	private Integer quantity;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "product_id", nullable = false)
-	private Product productId;
+	@JoinColumn(name = "product_id", nullable = false) // Tên cột trong bảng Products
+	private Product product; // Mã sản phẩm
 
-	@ManyToOne
-	@JoinColumn(name = "cart_id", referencedColumnName = "cart_id", nullable = false)
-	private ShoppingCart shoppingCart;
-
+	@ManyToOne(fetch = FetchType.LAZY) // Ánh xạ đến bảng Users
+	@JoinColumn(name = "users_id", nullable = false) // Tên cột trong bảng Users
+	private User user; // Người dùng sở hữu giỏ hàng
 }

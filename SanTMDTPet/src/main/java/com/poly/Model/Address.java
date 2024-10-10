@@ -20,33 +20,36 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "Address")
+@Table(name = "Address") // Gắn với bảng 'Address' trong cơ sở dữ liệu
 public class Address {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "address_id")
-	private Integer id;
 
-	@Column(name = "status")
-	private boolean status;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "address_id") // Tên cột trong cơ sở dữ liệu
+    private Integer id; // ID địa chỉ
 
-	@Column(name = "street", nullable = false)
-	private String street;
+    @Column(name = "status") // Trạng thái (mặc định/ không mặc định)
+    private boolean status;
 
-	@ManyToOne
-	@JoinColumn(name = "commune_id")
-	private Commune commune;
+    @Column(name = "street", nullable = false) // Tên đường
+    private String street;
 
-	@ManyToOne
-	@JoinColumn(name = "district_id")
-	private District district;
+    @Column(name = "full_address") // Địa chỉ cụ thể
+    private String fullAddress; // Đường + xã/phường + quận/huyện + tỉnh/t.phố
 
-	@ManyToOne
-	@JoinColumn(name = "province_id")
-	private Province province;
+   
+    @JoinColumn(name = "commune_id") // ID xã/phường
+    private int commune;
 
-	@ManyToOne
-	@JoinColumn(name = "users_id")
-	private User user;
 
+    @JoinColumn(name = "district_id") // ID quận/huyện
+    private int district;
+
+
+    @JoinColumn(name = "province_id") // ID tỉnh/thành phố
+    private int province;
+
+    @ManyToOne
+    @JoinColumn(name = "users_id") // ID người dùng
+    private User user;
 }
