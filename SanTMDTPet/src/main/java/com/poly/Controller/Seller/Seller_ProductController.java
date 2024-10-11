@@ -22,6 +22,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -101,9 +102,8 @@ public class Seller_ProductController {
 	}
 
 	@PostMapping("/create")
-	public ResponseEntity<String> createProduct(@RequestBody ProductDTO productDTO
-											,@RequestParam("img") MultipartFile photo
-	) {
+	public ResponseEntity<String> createProduct(@ModelAttribute ProductDTO productDTO,
+			@RequestParam("img") MultipartFile photo) {
 
 		List<String> errors = new ArrayList<>();
 
@@ -159,37 +159,37 @@ public class Seller_ProductController {
 			product.setSeller(seller);
 
 			// Xử lý upload ảnh nếu có
-	        if (photo != null && !photo.isEmpty()) {
-	            String originalFileName = StringUtils.cleanPath(photo.getOriginalFilename());
-	            String uploadDir = "D:\\Frontend_DATN\\frontend\\public\\Image_SP";
+			if (photo != null && !photo.isEmpty()) {
+				String originalFileName = StringUtils.cleanPath(photo.getOriginalFilename());
+				String uploadDir = "D:\\Frontend_DATN\\frontend\\public\\Image_SP";
 
-	            // Kiểm tra và tạo thư mục nếu chưa tồn tại
-	            Path path = Paths.get(uploadDir);
-	            if (Files.notExists(path)) {
-	                Files.createDirectories(path);
-	            }
+				// Kiểm tra và tạo thư mục nếu chưa tồn tại
+				Path path = Paths.get(uploadDir);
+				if (Files.notExists(path)) {
+					Files.createDirectories(path);
+				}
 
-	            // Chuẩn hóa tên sản phẩm thành không dấu và thay thế khoảng trắng
-	            String normalizedProductName = Normalizer.normalize(product.getProductName(), Normalizer.Form.NFD)
-	                    .replaceAll("[^\\p{ASCII}]", "") // Loại bỏ dấu tiếng Việt
-	                    .replaceAll("\\s+", "_"); // Thay thế khoảng trắng bằng dấu gạch dưới
+				// Chuẩn hóa tên sản phẩm thành không dấu và thay thế khoảng trắng
+				String normalizedProductName = Normalizer.normalize(product.getProductName(), Normalizer.Form.NFD)
+						.replaceAll("[^\\p{ASCII}]", "") // Loại bỏ dấu tiếng Việt
+						.replaceAll("\\s+", "_"); // Thay thế khoảng trắng bằng dấu gạch dưới
 
-	            // Lấy phần mở rộng của file
-	            String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
-	            String newFileName = normalizedProductName + fileExtension;
+				// Lấy phần mở rộng của file
+				String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
+				String newFileName = normalizedProductName + fileExtension;
 
-	            // Lưu file ảnh
-	            Path filePath = Paths.get(uploadDir, newFileName);
-	            Files.copy(photo.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+				// Lưu file ảnh
+				Path filePath = Paths.get(uploadDir, newFileName);
+				Files.copy(photo.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-			// Lưu thông tin ảnh vào cơ sở dữ liệu
-			Image image = new Image();
-			image.setImageName("images.jpg");
-			imageService.saveImage(image);
+				// Lưu thông tin ảnh vào cơ sở dữ liệu
+				Image image = new Image();
+				image.setImageName("images.jpg");
+				imageService.saveImage(image);
 
-			// Liên kết đối tượng Image với Product trước khi lưu
-			product.setImageId(image);
-	        }
+				// Liên kết đối tượng Image với Product trước khi lưu
+				product.setImageId(image);
+			}
 
 			productService.saveProduct(product);
 			return ResponseEntity.status(HttpStatus.CREATED).body("Tạo sản phẩm thành công!");
@@ -201,26 +201,23 @@ public class Seller_ProductController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Object> getProductById(@PathVariable("id") Integer productId) {
-	    try {
-	        Product product = productService.findByProductId(productId);
-	        
-	        // Chuyển đổi từ Product sang ProductDTO
-	        ProductDTO productDTO = ProductMapper.toDTO(product);
-	        
-	        // Trả về ProductDTO
-	        return ResponseEntity.ok(productDTO);
-	    } catch (RuntimeException e) {
-	        // Trả về thông báo lỗi với status 404 nếu sản phẩm không tồn tại
-	        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-	                .body("Không tìm thấy sản phẩm với ID: " + productId);
-	    }
+		try {
+			Product product = productService.findByProductId(productId);
+
+			// Chuyển đổi từ Product sang ProductDTO
+			ProductDTO productDTO = ProductMapper.toDTO(product);
+
+			// Trả về ProductDTO
+			return ResponseEntity.ok(productDTO);
+		} catch (RuntimeException e) {
+			// Trả về thông báo lỗi với status 404 nếu sản phẩm không tồn tại
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy sản phẩm với ID: " + productId);
+		}
 	}
 
-
 	@PutMapping("/update/{productId}")
-	public ResponseEntity<String> updateProduct(@PathVariable Integer productId, @RequestBody ProductDTO productDTO
-          ,@RequestParam("img") MultipartFile photo
-	) {
+	public ResponseEntity<String> updateProduct(@PathVariable Integer productId, @ModelAttribute ProductDTO productDTO,
+			@RequestParam("img") MultipartFile photo) {
 
 		List<String> errors = new ArrayList<>();
 
@@ -254,7 +251,8 @@ public class Seller_ProductController {
 			Category category = categoryService.findByCategoryName(productDTO.getCategoryName());
 
 // Lấy thông tin người dùng từ session hoặc security context
-			User user = userRepository.findByUsername("DiPTB");
+	        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+			User user = userRepository.findByUsername(username);
 			if (user == null) {
 				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Người dùng không tồn tại.");
 			}
@@ -314,21 +312,18 @@ public class Seller_ProductController {
 	}
 
 	@DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteProductById(@PathVariable("id") Integer productId) {
-        try {
-            // Gọi phương thức service để xóa sản phẩm
-            productService.deleteProductById(productId);
-            return ResponseEntity.ok("Xóa sản phẩm thành công!");
-        } catch (RuntimeException e) {
-            // Trả về thông báo lỗi nếu không tìm thấy sản phẩm
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Không tìm thấy sản phẩm với ID: " + productId);
-        } catch (Exception e) {
-            // Trả về lỗi khác nếu có
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Đã xảy ra lỗi: " + e.getMessage());
-        }
-    }
-
+	public ResponseEntity<String> deleteProductById(@PathVariable("id") Integer productId) {
+		try {
+			// Gọi phương thức service để xóa sản phẩm
+			productService.deleteProductById(productId);
+			return ResponseEntity.ok("Xóa sản phẩm thành công!");
+		} catch (RuntimeException e) {
+			// Trả về thông báo lỗi nếu không tìm thấy sản phẩm
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy sản phẩm với ID: " + productId);
+		} catch (Exception e) {
+			// Trả về lỗi khác nếu có
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Đã xảy ra lỗi: " + e.getMessage());
+		}
+	}
 
 }

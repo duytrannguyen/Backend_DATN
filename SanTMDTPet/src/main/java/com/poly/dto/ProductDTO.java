@@ -2,6 +2,8 @@ package com.poly.dto;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,6 +19,8 @@ public class ProductDTO {
 	private String material;
 	private String description;
 	private String placeProduction;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd") // Định dạng ngày tháng
 	private Date PostingDate;
 	private int quantity;
 
