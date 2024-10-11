@@ -11,46 +11,61 @@ import com.poly.Reponsitory.ProductRepository;
 
 import jakarta.transaction.Transactional;
 
-@Service("ProductService")
+@Service
 public class ProductService {
-	@Autowired
-	private ProductRepository productRepository;
 
-	@Transactional
-	public Product findByProductId(Integer productId) {
-		Optional<Product> optionalProduct = productRepository.findByProductId(productId);
-		return optionalProduct.orElse(null);
-	}
+    @Autowired
+    private ProductRepository productRepository;
 
-	public Optional<Product> findById(Integer id) {
-		return productRepository.findById(id);
-	}
+    // Tìm sản phẩm theo productId
+    @Transactional
+    public Product findByProductId(Integer productId) {
+        Optional<Product> optionalProduct = productRepository.findByProductId(productId);
+        return optionalProduct.orElse(null);
+    }
 
-	public void saveProduct(Product product) {
-		productRepository.save(product);
-	}
+    // Tìm sản phẩm theo id (dành cho khoá chính)
+    public Optional<Product> findById(Integer id) {
+        return productRepository.findById(id);
+    }
 
-	public void deleteProduct(Product product) {
-		productRepository.delete(product);
-	}
+    // Lưu sản phẩm
+    public void saveProduct(Product product) {
+        productRepository.save(product);
+    }
 
-	public List<Product> getAllProducts() {
-		return productRepository.findAll();
-	}
+    // Xóa sản phẩm
+    public void deleteProduct(Product product) {
+        productRepository.delete(product);
+    }
 
-	public int getTotalProducts() {
-		return (int) productRepository.count();
-	}
+    // Lấy danh sách tất cả các sản phẩm
+    public List<Product> getAllProducts() {
+        return productRepository.findAll();
+    }
 
-	// Kiểm tra xem sản phẩm đã tồn tại hay chưa
+    // Đếm tổng số lượng sản phẩm
+    public int getTotalProducts() {
+        return (int) productRepository.count();
+    }
+
+    // Kiểm tra xem sản phẩm đã tồn tại hay chưa dựa trên tên
     public boolean existsByProductName(String productName) {
         return productRepository.existsByProductName(productName);
     }
 
-//    lọc sản phẩm
+    // Lọc sản phẩm theo categoryId
+    public List<Product> getProductsByCategoryId(int categoryId) {
+        return productRepository.findByCategoryCategoryId(categoryId);
+    }
 
-	public List<Product> getProductsByCategoryId(int categoryId) {
-		return productRepository.findByCategoryCategoryId(categoryId);
-	}
-
+    // Xóa sản phẩm theo productId
+    public void deleteProductById(Integer productId) {
+        Optional<Product> product = productRepository.findByProductId(productId);
+        if (product.isPresent()) {
+            productRepository.deleteById(productId);
+        } else {
+            throw new RuntimeException("Không tìm thấy sản phẩm với ID: " + productId);
+        }
+    }
 }
