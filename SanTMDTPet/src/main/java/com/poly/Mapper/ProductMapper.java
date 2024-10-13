@@ -29,9 +29,9 @@ public class ProductMapper {
         if (product.getCategory() != null) {
             dto.setCategoryName(product.getCategory().getCategoryName());
         }
-        if (product.getImageId() != null) {
-            dto.setImageUrl(product.getImageId().getImageName());
-        }
+//        if (product.getImageId() != null) {
+//            dto.setImageUrl(product.getImageId().getImageName());
+//        }
         if (product.getStatus() != null) {
             dto.setStatusName(product.getStatus());
         }
@@ -65,11 +65,11 @@ public class ProductMapper {
             category.setCategoryName(dto.getCategoryName()); // Giả sử bạn có thuộc tính categoryId trong ProductDTO
             product.setCategory(category);
         }
-        if (dto.getImageUrl() != null) {
-            Image image = new Image();
-            image.setImageName(dto.getImageUrl()); // Giả sử bạn có thuộc tính imageId trong ProductDTO
-            product.setImageId(image);
-        }
+//        if (dto.getImageUrl() != null) {
+//            Image image = new Image();
+//            image.setImageName(dto.getImageUrl()); // Giả sử bạn có thuộc tính imageId trong ProductDTO
+//            product.setImageId(image);
+//        }
         // Thiết lập trạng thái nếu cần, nếu trạng thái được quản lý bởi một đối tượng riêng
         // product.setStatus(dto.getStatus());
 

@@ -56,9 +56,6 @@ public class Product {
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
-    @ManyToOne
-    @JoinColumn(name = "image_id", nullable = false)
-    private Image imageId;
 
     @ManyToOne
     @JoinColumn(name = "seller_id", nullable = false)

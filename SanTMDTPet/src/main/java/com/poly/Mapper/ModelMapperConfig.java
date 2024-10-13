@@ -24,7 +24,7 @@ public class ModelMapperConfig {
 				// Ánh xạ thuộc tính categoryName từ category
 				map().setCategoryName(source.getCategory().getCategoryName());
 				map().setStatusName(source.getStatus());
-				map().setImageUrl(source.getImageId().getImageName());
+//				map().setImageUrl(source.getImageId().getImageName());
 			}
 		});
 

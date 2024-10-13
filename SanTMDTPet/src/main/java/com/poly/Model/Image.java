@@ -32,4 +32,6 @@ public class Image {
 	private String imageName;
 
 
+    @Column(name = "product_id", nullable = false)
+    private Integer productId; // ID sản phẩm liên kết
 }
