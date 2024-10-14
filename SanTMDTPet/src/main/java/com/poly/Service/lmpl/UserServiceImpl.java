@@ -119,7 +119,6 @@ public class UserServiceImpl implements UserService {
 			User user = optionalUser.get();
 			Role currentRole = user.getRoleId(); // Lấy vai trò hiện tại của user
 
-			// Kiểm tra nếu vai trò hiện tại là User (role_id = 3)
 			if (currentRole != null && currentRole.getRoleId() == 3) {
 				// Tìm đối tượng Role với role_id = 2 (Seller)
 				Optional<Role> sellerRole = rolesRepository.findById(2);

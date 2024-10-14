@@ -18,7 +18,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.poly.Service.API.UserService;
-import com.poly.component.CustomAuthenticationSuccessHandler;
+//import com.poly.component.CustomAuthenticationSuccessHandler;
 
 
 
@@ -28,9 +28,9 @@ public class SecurityConfig {
 
     @Autowired
     JwtAuthFilter jwtAuthFilter;
-    
-    @Autowired
-    private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+//    
+//    @Autowired
+//    private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
     
     @Bean
     public UserDetailsService userDetailsService() {
@@ -52,16 +52,14 @@ public class SecurityConfig {
                 .requestMatchers("/home/products/details/cart/**", "/products/details/cart/paynow/**", "/products/details/cart/pay", "/products/details/cart/pay/success").hasAnyRole("ADMIN","SELER", "USER")
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                 .requestMatchers("/api/seller/**").hasRole("SELER")
-                .requestMatchers("/home/index").permitAll()
-                .requestMatchers("/css/**", "/assets/**", "/Image_Users/**", "/images/**", "/vendor/**", "/Image_SP/**","/admin/**").permitAll()
-            )
+           )
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
             .formLogin(form -> form
                 .loginPage("/home/login")
-                .successHandler(customAuthenticationSuccessHandler)
-                .failureUrl("/home/login?error=true") // Chuyển hướng nếu đăng nhập thất bại
-                .usernameParameter("username")
-                .passwordParameter("password")
+//                .successHandler(customAuthenticationSuccessHandler)
+//                .failureUrl("/home/login?error=true") // Chuyển hướng nếu đăng nhập thất bại
+//                .usernameParameter("username")
+//                .passwordParameter("password")
                 .permitAll()
             )
             .logout(logout -> logout

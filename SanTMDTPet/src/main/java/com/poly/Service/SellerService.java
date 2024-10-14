@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.poly.Model.Seller;
 import com.poly.Model.User;
@@ -22,7 +23,7 @@ public class SellerService {
 	@Autowired
 	UserRepository userRepository;
 
-	// Đăng ký seller mới (trạng thái mặc định là "PENDING")
+	// Đăng ký seller mới 
 	public void registerSeller(SellerDTO sellerDTO, int userId) {
 		Seller seller = new Seller();
 		seller.setShopName(sellerDTO.getShopName());
@@ -46,18 +47,41 @@ public class SellerService {
 		}
 	}
 
-	// Phê duyệt seller
-	public void approveSeller(int sellerId) {
-		Optional<Seller> optionalSeller = sellerRepository.findById(sellerId);
-		if (optionalSeller.isPresent()) {
-			Seller seller = optionalSeller.get();
-			seller.setStatus("APPROVED"); // Cập nhật trạng thái thành "APPROVED"
-			sellerRepository.save(seller);
+//	// Phê duyệt seller
+//	@Transactional
+//	public void approveSeller(int sellerId) throws Exception {
+//		Seller seller = sellerRepository.findById(sellerId).orElseThrow(() -> new Exception("Seller không tồn tại!"));
+//
+//		// Cập nhật trạng thái của seller thành đã được phê duyệt
+//		seller.setStatus("APPROVED");
+//		sellerRepository.save(seller);
+//	}
+//
+//	@Transactional
+//	public void rejectSeller(int sellerId) throws Exception {
+//		Seller seller = sellerRepository.findById(sellerId).orElseThrow(() -> new Exception("Seller không tồn tại!"));
+//
+//		// Cập nhật trạng thái của seller thành từ chối
+//		seller.setStatus("REJECTED");
+//		sellerRepository.save(seller);
+//	}
+	// Phê duyệt hoặc từ chối seller
+	@Transactional
+	public void updateSellerStatus(int sellerId, boolean isApproved) throws Exception {
+	    Seller seller = sellerRepository.findById(sellerId)
+	            .orElseThrow(() -> new Exception("Seller không tồn tại!"));
 
-			// Sau khi phê duyệt seller, cập nhật role của user
-			userService.updateUserRoleToSeller(seller.getUser().getUsersId());
-		} else {
-			throw new RuntimeException("Seller not found with ID: " + sellerId);
-		}
+	    // Xác định trạng thái dựa trên tham số isApproved
+	    if (isApproved) {
+	        seller.setStatus("APPROVED"); // Cập nhật trạng thái thành "APPROVED"
+	        sellerRepository.save(seller);
+
+	        // Sau khi phê duyệt seller, cập nhật role của user thành "Seller"
+	        userService.updateUserRoleToSeller(seller.getUser().getUsersId());
+	    } else {
+	        seller.setStatus("REJECTED"); // Cập nhật trạng thái thành "REJECTED"
+	        sellerRepository.save(seller);
+	    }
 	}
+
 }

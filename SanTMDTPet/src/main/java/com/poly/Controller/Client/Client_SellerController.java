@@ -42,14 +42,4 @@ public class Client_SellerController {
 		}
 	}
 
-	// Admin phê duyệt seller
-	@PostMapping("/seller/approve")
-	public ResponseEntity<String> approveSeller(@RequestParam int sellerId) {
-		try {
-			sellerService.approveSeller(sellerId);
-			return ResponseEntity.ok("Phê duyệt seller thành công!");
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Phê duyệt thất bại!");
-		}
-	}
 }
