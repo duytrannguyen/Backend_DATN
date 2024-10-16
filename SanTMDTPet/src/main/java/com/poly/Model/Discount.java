@@ -1,80 +1,64 @@
 package com.poly.Model;
 
-import java.util.Date;
-import java.util.List;
+import java.sql.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
-@Table(name = "Discounts")
+@Table(name = "Discounts") // Gắn với bảng 'Discounts' trong cơ sở dữ liệu
 public class Discount {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Integer discountId;
+	private Integer discountId; // ID giảm giá
+
+	@Column(nullable = false, length = 50) // Giới hạn chiều dài của discountCode
+	// @NotNull(message = "{NotNull.vc.discountCode}")
+	private String discountCode; // Mã giảm giá
 
 	@Column(nullable = false)
-	@NotNull(message = "{NotNull.vc.discountCode}")
-	String discountCode;
+	// @NotNull(message = "{NotNull.vc.quantity}")
+	// @Min(value = 1, message = "{Min.vc.quantity}")
+	// @Max(value = 100, message = "{Max.vc.quantity}")
+	private Integer quantity; // Số lượng giảm giá
 
 	@Column(nullable = false)
-	@NotNull(message = "{NotNull.vc.quantity}")
-	@Min(value = 1, message = "{Min.vc.quantity}")
-	@Max(value = 100, message = "{Max.vc.quantity}")
-	Integer quantity;
-
-	@ManyToOne
-	@JoinColumn(name = "discountTypeId", nullable = false)
-	@NotNull(message = "{NotNull.vc.discountType}") // Ensure discountType is not null
-	DiscountType discountType;
-
-	@Column(nullable = false)
-	@NotNull(message = "{NotNull.vc.startDate}")
+	// @NotNull(message = "{NotNull.vc.startDate}")
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	@Temporal(TemporalType.DATE)
-	Date startDate;
+	private Date startDate; // Ngày bắt đầu giảm giá
 
 	@Column(nullable = false)
-	@NotNull(message = "{NotNull.vc.endDate}")
+	// @NotNull(message = "{NotNull.vc.endDate}")
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	@Temporal(TemporalType.DATE)
-	Date endDate;
+	private Date endDate; // Ngày kết thúc giảm giá
 
 	@Column(nullable = false)
-	@NotNull(message = "{NotNull.vc.discountValue}")
-	@Min(value = 0, message = "{Min.vc.discountValue}")
-	Double discountValue;
+	// @NotNull(message = "{NotNull.vc.discountValue}")
+	// @Min(value = 0, message = "{Min.vc.discountValue}")
+	private Double discountValue; // Giá trị voucher
 
 	@Column(nullable = false)
-	@NotNull(message = "{NotNull.vc.minInvoiceAmount}")
-	@Min(value = 0, message = "{Min.vc.minInvoiceAmount}")
-	Double minInvoiceAmount;
+	// @NotNull(message = "{NotNull.vc.minInvoiceAmount}")
+	// @Min(value = 0, message = "{Min.vc.minInvoiceAmount}")
+	private Double minInvoiceAmount; // Số tiền hóa đơn tối thiểu để áp dụng giảm giá
 
-	@Column(name = "status_id")
-	Integer statusId;
+	@Column(name = "status_id", nullable = false) // Trường status_id, không được null
+	private Integer statusId; // ID trạng thái giảm giá
 
-	// @OneToMany(mappedBy = "discount")
-	// List<DiscountDetail> DiscountDetail;
-
-	public boolean isValid() {
-		return startDate != null && endDate != null && !startDate.after(endDate);
-	}
-
-	// @ManyToOne
-	// @JoinColumn(name = "status_id", nullable = false)
-	// private DiscountsStatus status;
 }
