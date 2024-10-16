@@ -223,11 +223,11 @@ public class InvoiceService {
                     productDTO.setPlaceProduction(product.getPlaceProduction());
                     productDTO.setPostingDate(product.getPostingDate());
                     productDTO.setQuantity(product.getQuantity());
-                    productDTO.setStatusName(product.getStatus());
+                    productDTO.setStatusName(product.getStatus().getStatusName());
                     productDTO.setCategoryName(
                             product.getCategory() != null ? product.getCategory().getCategoryName() : null);
                     productDTO.setImageUrl(product.getImageId() != null ? product.getImageId().getImageName() : null);
-                    productDTO.setStatusName(product.getStatus());
+                    // productDTO.setStatusName(product.getStatus());
                     productDTO.setSellerName(product.getSeller() != null ? product.getSeller().getShopName() : null);
 
                     // Thêm ProductDTO vào danh sách
@@ -275,5 +275,16 @@ public class InvoiceService {
             invoice.setDiscountDetail(discountDetail);
         }
         return invoice;
+    }
+
+    // TRANG BÁO CÁ0
+    // Lấy tổng số đơn hàng của seller dựa trên sellerId
+    public Long getTotalOrdersBySeller(int sellerId) {
+        return invoiceRepository.countBySeller_sellerId(sellerId);
+    }
+
+    // Lấy tổng số tiền từ các đơn hàng của seller dựa trên sellerId
+    public Double getTotalAmountBySeller(int sellerId) {
+        return invoiceRepository.findTotalAmountBySeller_sellerId(sellerId);
     }
 }
