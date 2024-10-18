@@ -13,7 +13,7 @@ public class SellerDTO {
     private String avtShop;
     private String backround;
     private String typeBusiness;
-    private Integer taxCode;
+    private String taxCode;
     private String cccdCmnd;
     private String frontCCCD;
     private String backCCCD;

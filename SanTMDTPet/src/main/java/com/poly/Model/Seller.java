@@ -43,7 +43,7 @@ public class Seller {
 	    private String typeBusiness;
 
 	    @Column(name = "tax_code")
-	    private Integer taxCode;
+	    private String taxCode;
 
 	    @Column(name = "cccd_cmnd", length = 12)
 	    private String cccdCmnd;

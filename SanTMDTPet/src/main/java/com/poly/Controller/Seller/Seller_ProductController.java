@@ -11,6 +11,7 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -44,9 +46,11 @@ import com.poly.Service.ImageService;
 import com.poly.Service.ProductService;
 import com.poly.dto.ProductDTO;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("api/seller/products")
 public class Seller_ProductController {
 
@@ -74,6 +78,13 @@ public class Seller_ProductController {
 	@Value("${file.fixed-dir}")
 	private String fixedPath;
 
+	@Value("${image.sp.path}")
+	private String imageSpPath;
+
+	public String getImageSpPath() {
+		return imageSpPath;
+	}
+
 	public String getUploadDir() {
 		// Xác định đường dẫn tới dự án khác
 		String externalProjectName = "frontend"; // Tên thư mục dự án khác
@@ -85,13 +96,15 @@ public class Seller_ProductController {
 		return Paths.get(externalDir, fixedPath.trim()).toString();
 	}
 
+	
+
 	@GetMapping("/list")
 	public ResponseEntity<Page<ProductDTO>> listProducts(@RequestParam(name = "pageNo", defaultValue = "0") int page,
 			@RequestParam(name = "sizePage", defaultValue = "10") int size, HttpServletRequest req) {
-		
-		String username = req.getUserPrincipal().getName();
 
-		User user = userRepository.findByUsername(username);
+//		String username = req.getUserPrincipal().getName();
+
+		User user = userRepository.findByUsername("TanNN");
 
 		// Kiểm tra xem user có null hay không
 		if (user == null) {
@@ -163,8 +176,8 @@ public class Seller_ProductController {
 			Category category = categoryService.findByCategoryName(productDTO.getCategoryName());
 
 			// Lấy thông tin người dùng từ session hoặc security context
-			String username = SecurityContextHolder.getContext().getAuthentication().getName();
-			User user = userRepository.findByUsername(username);
+//			String username = SecurityContextHolder.getContext().getAuthentication().getName();
+			User user = userRepository.findByUsername("TanNN");
 
 			if (user == null) {
 				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Người dùng không tồn tại.");
@@ -259,7 +272,6 @@ public class Seller_ProductController {
 			@RequestParam("img") List<MultipartFile> photos) { // Thay đổi từ MultipartFile thành List<MultipartFile>
 
 		List<String> errors = new ArrayList<>();
-
 		// Validate các trường bắt buộc
 		if (productDTO.getProductName() == null || productDTO.getProductName().trim().isEmpty()) {
 			errors.add("Tên sản phẩm là bắt buộc.");
@@ -290,8 +302,8 @@ public class Seller_ProductController {
 			Category category = categoryService.findByCategoryName(productDTO.getCategoryName());
 
 			// Lấy thông tin người dùng từ session hoặc security context
-			String username = SecurityContextHolder.getContext().getAuthentication().getName();
-			User user = userRepository.findByUsername(username);
+//			String username = SecurityContextHolder.getContext().getAuthentication().getName();
+			User user = userRepository.findByUsername("TanNN");
 			if (user == null) {
 				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Người dùng không tồn tại.");
 			}
@@ -324,7 +336,12 @@ public class Seller_ProductController {
 			for (Image existingImage : existingImages) {
 				// Xóa tệp tin khỏi hệ thống
 				String filePath = getUploadDir() + existingImage.getImageName(); // Đường dẫn đến tệp tin
-				Files.deleteIfExists(Paths.get(filePath)); // Xóa tệp nếu tồn tại
+
+				// Đường dẫn đến thư mục Image_SP
+				String imageSpPath = getImageSpPath() + existingImage.getImageName();
+
+				// Xóa tệp trong thư mục Image_SP nếu tồn tại
+				Files.deleteIfExists(Paths.get(imageSpPath)); // Xóa tệp nếu tồn tại
 
 				// Xóa hình ảnh khỏi cơ sở dữ liệu
 				imageService.deleteImage(existingImage.getImageId()); // Giả sử có phương thức này trong ImageService
@@ -376,15 +393,26 @@ public class Seller_ProductController {
 		}
 	}
 
-	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<String> deleteProductById(@PathVariable("id") Integer productId) {
+	@DeleteMapping("/delete/{productId}")
+	public ResponseEntity<String> deleteProductById(@PathVariable("productId") Integer productId) {
 		try {
+			// Kiểm tra xem có hình ảnh nào liên quan đến sản phẩm không
+			if (imageService.hasImagesRelatedToProduct(productId)) {
+				// Nếu có, có thể xóa các hình ảnh trước hoặc trả về thông báo lỗi
+				imageService.deleteImagesByProductId(productId); // Gọi service để xóa hình ảnh
+			}
+
 			// Gọi phương thức service để xóa sản phẩm
 			productService.deleteProductById(productId);
 			return ResponseEntity.ok("Xóa sản phẩm thành công!");
-		} catch (RuntimeException e) {
+
+		} catch (EntityNotFoundException e) {
 			// Trả về thông báo lỗi nếu không tìm thấy sản phẩm
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy sản phẩm với ID: " + productId);
+		} catch (DataIntegrityViolationException e) {
+			// Xử lý lỗi khóa ngoại (reference constraint)
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body("Không thể xóa sản phẩm do có hình ảnh liên quan.");
 		} catch (Exception e) {
 			// Trả về lỗi khác nếu có
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Đã xảy ra lỗi: " + e.getMessage());
