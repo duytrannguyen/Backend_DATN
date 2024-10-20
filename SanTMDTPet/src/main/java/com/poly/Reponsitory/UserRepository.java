@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import com.poly.Model.User;
 
-@Repository("UserRepository")
+@Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 	boolean existsByUsername(String username);
 
@@ -22,7 +22,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
 	@Query("SELECT u FROM User u WHERE u.username = :username")
 	Optional<User> findByUsernameApi(String username);
-//	Optional<User> findByUsernameApi(String username);
 
 	@Query("SELECT u FROM User u WHERE u.roleId.roleId = 3")
 	List<User> findAllUsersWithUserRole3();
@@ -32,21 +31,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
 	List<User> findAllByGender(Boolean gender);
 
-//lọc
-//
-//	@Query("SELECT u FROM User u WHERE u.roleId.roleId = 2")
-//	Page<User> findAllUsersWithRoleId2(Pageable pageable);
-//
-//	@Query("SELECT u FROM User u WHERE u.roleId.roleId = 2 AND u.gender = :gender")
-//	Page<User> findByGenderAndRoleId(Boolean gender, Pageable pageable);
-
-//	Page<User> findByGenderAndRoleId(Boolean gender, Integer roleId, Pageable pageable);
-//
-//	Page<User> findByRoleId(Integer roleId, Pageable pageable);
-
-	 // Tìm kiếm khách hàng theo tên hoặc username với vai trò là user (roleId = 3)
-    @Query("SELECT u FROM User u WHERE u.roleId.roleId = 3 AND (u.fullName LIKE %:keyword% OR u.username LIKE %:keyword%)")
-    Page<User> searchUsers(String keyword, Pageable pageable);
+	@Query("SELECT u FROM User u WHERE u.roleId.roleId = 3 AND (u.fullName LIKE %:keyword% OR u.username LIKE %:keyword%)")
+	Page<User> searchUsers(String keyword, Pageable pageable);
 
 	// Tìm người dùng bởi ID
 	Optional<User> findById(Integer id);
@@ -54,5 +40,11 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 //thêm	//bắt lỗi mail
 
 	User findByEmail(String email);
+
+	// Tìm người dùng theo ID
+	User findByUsersId(Integer usersId);
+
+	// Kiểm tra xem email có tồn tại trong cơ sở dữ liệu hay không
+	boolean existsByEmail(String email);
 
 }

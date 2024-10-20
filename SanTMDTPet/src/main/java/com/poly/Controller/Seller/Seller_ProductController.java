@@ -96,15 +96,13 @@ public class Seller_ProductController {
 		return Paths.get(externalDir, fixedPath.trim()).toString();
 	}
 
-	
-
 	@GetMapping("/list")
 	public ResponseEntity<Page<ProductDTO>> listProducts(@RequestParam(name = "pageNo", defaultValue = "0") int page,
 			@RequestParam(name = "sizePage", defaultValue = "10") int size, HttpServletRequest req) {
 
-//		String username = req.getUserPrincipal().getName();
-
-		User user = userRepository.findByUsername("TanNN");
+		// Lấy thông tin người dùng từ session hoặc security context
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		User user = userRepository.findByUsername(username);
 
 		// Kiểm tra xem user có null hay không
 		if (user == null) {
@@ -176,8 +174,8 @@ public class Seller_ProductController {
 			Category category = categoryService.findByCategoryName(productDTO.getCategoryName());
 
 			// Lấy thông tin người dùng từ session hoặc security context
-//			String username = SecurityContextHolder.getContext().getAuthentication().getName();
-			User user = userRepository.findByUsername("TanNN");
+			String username = SecurityContextHolder.getContext().getAuthentication().getName();
+			User user = userRepository.findByUsername(username);
 
 			if (user == null) {
 				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Người dùng không tồn tại.");
@@ -302,8 +300,8 @@ public class Seller_ProductController {
 			Category category = categoryService.findByCategoryName(productDTO.getCategoryName());
 
 			// Lấy thông tin người dùng từ session hoặc security context
-//			String username = SecurityContextHolder.getContext().getAuthentication().getName();
-			User user = userRepository.findByUsername("TanNN");
+			String username = SecurityContextHolder.getContext().getAuthentication().getName();
+			User user = userRepository.findByUsername(username);
 			if (user == null) {
 				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Người dùng không tồn tại.");
 			}
