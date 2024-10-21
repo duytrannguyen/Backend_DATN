@@ -18,9 +18,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.poly.Service.API.UserService;
-import com.poly.component.CustomAuthenticationSuccessHandler;
-
-
 
 @Configuration
 @EnableWebSecurity
@@ -28,10 +25,7 @@ public class SecurityConfig {
 
     @Autowired
     JwtAuthFilter jwtAuthFilter;
-    
-    @Autowired
-    private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
-    
+
     @Bean
     public UserDetailsService userDetailsService() {
         return new UserService();
@@ -42,37 +36,22 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/api/**" ,"/home/login", "/home/logout","/home/login?error=true").permitAll()
-                .requestMatchers("/home/products/details/cart/**", "/products/details/cart/paynow/**", "/products/details/cart/pay", "/products/details/cart/pay/success").hasAnyRole("ADMIN","SELER", "USER")
-                .requestMatchers("/admin/**").hasRole("ADMIN")
-                .requestMatchers("/seller/**").hasRole("SELER")
-                .requestMatchers("/home/index").permitAll()
-                .requestMatchers("/css/**", "/assets/**", "/Image_Users/**", "/images/**", "/vendor/**", "/Image_SP/**","/admin/**").permitAll()
+                // Cho phép các yêu cầu API đăng nhập và các tài nguyên công cộng
+                .requestMatchers("/api/user/login", "/api/**", "/home/**").permitAll()
+                // Bảo vệ các endpoint API cho người dùng đã đăng nhập
+//                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+//                .requestMatchers("/api/seller/**").hasRole("SELLER")
+//                .requestMatchers("/api/user/**").hasRole("USER")
+                .anyRequest().authenticated() // Các yêu cầu khác phải được xác thực
             )
-            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-            .formLogin(form -> form
-                .loginPage("/home/login")
-                .successHandler(customAuthenticationSuccessHandler)
-                .failureUrl("/home/login?error=true") // Chuyển hướng nếu đăng nhập thất bại
-                .usernameParameter("username")
-                .passwordParameter("password")
-                .permitAll()
-            )
-            .logout(logout -> logout
-                .logoutSuccessUrl("/home/index")
-                .permitAll()
-            )
-            .httpBasic(Customizer.withDefaults())
+            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class) // Thêm filter JWT trước filter UsernamePasswordAuthentication
+//            .httpBasic(Customizer.withDefaults()) // Sử dụng xác thực HTTP Basic cho các endpoint đã được bảo vệ
             .build();
     }
-
-
 
     @Bean
     public AuthenticationProvider authenticationProvider() {

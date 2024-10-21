@@ -20,29 +20,17 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 	private HttpSession httpSession;
 	@Autowired
 	UserRepository userRepository;
+
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-	                                    Authentication authentication) throws IOException {
-	    // Lưu đối tượng người dùng vào session
-	    String username = authentication.getName();
-	    User user = userRepository.findByUsernameApi(username).orElse(null);
-	    if (user != null) {
-	        httpSession.setAttribute("user", user); // Lưu đối tượng user vào session
-	    }
-
-//	    // Chuyển hướng dựa trên quyền
-	    String redirectUrl = "/";
-	    if (authentication.getAuthorities().stream()
-	            .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))) {
-	        redirectUrl = "/admin/index1"; // Chuyển đến trang admin
-	    } else if (authentication.getAuthorities().stream()
-	            .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_SELER"))) {
-	        redirectUrl = "/seller/products/list"; // Chuyển đến trang seller
-	    } else if (authentication.getAuthorities().stream()
-	            .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_USER"))) {
-	        redirectUrl = "/home/index"; // Chuyển đến trang user
-	    }
-//	    
-	    response.sendRedirect(redirectUrl);
+			Authentication authentication) throws IOException {
+		// Lưu đối tượng người dùng vào session
+		String username = authentication.getName();
+		User user = userRepository.findByEmail(username);
+		if (user != null) {
+			httpSession.setAttribute("user", user); // Lưu đối tượng user vào session
+		}
+		System.out.println(user.getUsername());
+		System.out.println(user.getRoleId().getRoleName());
 	}
 }

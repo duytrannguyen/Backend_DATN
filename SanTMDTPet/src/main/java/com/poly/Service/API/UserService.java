@@ -33,6 +33,7 @@ public class UserService implements UserDetailsService {
 
         User user = optionalUser.get();
         String password = user.getPassword();
+        System.out.println("Authorities: " + user.getFullName());
 
         // Check user status before granting access
         if (user.getStatus().getStatusId() != 1) { // Assuming 1 is the 'Active' status

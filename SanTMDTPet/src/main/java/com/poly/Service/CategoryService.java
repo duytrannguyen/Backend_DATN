@@ -2,30 +2,29 @@ package com.poly.Service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.poly.Model.Category;
-import com.poly.Reponsitory.CategoryRepository;
+import com.poly.dto.CategoryDTO;
 
 @Service
-public class CategoryService {
+public interface CategoryService {
+	List<Category> findAllCategories();
 
-    @Autowired
-    private CategoryRepository categoryRepository;
+//	Category findByCategoryId(Integer categoryId);
 
-    public Category findByCategoryCode(int categoryCode) {
-        return categoryRepository.findById(categoryCode).orElse(null);
-    }
+	Category saveCategory(Category category);
 
-    public void saveCategory(Category category) {
-        categoryRepository.save(category);
-    }
+	void deleteCategory(Integer categoryId);
 
-    public void deleteCategory(int categoryCode) {
-        categoryRepository.deleteById(categoryCode);
-    }
-    public List<Category> getAllCategory() {
-		return categoryRepository.findAll();
-	}
+	// Tìm danh mục theo tên
+	Category findByCategoryName(String categoryName);
+
+	boolean existsByCategoryName(String categoryName);
+
+	// Thêm phương thức để kiểm tra sự tồn tại của danh mục theo ID
+	boolean existsByCategoryId(Integer categoryId);
+
+	CategoryDTO findByCategoryId(Integer categoryId); // Cập nhật trả về DTO
+
 }

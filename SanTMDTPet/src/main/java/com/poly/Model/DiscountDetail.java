@@ -29,6 +29,9 @@ public class DiscountDetail {
 	// @ManyToOne
 	// @JoinColumn(name = "users_id", nullable = false) // Ánh xạ đến bảng Users
 	// private User user; // Người dùng
+	// @ManyToOne
+	// @JoinColumn(name = "users_id", nullable = false) // Ánh xạ đến bảng Users
+	// private User user; // Người dùng
 
 	@ManyToOne
 	@JoinColumn(name = "product_id", nullable = false) // Ánh xạ đến bảng Products

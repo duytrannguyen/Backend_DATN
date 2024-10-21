@@ -223,13 +223,9 @@ public class InvoiceService {
                     productDTO.setPlaceProduction(product.getPlaceProduction());
                     productDTO.setPostingDate(product.getPostingDate());
                     productDTO.setQuantity(product.getQuantity());
-                    productDTO.setStatusName(product.getStatus().getStatusName());
-                    productDTO.setCategoryName(
-                            product.getCategory() != null ? product.getCategory().getCategoryName() : null);
-                    productDTO.setImageUrl(product.getImageId() != null ? product.getImageId().getImageName() : null);
+                    productDTO.setStatusName(product.getStatus());
                     // productDTO.setStatusName(product.getStatus());
                     productDTO.setSellerName(product.getSeller() != null ? product.getSeller().getShopName() : null);
-
                     // Thêm ProductDTO vào danh sách
                     productItems.add(productDTO);
                 }

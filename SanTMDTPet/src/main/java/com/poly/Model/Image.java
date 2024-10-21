@@ -31,7 +31,7 @@ public class Image {
 	@Column(name = "image_name", nullable = false)
 	private String imageName;
 
-//	@OneToMany(mappedBy = "imageId")
-//	private List<Product> products;
 
+    @Column(name = "product_id", nullable = false)
+    private Integer productId; // ID sản phẩm liên kết
 }
