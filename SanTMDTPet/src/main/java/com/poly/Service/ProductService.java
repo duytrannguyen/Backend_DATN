@@ -96,7 +96,7 @@ public class ProductService {
 		productDTO.setPostingDate(product.getPostingDate());
 		productDTO.setQuantity(product.getQuantity());
 		productDTO.setCategoryName(product.getCategory().getCategoryName());
-		// productDTO.setImageUrl(product.getImageId().getImageName());
+		productDTO.setCategoryId(product.getCategory().getCategoryId());
 		productDTO.setSellerName(product.getSeller().getShopName());
 		// productDTO.setStatus(product.getStatus());
 		return productDTO;

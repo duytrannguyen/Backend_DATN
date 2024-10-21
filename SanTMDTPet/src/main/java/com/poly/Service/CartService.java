@@ -161,7 +161,7 @@ public class CartService {
             productDTO.setQuantity(product.getQuantity());
             productDTO.setStatusName(product.getStatus());
             productDTO.setCategoryName(product.getCategory().getCategoryName());
-            productDTO.setImageUrl(product.getImageId().getImageName());
+            // productDTO.setImageUrl(product.getImageId().getImageName());
             productDTO.setStatusName(product.getStatus());
             productDTO.setSellerName(product.getSeller().getShopName());
             // Thêm ProductDTO vào danh sách

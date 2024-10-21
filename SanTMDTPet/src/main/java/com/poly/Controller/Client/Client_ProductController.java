@@ -1,10 +1,14 @@
 package com.poly.Controller.Client;
 
 import com.poly.Exception.ResourceNotFoundException;
+import com.poly.Mapper.ImageMapper;
 import com.poly.Mapper.ProductMapper;
+import com.poly.Model.Image;
 import com.poly.Model.Product;
+import com.poly.Reponsitory.ImageRepository;
 import com.poly.Reponsitory.ProductRepository;
 import com.poly.Service.ProductService;
+import com.poly.dto.ImageDTO;
 import com.poly.dto.ProductDTO;
 
 import java.util.ArrayList;
@@ -19,6 +23,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,18 +37,21 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/home")
 public class Client_ProductController {
-	@Autowired
-	ProductRepository productRepository;
-	@Autowired
-	ProductService productService;
+    @Autowired
+    ProductRepository productRepository;
+    @Autowired
+    ProductService productService;
+    @Autowired
+    private ImageRepository imageRepository;
 
-	// Hiển thị tất cả sản phẩm
-	@GetMapping("/products/all")
+    // Hiển thị tất cả sản phẩm
+    @GetMapping("/products/all")
     public List<ProductDTO> getAllProducts() {
         List<Product> products = productService.getAllProducts(); // Lấy danh sách sản phẩm từ service
         return products.stream().map(ProductMapper::toDTO).collect(Collectors.toList()); // Chuyển đổi sang DTO
     }
-	 // Hiển thị sản phẩm theo id
+
+    // Hiển thị sản phẩm theo id
     @GetMapping("/products/{id}")
     public ProductDTO getProductById(@PathVariable int id) {
         Product product = productRepository.findById(id)
@@ -94,7 +103,8 @@ public class Client_ProductController {
         }
 
         Map<String, Object> response = new HashMap<>();
-        response.put("products", productPage.getContent().stream().map(ProductMapper::toDTO).collect(Collectors.toList()));
+        response.put("products",
+                productPage.getContent().stream().map(ProductMapper::toDTO).collect(Collectors.toList()));
         response.put("currentPage", productPage.getNumber());
         response.put("totalItems", productPage.getTotalElements());
         response.put("totalPages", productPage.getTotalPages());
@@ -102,4 +112,20 @@ public class Client_ProductController {
         return response;
     }
 
+    @GetMapping("/products/{productId}/images")
+    public ResponseEntity<List<ImageDTO>> getImagesByProductId(@PathVariable Integer productId) {
+        List<Image> images = imageRepository.findByProductId(productId);
+
+        // Kiểm tra nếu không có ảnh nào cho sản phẩm
+        if (images.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        // Chuyển đổi danh sách Image sang ImageDTO
+        List<ImageDTO> imageDTOs = images.stream()
+                .map(ImageMapper::toDTO)
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(imageDTOs, HttpStatus.OK);
+    }
 }

@@ -29,9 +29,12 @@ public class ProductMapper {
         if (product.getCategory() != null) {
             dto.setCategoryName(product.getCategory().getCategoryName());
         }
-//        if (product.getImageId() != null) {
-//            dto.setImageUrl(product.getImageId().getImageName());
-//        }
+        if (product.getCategory() != null) {
+            dto.setCategoryId(product.getCategory().getCategoryId());
+        }
+        // if (product.getImageId() != null) {
+        // dto.setImageUrl(product.getImageId().getImageName());
+        // }
         if (product.getStatus() != null) {
             dto.setStatusName(product.getStatus());
         }
@@ -60,20 +63,22 @@ public class ProductMapper {
         product.setQuantity(dto.getQuantity());
 
         // Thiết lập các thuộc tính nhiều đối tượng nếu cần thiết
-        if (dto.getCategoryName() != null) {
+        if (dto.getCategoryId() > 0) {
             Category category = new Category();
-            category.setCategoryName(dto.getCategoryName()); // Giả sử bạn có thuộc tính categoryId trong ProductDTO
+            category.setCategoryId(dto.getCategoryId()); // Giả sử bạn có thuộc tính categoryId trong ProductDTO
             product.setCategory(category);
         }
-//        if (dto.getImageUrl() != null) {
-//            Image image = new Image();
-//            image.setImageName(dto.getImageUrl()); // Giả sử bạn có thuộc tính imageId trong ProductDTO
-//            product.setImageId(image);
-//        }
-        // Thiết lập trạng thái nếu cần, nếu trạng thái được quản lý bởi một đối tượng riêng
+        // if (dto.getImageUrl() != null) {
+        // Image image = new Image();
+        // image.setImageName(dto.getImageUrl()); // Giả sử bạn có thuộc tính imageId
+        // trong ProductDTO
+        // product.setImageId(image);
+        // }
+        // Thiết lập trạng thái nếu cần, nếu trạng thái được quản lý bởi một đối tượng
+        // riêng
         // product.setStatus(dto.getStatus());
 
-        if (dto.getSellerId() >0) {
+        if (dto.getSellerId() > 0) {
             Seller seller = new Seller();
             seller.setSellerId(dto.getSellerId()); // Giả sử bạn có thuộc tính sellerId trong ProductDTO
             product.setSeller(seller);

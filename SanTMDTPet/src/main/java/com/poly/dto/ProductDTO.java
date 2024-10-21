@@ -1,8 +1,11 @@
 package com.poly.dto;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.poly.Model.Image;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,10 +29,13 @@ public class ProductDTO {
 	private int quantity;
 	private float percentDecrease;
 	private float priceDecreased;
+	private int categoryId;
 
 	private String categoryName;
 	private String imageUrl;
 	private String statusName;
 	private int sellerId;
 	private String sellerName;
+	private List<Image> images;
+
 }

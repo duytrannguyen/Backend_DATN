@@ -60,11 +60,13 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
             "JOIN i.invoice inv " +
             "WHERE p.seller.sellerId = :sellerId " +
             "GROUP BY p.productId, p.productName, p.price, p.size, p.material, p.description, " +
-            "p.placeProduction, p.postingDate, p.quantity, p.category.categoryId, p.imageId, p.status, p.seller.sellerId "
+            "p.placeProduction, p.postingDate, p.quantity, p.category.categoryId, p.status, p.seller.sellerId "
             +
             "ORDER BY SUM(i.quantity) DESC")
     List<Product> findTop3BySellerId(@Param("sellerId") int sellerId, Pageable pageable);
 
     // Đếm tổng số sản phẩm của seller dựa trên sellerId
     int countBySeller_sellerId(int sellerId);
+
+    // List<Product> findByCategory_categoryId(int categoryId);
 }

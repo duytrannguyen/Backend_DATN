@@ -39,18 +39,23 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
-            .authorizeHttpRequests(authorize -> authorize
-                // Cho phép các yêu cầu API đăng nhập và các tài nguyên công cộng
-                .requestMatchers("/api/user/login", "/api/**", "/home/**").permitAll()
-                // Bảo vệ các endpoint API cho người dùng đã đăng nhập
-//                .requestMatchers("/api/admin/**").hasRole("ADMIN")
-//                .requestMatchers("/api/seller/**").hasRole("SELLER")
-//                .requestMatchers("/api/user/**").hasRole("USER")
-                .anyRequest().authenticated() // Các yêu cầu khác phải được xác thực
-            )
-            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class) // Thêm filter JWT trước filter UsernamePasswordAuthentication
-//            .httpBasic(Customizer.withDefaults()) // Sử dụng xác thực HTTP Basic cho các endpoint đã được bảo vệ
-            .build();
+                .authorizeHttpRequests(authorize -> authorize
+                        // Cho phép các yêu cầu API đăng nhập và các tài nguyên công cộng
+                        .requestMatchers("/api/user/login", "/api/home/**", "/home/**", "/api/home/images/**",
+                                "/api/pet/**", "/api/user/**")
+                        .permitAll()
+                        // Bảo vệ các endpoint API cho người dùng đã đăng nhập
+                        // .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        // .requestMatchers("/api/seller/**").hasRole("SELLER")
+                        // .requestMatchers("/api/user/**").hasRole("USER")
+                        .anyRequest().authenticated() // Các yêu cầu khác phải được xác thực
+                )
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class) // Thêm filter JWT trước
+                                                                                            // filter
+                                                                                            // UsernamePasswordAuthentication
+                // .httpBasic(Customizer.withDefaults()) // Sử dụng xác thực HTTP Basic cho các
+                // endpoint đã được bảo vệ
+                .build();
     }
 
     @Bean

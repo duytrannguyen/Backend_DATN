@@ -86,4 +86,7 @@ public class SellerService {
 		}
 	}
 
+	public Seller findSellerById(int sellerId) {
+		return sellerRepository.findById(sellerId).orElse(null);
+	}
 }
