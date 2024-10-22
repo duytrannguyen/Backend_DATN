@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,10 +34,10 @@ public class CartItem {
 	private Integer quantity;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "product_id", nullable = false) // Tên cột trong bảng Products
+	@JoinColumn(name = "product_id", nullable = false) // Tên cột trong bảng
 	private Product product; // Mã sản phẩm
 
-	@ManyToOne(fetch = FetchType.LAZY) // Ánh xạ đến bảng Users
+	@OneToOne(fetch = FetchType.LAZY) // Ánh xạ đến bảng Users
 	@JoinColumn(name = "users_id", nullable = false) // Tên cột trong bảng Users
 	private User user; // Người dùng sở hữu giỏ hàng
 }

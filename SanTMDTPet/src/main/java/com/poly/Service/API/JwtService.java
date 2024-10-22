@@ -17,12 +17,16 @@ import io.jsonwebtoken.security.Keys;
 
 @Service // Đánh dấu lớp này là một service của Spring
 public class JwtService {
-    // Khóa bí mật để ký JWT
+    // Khóa bí mật để ký JWT (nên lấy từ biến môi trường hoặc file cấu hình)
     public static final String SECRET = "357638792F423F4428472B4B6250655368566D597133743677397A2443264629";
 
     // Trích xuất tên người dùng từ JWT
     public String extractUsername(String token) {
-        return extractClaim(token, Claims::getSubject);
+        try {
+            return extractClaim(token, Claims::getSubject);
+        } catch (Exception e) {
+            return null; // Hoặc xử lý lỗi theo cách khác
+        }
     }
 
     // Trích xuất một claim từ JWT bằng cách sử dụng một hàm resolver
@@ -60,11 +64,11 @@ public class JwtService {
     // Xác thực JWT với chi tiết người dùng
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        return (username != null && username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
     // Tạo JWT mới với tên người dùng
-    public String GenerateToken(String username){
+    public String generateToken(String username) {
         Map<String, Object> claims = new HashMap<>();
         return createToken(claims, username);
     }
@@ -75,7 +79,7 @@ public class JwtService {
                 .setClaims(claims) // Thiết lập các claims
                 .setSubject(username) // Thiết lập chủ thể là tên người dùng
                 .setIssuedAt(new Date(System.currentTimeMillis())) // Thiết lập ngày phát hành
-                .setExpiration(new Date(System.currentTimeMillis()+1000*60*10)) // Thiết lập ngày hết hạn
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 10)) // Thiết lập ngày hết hạn
                 .signWith(getSignKey(), SignatureAlgorithm.HS256) // Ký JWT với khóa và thuật toán HS256
                 .compact(); // Tạo JWT
     }

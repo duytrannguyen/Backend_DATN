@@ -21,35 +21,35 @@ public class Discount {
 	private Integer discountId; // ID giảm giá
 
 	@Column(nullable = false, length = 50) // Giới hạn chiều dài của discountCode
-	@NotNull(message = "{NotNull.vc.discountCode}")
+	// @NotNull(message = "{NotNull.vc.discountCode}")
 	private String discountCode; // Mã giảm giá
 
 	@Column(nullable = false)
-	@NotNull(message = "{NotNull.vc.quantity}")
-	@Min(value = 1, message = "{Min.vc.quantity}")
-	@Max(value = 100, message = "{Max.vc.quantity}")
+	// @NotNull(message = "{NotNull.vc.quantity}")
+	// @Min(value = 1, message = "{Min.vc.quantity}")
+	// @Max(value = 100, message = "{Max.vc.quantity}")
 	private Integer quantity; // Số lượng giảm giá
 
 	@Column(nullable = false)
-	@NotNull(message = "{NotNull.vc.startDate}")
+	// @NotNull(message = "{NotNull.vc.startDate}")
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	@Temporal(TemporalType.DATE)
 	private Date startDate; // Ngày bắt đầu giảm giá
 
 	@Column(nullable = false)
-	@NotNull(message = "{NotNull.vc.endDate}")
+	// @NotNull(message = "{NotNull.vc.endDate}")
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	@Temporal(TemporalType.DATE)
 	private Date endDate; // Ngày kết thúc giảm giá
 
 	@Column(nullable = false)
-	@NotNull(message = "{NotNull.vc.discountValue}")
-	@Min(value = 0, message = "{Min.vc.discountValue}")
+	// @NotNull(message = "{NotNull.vc.discountValue}")
+	// @Min(value = 0, message = "{Min.vc.discountValue}")
 	private Double discountValue; // Giá trị voucher
 
 	@Column(nullable = false)
-	@NotNull(message = "{NotNull.vc.minInvoiceAmount}")
-	@Min(value = 0, message = "{Min.vc.minInvoiceAmount}")
+	// @NotNull(message = "{NotNull.vc.minInvoiceAmount}")
+	// @Min(value = 0, message = "{Min.vc.minInvoiceAmount}")
 	private Double minInvoiceAmount; // Số tiền hóa đơn tối thiểu để áp dụng giảm giá
 
 	@Column(name = "status_id", nullable = false) // Trường status_id, không được null

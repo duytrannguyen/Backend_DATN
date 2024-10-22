@@ -33,7 +33,7 @@ public class UserService implements UserDetailsService {
 
         User user = optionalUser.get();
         String password = user.getPassword();
-        System.out.println("Authorities: " + user.getFullName());
+        System.out.println("Authorities loadUserByUsername: " + user.getUsername());
 
         // Check user status before granting access
         if (user.getStatus().getStatusId() != 1) { // Assuming 1 is the 'Active' status
@@ -43,7 +43,7 @@ public class UserService implements UserDetailsService {
         // Use roleId to get the user's role
         Set<GrantedAuthority> authorities = Set
                 .of(new SimpleGrantedAuthority("ROLE_" + user.getRoleId().getRoleName()));
-        System.out.println("Authorities: " + authorities);
+        System.out.println("Authorities loadUserByUsername: " + authorities);
 
         return new org.springframework.security.core.userdetails.User(user.getUsername(), password, authorities);
     }

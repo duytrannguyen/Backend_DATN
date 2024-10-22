@@ -15,7 +15,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "DiscountDetails") // Gắn với bảng 'DiscountDetails' trong cơ sở dữ liệu
+@Table(name = "Discountdetails") // Gắn với bảng 'DiscountDetails' trong cơ sở dữ liệu
 public class DiscountDetail {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,9 +26,12 @@ public class DiscountDetail {
 	@JoinColumn(name = "discount_id", nullable = false) // Ánh xạ đến bảng Discounts
 	private Discount discount; // Giảm giá
 
-	@ManyToOne
-	@JoinColumn(name = "users_id", nullable = false) // Ánh xạ đến bảng Users
-	private User user; // Người dùng
+	// @ManyToOne
+	// @JoinColumn(name = "users_id", nullable = false) // Ánh xạ đến bảng Users
+	// private User user; // Người dùng
+	// @ManyToOne
+	// @JoinColumn(name = "users_id", nullable = false) // Ánh xạ đến bảng Users
+	// private User user; // Người dùng
 
 	@ManyToOne
 	@JoinColumn(name = "product_id", nullable = false) // Ánh xạ đến bảng Products

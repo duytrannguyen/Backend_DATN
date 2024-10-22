@@ -39,10 +39,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         // Kiểm tra xem header Authorization có tồn tại và bắt đầu với "Bearer " không
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             // Lấy JWT từ header Authorization
-            token = authHeader.substring(7);
+            token = authHeader.substring(7).trim();
             // Trích xuất username từ JWT
             username = jwtService.extractUsername(token);
-            System.out.println("username " + username);
+            System.out.println("username JwtAuthFilter: " + username);
+            System.out.println("token JwtAuthFilter: " + token);
         }
 
         // Nếu username không null và chưa có đối tượng Authentication trong SecurityContext
@@ -50,7 +51,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             // Tải thông tin chi tiết của người dùng từ UserService
             UserDetails userDetails = userService.loadUserByUsername(username);
             // Kiểm tra tính hợp lệ của token
-            if (jwtService.validateToken(token, userDetails)) {
+            if (token != null && jwtService.validateToken(token, userDetails)) {
                 // Tạo đối tượng Authentication và thiết lập vào SecurityContext
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());

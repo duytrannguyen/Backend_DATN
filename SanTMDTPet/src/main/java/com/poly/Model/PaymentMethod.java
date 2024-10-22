@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "PaymentMethods") // Gắn với bảng 'PaymentMethods' trong cơ sở dữ liệu
+@Table(name = "Paymentmethods") // Gắn với bảng 'PaymentMethods' trong cơ sở dữ liệu
 public class PaymentMethod {
 
     @Id

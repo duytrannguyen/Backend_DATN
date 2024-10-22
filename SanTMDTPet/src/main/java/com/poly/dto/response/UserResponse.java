@@ -16,13 +16,15 @@ import java.util.Date;
 @SuperBuilder(toBuilder = true)
 public class UserResponse {
 
-    private int usersId;
+    private Integer usersId;
     private String userName;
     private String fullName;
+    private String role;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthDate;
-    private boolean gender;
+    private Boolean gender;
     private String email;
     private String phone;
     private String avatarProfile;
+    private Integer sellerId;
 }

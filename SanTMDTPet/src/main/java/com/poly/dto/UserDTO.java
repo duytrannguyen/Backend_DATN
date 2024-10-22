@@ -21,5 +21,4 @@ public class UserDTO {
     private String phone;
     private Integer roleId; // Chỉ lưu id của role, không cần đối tượng Role
     private Integer statusId; // Chỉ lưu id của status, không cần đối tượng UserStatus
-
 }

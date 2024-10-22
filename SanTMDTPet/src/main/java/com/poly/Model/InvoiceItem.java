@@ -21,7 +21,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "InvoiceItems") // Gắn với bảng 'InvoiceItems' trong cơ sở dữ liệu
+@Table(name = "Invoiceitems") // Gắn với bảng 'InvoiceItems' trong cơ sở dữ liệu
 public class InvoiceItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,6 +31,9 @@ public class InvoiceItem {
     @Column(name = "quantity", nullable = false) // Số lượng sản phẩm
     private Integer quantity;
 
+    @Column(nullable = false) // Giá của sản phẩm
+    private double price; // Giá sản phẩm
+
     @ManyToOne(fetch = FetchType.LAZY) // Ánh xạ đến bảng Invoices
     @JoinColumn(name = "invoice_id", nullable = false) // Tên cột trong bảng Invoices
     private Invoice invoice; // Hóa đơn tương ứng
@@ -39,6 +42,4 @@ public class InvoiceItem {
     @JoinColumn(name = "product_id", nullable = false) // Tên cột trong bảng Products
     private Product product; // Sản phẩm tương ứng
 
-    @Column(nullable = false) // Giá của sản phẩm
-    private double price; // Giá sản phẩm
 }

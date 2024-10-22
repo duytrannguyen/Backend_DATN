@@ -28,6 +28,12 @@ public class Invoice {
     @Column(nullable = false)
     private Double totalAmount; // Tổng số tiền
 
+    @Column(name = "feeship")
+    private Double feeShip;
+
+    @Column(name = "fulladdress")
+    private String fullAddress;
+
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd") // Định dạng ngày thanh toán

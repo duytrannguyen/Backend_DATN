@@ -16,61 +16,64 @@ import com.poly.dto.UserDTO;
 import com.poly.dto.request.UserRequest;
 
 public interface UserService {
-	boolean register(RegisterDTO registerDTO);
+    boolean register(RegisterDTO registerDTO);
 
-	boolean login(LoginDTO loginDTO);
+    boolean login(LoginDTO loginDTO);
 
-	int countTotalCustomers();
+    int countTotalCustomers();
 
-	List<User> getAllUsers();
+    List<User> getAllUsers();
 
-	List<User> getUsersByGender(Boolean gender);
+    List<User> getUsersByGender(Boolean gender);
 
-	User getUserByUsername(String username);
+    User getUserByUsername(String username); // Thêm phương thức này
 
-	void saveOrUpdateUser(User user);
+    void saveOrUpdateUser(User user);
 
-	void deleteUser(Integer usersId);
+    void deleteUser(Integer usersId);
 
-	int getTotalUsers();
+    int getTotalUsers();
 
-	int getTotalProducts();
+    int getTotalProducts();
 
-	// Cập nhật vai trò người dùng thành seller
-	void updateUserRoleToSeller(int userId);
+    // Cập nhật vai trò người dùng thành seller
+    void updateUserRoleToSeller(int userId);
 
-	// Cập nhật người dùng
-	void updateUser(UserDTO userDTO);
+    // Cập nhật người dùng
+    void updateUser(UserDTO userDTO);
 
-	// Tìm kiếm khách hàng theo tên hoặc username với phân trang
-	Page<User> searchUsers(String keyword, Pageable pageable);
+    // Tìm kiếm khách hàng theo tên hoặc username với phân trang
+    Page<User> searchUsers(String keyword, Pageable pageable);
 
-	// Các phương thức bổ sung từ đoạn mã thứ hai
-	public String getTokenGoogle(String code);
+    // Các phương thức bổ sung từ đoạn mã thứ hai
+    public String getTokenGoogle(String code);
 
-	public User GoogleAccountGetUserInfo(String accessToken);
+    public User GoogleAccountGetUserInfo(String accessToken);
 
-	public User login(UserRequest userRequest);
+    public User login(UserRequest userRequest);
 
-	public User register(UserRequest userRequest);
+    public User register(UserRequest userRequest);
 
-	public User uploadFile(MultipartFile file, Integer id);
+    public User uploadFile(MultipartFile file, Integer id);
 
-	public User findByEmail(String email);
+    public User findByEmail(String email);
 
-	public boolean forgotPassword(String email);
+    public boolean forgotPassword(String email);
 
-	public User changePassword(Integer id, UserRequest userRequest);
+    public User changePassword(Integer id, UserRequest userRequest);
 
-	public User edit(Integer id, UserRequest userRequest, MultipartFile file);
+    public User edit(Integer id, UserRequest userRequest, MultipartFile file);
 
-	public Address addAddress(Integer id, UserRequest userRequest);
+    public Address addAddress(Integer id, UserRequest userRequest);
 
-	public List<Address> getAddress(Integer id);
+    public List<Address> getAddress(Integer id);
 
-	public Address deleteAddress(Integer id, Integer addressId);
+    public Address deleteAddress(Integer id, Integer addressId);
 
-	User getUserByHolder();
+    User getUserByHolder();
 
-	Resource loadImage(String fileName, HttpHeaders headers);
+    Resource loadImage(String fileName, HttpHeaders headers);
+    
+    // Thêm phương thức tìm kiếm người dùng theo username
+    User findByUsername(String username); // Thêm phương thức này
 }

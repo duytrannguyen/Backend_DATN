@@ -19,6 +19,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -47,10 +48,8 @@ import com.poly.Service.ProductService;
 import com.poly.dto.ProductDTO;
 
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("api/seller/products")
 public class Seller_ProductController {
 
@@ -96,54 +95,57 @@ public class Seller_ProductController {
 		return Paths.get(externalDir, fixedPath.trim()).toString();
 	}
 
-	@GetMapping("/list")
-	public ResponseEntity<Page<ProductDTO>> listProducts(@RequestParam(name = "pageNo", defaultValue = "0") int page,
-			@RequestParam(name = "sizePage", defaultValue = "10") int size, HttpServletRequest req) {
+		@GetMapping("/list")
+		public ResponseEntity<Page<ProductDTO>> listProducts(@RequestParam(name = "pageNo", defaultValue = "0") int page,
+				@RequestParam(name = "sizePage", defaultValue = "10") int size) {
+			// Lấy username của người dùng hiện tại
+			String username = SecurityContextHolder.getContext().getAuthentication().getName();
+			System.out.println("thông tin người dùng " + username);
+			// Tìm user theo username
+			User user = userRepository.findByUsername(username).get();
 
-		// Lấy thông tin người dùng từ session hoặc security context
-		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		User user = userRepository.findByUsername(username);
-
-		// Kiểm tra xem user có null hay không
-		if (user == null) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); // Hoặc trả về thông báo lỗi
-		}
-
-		// Lấy danh sách seller từ thông tin người dùng
-		List<Seller> sellers = user.getSellers(); // Lấy danh sách Seller từ User
-
-		// Kiểm tra xem seller có tồn tại không
-		if (sellers == null || sellers.isEmpty()) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // Hoặc trả về thông báo lỗi
-		}
-
-		// Giả sử bạn chỉ muốn làm việc với seller đầu tiên trong danh sách
-		Seller seller = sellers.get(0); // Lấy seller đầu tiên
-
-		// Sắp xếp theo ID sản phẩm giảm dần
-		Pageable pageable = PageRequest.of(page, size, Sort.by("productId").descending());
-
-		// Tìm sản phẩm theo seller
-		Page<Product> productPage = productsRepository.findBySeller(seller, pageable);
-
-		// Chuyển đổi Product thành ProductDTO (nếu cần)
-		Page<ProductDTO> productDTOPage = productPage.map(product -> {
-			ProductDTO productDTO = modelMapper.map(product, ProductDTO.class);
-
-			// Lấy hình ảnh từ bảng Images dựa trên productId
-			Image image = imageRepository.findFirstByProductId(product.getProductId());
-			if (image != null) {
-				// Chỉ cần hiển thị tên hình ảnh
-				productDTO.setImageUrl(image.getImageName());
-			} else {
-				System.out.println("Image not found for product ID: " + product.getProductId());
+			// Kiểm tra xem user có null hay không
+			if (user == null) {
+				System.out.println("vui lòng đăng nhập");
+				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); // Hoặc trả về thông báo lỗi
 			}
 
-			return productDTO;
-		});
+			// Lấy danh sách seller từ thông tin người dùng
+			List<Seller> sellers = user.getSellers(); // Lấy danh sách Seller từ User
+//			System.out.println("thông tin seller " + sellers);
+			// Kiểm tra xem seller có tồn tại không
+			if (sellers == null || sellers.isEmpty()) {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // Hoặc trả về thông báo lỗi
+			}
 
-		return ResponseEntity.ok(productDTOPage);
-	}
+			// Giả sử bạn chỉ muốn làm việc với seller đầu tiên trong danh sách
+			Seller seller = sellers.get(0); // Lấy seller đầu tiên
+
+			// Sắp xếp theo ID sản phẩm giảm dần
+			Pageable pageable = PageRequest.of(page, size, Sort.by("productId").descending());
+
+			// Tìm sản phẩm theo seller
+			Page<Product> productPage = productsRepository.findBySeller(seller, pageable);
+//			System.out.println("thông tin sản phẩm " + productPage);
+			// Chuyển đổi Product thành ProductDTO (nếu cần)
+			Page<ProductDTO> productDTOPage = productPage.map(product -> {
+				ProductDTO productDTO = modelMapper.map(product, ProductDTO.class);
+
+				// Lấy hình ảnh từ bảng Images dựa trên productId
+				Image image = imageRepository.findFirstByProductId(product.getProductId());
+				if (image != null) {
+					// Chỉ cần hiển thị tên hình ảnh
+					productDTO.setImageUrl(image.getImageName());
+				} else {
+					System.out.println("Image not found for product ID: " + product.getProductId());
+				}
+
+				return productDTO;
+			});
+
+			return ResponseEntity.ok(productDTOPage);
+		}
+
 
 	@PostMapping("/create")
 	public ResponseEntity<String> createProduct(@ModelAttribute ProductDTO productDTO,
@@ -175,13 +177,13 @@ public class Seller_ProductController {
 
 			// Lấy thông tin người dùng từ session hoặc security context
 			String username = SecurityContextHolder.getContext().getAuthentication().getName();
-			User user = userRepository.findByUsername(username);
+			User user = userRepository.findByUsername(username).get();
 
 			if (user == null) {
 				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Người dùng không tồn tại.");
 			}
 
-			List<Seller> sellers = user.getSellers();
+			List<Seller> sellers = (List<Seller>) user.getSellers();
 
 			if (sellers == null || sellers.isEmpty()) {
 				return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Không có người bán.");
@@ -301,12 +303,12 @@ public class Seller_ProductController {
 
 			// Lấy thông tin người dùng từ session hoặc security context
 			String username = SecurityContextHolder.getContext().getAuthentication().getName();
-			User user = userRepository.findByUsername(username);
+			User user = userRepository.findByUsername(username).get();
 			if (user == null) {
 				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Người dùng không tồn tại.");
 			}
 
-			List<Seller> sellers = user.getSellers();
+			List<Seller> sellers = (List<Seller>) user.getSellers();
 			if (sellers == null || sellers.isEmpty()) {
 				return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Không có người bán.");
 			}
