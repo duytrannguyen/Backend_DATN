@@ -18,8 +18,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	boolean existsByUsername(String username);
 
 //cái này cho đổi mật khẩu luôn
-	User findByUsername(String username);
-
+//	User findByUsername(String username);
+	   // Tìm người dùng theo username
+    Optional<User> findByUsername(String username);
+    
 	@Query("SELECT u FROM User u WHERE u.username = :username")
 	Optional<User> findByUsernameApi(String username);
 

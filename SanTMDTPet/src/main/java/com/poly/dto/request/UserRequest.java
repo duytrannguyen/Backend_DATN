@@ -31,6 +31,7 @@ public class UserRequest {
     private String currentPassword;
     private String newPassword;
     private String confirmNewPassword;
+    private String roleName;
 
     @Override
     public String toString() {
@@ -53,6 +54,7 @@ public class UserRequest {
                 ", currentPassword='" + currentPassword + '\'' +
                 ", newPassword='" + newPassword + '\'' +
                 ", confirmNewPassword='" + confirmNewPassword + '\'' +
+                 ", roleName='" + roleName + '\'' +
                 '}';
     }
 }

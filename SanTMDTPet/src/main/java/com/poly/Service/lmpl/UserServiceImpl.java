@@ -106,7 +106,7 @@ public class UserServiceImpl implements UserService {
 		if (!userRepository.existsByUsername(loginDTO.getUsername())) {
 			return false;
 		}
-		User existingUser = userRepository.findByUsername(loginDTO.getUsername());
+		User existingUser = userRepository.findByUsername(loginDTO.getUsername()).get();
 		if (!encoder.matches(loginDTO.getPassword(), existingUser.getPassword())) {
 			return false;
 		} else {
@@ -133,7 +133,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User getUserByUsername(String username) {
-		return userRepository.findByUsername(username);
+		return userRepository.findByUsername(username).get();
 	}
 
 	@Override
@@ -229,7 +229,7 @@ public class UserServiceImpl implements UserService {
 
 		if (securityContext != null) {
 			UserDetails userDetails = (UserDetails) securityContext.getAuthentication().getPrincipal();
-			return userRepository.findByUsername(userDetails.getUsername());
+			return userRepository.findByUsername(userDetails.getUsername()).get();
 		}
 		return null;
 	}
@@ -473,4 +473,9 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username).orElse(null);
+    }
 }
